@@ -2,11 +2,34 @@
     "version": "2.0.0",
     "tasks": [
         {
+            // Re-genera los archivos de build. Necesario cada vez que se agrega
+            // o se borra un .cpp, porque los file(GLOB) de los CMakeLists solo
+            // se evaluan al configurar, no en cada compilacion.
+            "label": "CimaEngine3v: configure",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-S", "${workspaceFolder}",
+                "-B", "${workspaceFolder}/build",
+                "-G", "Ninja Multi-Config"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "CimaEngine3v: build Debug",
             "type": "shell",
             "command": "cmake --build ${workspaceFolder}/build --config Debug --target CimaEngine3v",
             "options": {
                 "cwd": "${workspaceFolder}"
+            },
+            "dependsOn": ["CimaEngine3v: configure"],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": true
             },
             "problemMatcher": ["$gcc"]
         },
@@ -17,6 +40,9 @@
             "options": {
                 "cwd": "${workspaceFolder}"
             },
+            "dependsOn": ["CimaEngine3v: configure"],
+            "dependsOrder": "sequence",
+            "group": "build",
             "problemMatcher": ["$gcc"]
         }
     ]

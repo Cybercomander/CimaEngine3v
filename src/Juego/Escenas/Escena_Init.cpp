@@ -7,6 +7,8 @@
 #include <Juego/objetos/Texto.hpp>
 #include <Juego/Componentes/IJComponentes.hpp>
 #include <Juego/Sistemas/Sistemas.hpp>
+#include <Juego/Figuras/ClasePrueba.hpp>
+#include <iostream>
 #include <memory>
 namespace IVJ
 {
@@ -18,7 +20,16 @@ namespace IVJ
     {
         if(!inicializar) return;
 
-        
+        Alumno al{"Omar", 30198, 6};
+        std::cout << al.getNombre() << "\n";
+
+        // Declaración de apuntador de tipo entero
+        std::shared_ptr<int> mi_apuntador;
+        // Inicializador del apuntador de tipo entero generado
+        mi_apuntador = std::make_shared<int>();
+
+        std::cout << *mi_apuntador << "\n";
+
         inicializar=false;
     }
     void Escena_Init::onFinal()
