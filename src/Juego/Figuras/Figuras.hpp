@@ -64,4 +64,43 @@ namespace IVJ
         float radio;
     };
 
+    class Hexagono: public Figuras
+    {
+    public:
+        explicit Hexagono(float radio, const sf::Color& relleno,const  sf::Color& contorno);
+        ~Hexagono() override {};
+        void draw(sf::RenderTarget& target, sf::RenderStates state) const override;
+        void onUpdate(float dt) override;
+    private:
+        sf::CircleShape circ_img;
+    public:
+        float radio;
+    };
+
+    class Octagono: public Figuras
+    {
+    public:
+        explicit Octagono(float radio, const sf::Color& relleno,const  sf::Color& contorno);
+        ~Octagono() override {};
+        void draw(sf::RenderTarget& target, sf::RenderStates state) const override;
+        void onUpdate(float dt) override;
+    private:
+        sf::CircleShape circ_img;
+    public:
+        float radio;
+    };
+
+    class Triangulo: public Figuras
+    {
+    public:
+        explicit Triangulo(float radio, const sf::Color& relleno,const  sf::Color& contorno);
+        ~Triangulo() override {};
+        void draw(sf::RenderTarget& target, sf::RenderStates state) const override;
+        void onUpdate(float dt) override;
+    private:
+        sf::CircleShape circ_img;
+    public:
+        float radio;
+    };
+
 }
