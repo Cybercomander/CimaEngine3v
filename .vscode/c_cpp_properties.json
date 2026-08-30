@@ -1,0 +1,27 @@
+{
+    "version": 4,
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/src/**",
+                "${workspaceFolder}/build/_deps/imgui-src",
+                "${workspaceFolder}/build/_deps/imgui-sfml-src",
+                "/opt/homebrew/include"
+            ],
+            "defines": [
+                "DEBUG=1",
+                "IMGUI_USER_CONFIG=\"imconfig-SFML.h\""
+            ],
+            "macFrameworkPath": [
+                "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
+            "compileCommands": "${workspaceFolder}/compile_commands.json",
+            "compilerPath": "/usr/bin/c++",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "macos-clang-arm64"
+        }
+    ]
+}

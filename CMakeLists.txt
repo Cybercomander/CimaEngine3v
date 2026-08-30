@@ -9,7 +9,8 @@ set(BIN "${CMAKE_SOURCE_DIR}/bin")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${BIN}/$<CONFIG>")
 
 
-
+#bandera del root folder
+add_compile_definitions(ROOT_FOLDER="{CMAKE_CURRENT_SOURCE_DIR}")
 add_compile_definitions(ASSETS="${CMAKE_SOURCE_DIR}/assets")
 #bandera para DEBUG O RELEASE
 add_compile_definitions("DEBUG=$<CONFIG:Debug>")

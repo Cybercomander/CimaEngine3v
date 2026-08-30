@@ -2,16 +2,16 @@
     "version": "2.0.0",
     "tasks": [
         {
-            // Re-genera los archivos de build. Necesario cada vez que se agrega
-            // o se borra un .cpp, porque los file(GLOB) de los CMakeLists solo
-            // se evaluan al configurar, no en cada compilacion.
             "label": "CimaEngine3v: configure",
             "type": "shell",
             "command": "cmake",
             "args": [
-                "-S", "${workspaceFolder}",
-                "-B", "${workspaceFolder}/build",
-                "-G", "Ninja Multi-Config"
+                "-S",
+                "${workspaceFolder}",
+                "-B",
+                "${workspaceFolder}/build",
+                "-G",
+                "Ninja Multi-Config"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -25,13 +25,17 @@
             "options": {
                 "cwd": "${workspaceFolder}"
             },
-            "dependsOn": ["CimaEngine3v: configure"],
+            "dependsOn": [
+                "CimaEngine3v: configure"
+            ],
             "dependsOrder": "sequence",
             "group": {
                 "kind": "build",
-                "isDefault": true
+                "isDefault": false
             },
-            "problemMatcher": ["$gcc"]
+            "problemMatcher": [
+                "$gcc"
+            ]
         },
         {
             "label": "CimaEngine3v: build Release",
@@ -40,10 +44,37 @@
             "options": {
                 "cwd": "${workspaceFolder}"
             },
-            "dependsOn": ["CimaEngine3v: configure"],
+            "dependsOn": [
+                "CimaEngine3v: configure"
+            ],
             "dependsOrder": "sequence",
             "group": "build",
-            "problemMatcher": ["$gcc"]
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: c++ compilar archivo activo",
+            "command": "/usr/bin/c++",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Tarea generada por el depurador."
         }
     ]
 }
