@@ -1,32 +1,15 @@
-// Incluye el encabezado de esta misma clase: trae la declaración de Escena_Init
-// y, en cadena, CE::Escena (la clase base) y Figuras.hpp
+
 #include "Escena_Init.hpp"
-// Trae CE::Botones, el objeto que describe una acción de entrada (tecla + tipo de acción).
-// Es necesario porque onInputs recibe una referencia a ese tipo
 #include <Motor/Inputs/Botones.hpp>
-// Gestor de assets del motor: carga y entrega texturas, fuentes y sonidos ya cargados en memoria.
-// Se incluye para tener disponible la carga de recursos cuando la escena los necesite
 #include <Motor/Primitivos/GestorAssets.hpp>
-// Gestor de escenas del motor: permite registrar y cambiar de escena activa.
-// Se incluye para poder solicitar un cambio de escena desde aquí
 #include <Motor/Primitivos/GestorEscenas.hpp>
-// Sistema de render del motor: expone CE::Render::Get() y AddToDraw, usados en onRender
 #include <Motor/Render/Render.hpp>
-// Jerarquía de figuras del juego (Figuras, Rectangulo, Circulo, Pentagono, ...),
-// disponible para instanciar figuras dentro de esta escena
 #include <Juego/Figuras/Figuras.hpp>
-// Objeto de texto del juego, para poder dibujar cadenas en pantalla
 #include <Juego/objetos/Texto.hpp>
-// Componentes propios del juego (interfaces IJ*), que se adjuntan a los objetos
 #include <Juego/Componentes/IJComponentes.hpp>
-// Sistemas del juego (movimiento, colisiones, etc.) que operan sobre los objetos de la escena
 #include <Juego/Sistemas/Sistemas.hpp>
-// Clase de prueba del laboratorio: aquí vive la clase Alumno que se instancia en onInit
 #include <Juego/Figuras/ClasePrueba.hpp>
-// Biblioteca estándar de entrada/salida: da acceso a std::cout para imprimir en consola
 #include <iostream>
-// Biblioteca estándar de memoria: da acceso a los apuntadores inteligentes
-// std::shared_ptr y a la función std::make_shared
 #include <memory>
 
 // Espacio de nombres del juego (IVJ), separa el código del juego del código del motor (CE)

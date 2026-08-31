@@ -1,8 +1,8 @@
-// Incluye el encabezado de esta misma clase: trae las declaraciones de Figuras y de todas
-// sus derivadas, más CE::Objeto y SFML/Graphics.hpp en cadena
 #include "Figuras.hpp"
 
-// Espacio de nombres del juego (IVJ), separa el código del juego del código del motor (CE)
+//COMENTÉ TODO PARA PODER SABER QUÉ HACE CADA COSA PORQUE AL NO TENER EXPERIENCIA EN C++
+//... NO SABÍA QUÉ HACÍA CADA COSA POR LA SINTAXIS
+
 namespace IVJ
 {
     // Definición del constructor de la clase base Figuras

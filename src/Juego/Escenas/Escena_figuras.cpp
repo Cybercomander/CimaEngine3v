@@ -1,18 +1,13 @@
-// Incluye el encabezado de esta misma clase: trae la declaración de Escena_Figuras
-// y, en cadena, todos los includes del .hpp (Botones, Render, Alumno, iostream, memory, etc.)
 #include "Escena_figuras.hpp"
-// std::istringstream: permite tratar una cadena ya leída (un renglón del archivo) como si
-// fuera un flujo de entrada, para ir extrayendo sus campos con el operador >>
 #include <sstream>
-// std::uint8_t: entero de 8 bits sin signo, el tipo que usa sf::Color para cada canal
 #include <cstdint>
 
-// Espacio de nombres del juego (IVJ), separa el código del juego del código del motor (CE)
+//GENERÉ UNA NUEVA ESCENA COMO RECOMENDACIÓN DEL PROFE, PARA NO DEPENDER DE LOS CAMBIOS EN GIT PARA RASTREAR LOS CAMBIOS
+//...SINO PARA QUE CADA PARTE DEL CÓDIGO NUEVO SE QUEDE GUARDADA Y SIMPLEMENTE SE MANDE A LLAMAR LA ESCENA 
+//...CORRESPONDIENTE DESDE Juego.cpp
+
 namespace IVJ
 {
-    // Función auxiliar libre (no es método de la clase). 'static' la deja visible solo dentro
-    // de este archivo .cpp, de modo que no choca con otros símbolos del programa.
-    // Convierte los tres enteros leídos del archivo en un color de SFML
     static sf::Color aColor(int r, int g, int b)
     {
         // Cada canal de sf::Color es un std::uint8_t (0..255), por eso hay que convertir con
@@ -40,6 +35,8 @@ namespace IVJ
         // Evita que el contenido de onInit se repita si el motor vuelve a llamar al método
         if(!inicializar) return;
 
+        // Se llama a la función que genera todos los objetos de las figuras y las 
+        // muestra en pantalla.
         insertFiguras();
 
         // Baja la bandera a 0 (false) para que las siguientes llamadas a onInit()

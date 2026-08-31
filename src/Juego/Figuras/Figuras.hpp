@@ -1,15 +1,9 @@
 // Guarda de inclusión: indica al compilador que este archivo se incluya una sola vez
 // por unidad de traducción, evitando redefiniciones de las clases declaradas aquí
 #pragma once
-// Trae CE::Objeto, la clase base del motor de la que descienden todas las figuras.
-// CE::Objeto ya hereda de sf::Drawable y sf::Transformable y aporta el sistema de componentes
-// (nombre, transform, stats), por eso las figuras pueden dibujarse y posicionarse
 #include "../../Motor/Primitivos/Objetos.hpp"
-// Módulo gráfico de SFML: define sf::Color, sf::RectangleShape, sf::CircleShape,
-// sf::RenderTarget y sf::RenderStates, tipos usados en toda la jerarquía
 #include <SFML/Graphics.hpp>
 
-// Espacio de nombres del juego (IVJ), separa estas clases del código del motor (CE)
 namespace IVJ
 {
     // Clase base común a todas las figuras geométricas del laboratorio.
