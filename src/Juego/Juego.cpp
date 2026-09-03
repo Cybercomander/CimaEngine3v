@@ -14,6 +14,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <Juego/Escenas/Escena_Init.hpp>
+#include <Juego/Escenas/Escena_figuras.hpp>
 #include <Juego/objetos/Entidad.hpp>
 
 
@@ -40,9 +41,13 @@ namespace IVJ
         jugador->getStats()->def = 255;
         jugador->getStats()->agi = 255;
 
-        CE::GestorEscenas::Get().registrarEscena("Menu",std::make_shared<Escena_Init>());
+        //AQUÍ CAMBIÉ LA ESCENA ACTIVA, PARA QUE LOS CAMBIOS DE LA PRÁCTICA DE FIGURAS SE GUARDE SIN NECESIDAD 
+        //... DE ALTERARLA LUEGO Y ASÍ PODER TENER UNA ESCENA POR CADA PRÁCTICA.
+        //CE::GestorEscenas::Get().registrarEscena("Menu",std::make_shared<Escena_Init>());
+        CE::GestorEscenas::Get().registrarEscena("Figuras", std::make_shared<Escena_Figuras>());
 
-        CE::GestorEscenas::Get().cambiarEscena("Menu"); //ejecuta onInit()A
+        //CE::GestorEscenas::Get().cambiarEscena("Menu"); //ejecuta onInit()A
+        CE::GestorEscenas::Get().cambiarEscena("Figuras");
         escena_actual = &CE::GestorEscenas::Get().getEscenaActual();
 
         
