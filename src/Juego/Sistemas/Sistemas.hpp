@@ -26,6 +26,11 @@ void SistemaMoverBalas(const std::shared_ptr<CE::Objeto> &ente, float dt);
 
 bool revisarDistanciaInteraccion(CE::Objeto &jugador, CE::Objeto &npc, float distancia_maxima);
 
+// Sistema de giro: mueve el objeto sobre una circunferencia si trae el componente
+// IGirar. [[maybe_unused]] avisa al compilador que la función puede no usarse en
+// alguna unidad de traducción, para que no genere advertencia (se compila con -Werror)
+[[maybe_unused]] void SistemaGirar(CE::Objeto &ente, float dt);
+
 // DEBUG
 [[maybe_unused]] void pintarLinea(CE::Vector2D &p1, CE::Vector2D &p2, const sf::Color &color = sf::Color::Red);
 

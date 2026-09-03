@@ -37,6 +37,10 @@ CE::Vector2D &IRayo::getP2()
     return lp2;
 }
 
+IGirar::IGirar(const float ang, const float r) : CE::IComponentes{}, angulo{ang}, radio{r}
+{
+}
+
 // Interactuables
 IDialogo::IDialogo() : IInteractuable(), texto{L""}, id_texto{0}
 {

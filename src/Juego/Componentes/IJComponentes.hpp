@@ -67,6 +67,31 @@ class IRayo : public CE::IComponentes
     }
 };
 
+// Componente de giro: guarda los datos necesarios para que un objeto describa
+// una trayectoria circular. Por sí solo no hace nada; es el SistemaGirar quien
+// lee estos valores y mueve al objeto. Así se agrega comportamiento a CE::Objeto
+// por composición débil, sin herencia ni cambios en la clase
+class IGirar : public CE::IComponentes
+{
+  public:
+    // 'explicit' evita conversiones implícitas al construirlo con un solo valor
+    explicit IGirar(const float ang, const float r);
+
+    virtual ~IGirar() override {};
+    // Copia el componente en un objeto nuevo en lugar de compartir la referencia,
+    // para que dos entidades clonadas no giren con el mismo estado
+    std::shared_ptr<IComponentes> clonar() const override
+    {
+        return std::make_shared<IGirar>(*this);
+    };
+
+  public:
+    // Ángulo actual en radianes; el sistema lo incrementa cada frame
+    float angulo;
+    // Radio de la circunferencia que describe el objeto
+    float radio;
+};
+
 class IInteractuable : public CE::IComponentes
 {
   public:

@@ -302,4 +302,23 @@ void pintarLinea(CE::Vector2D &p1, CE::Vector2D &p2, const sf::Color &color)
 
 
 
+
+// Recorre el pool completo, pero solo actúa sobre las entidades que tengan IGirar
+void SistemaGirar(CE::Objeto &ente, float dt)
+{
+    // Sin el componente no hay nada que hacer: el sistema se salta esta entidad
+    if (!ente.getComponente<IGirar>())
+        return;
+    auto componente = ente.getComponente<IGirar>();
+    auto pos = ente.getTransformada()->posicion;
+    float radio = componente->radio;
+    // Desplazamiento sobre la circunferencia con coseno y seno del ángulo actual
+    float x = radio * cos(componente->angulo);
+    float y = radio * sin(componente->angulo);
+    ente.setPosicion(pos.x + x, pos.y + y);
+    // El ángulo avanza en función del delta time para que el giro sea
+    // independiente de los cuadros por segundo
+    componente->angulo += 3.146f * dt;
+}
+
 } // namespace IVJ
