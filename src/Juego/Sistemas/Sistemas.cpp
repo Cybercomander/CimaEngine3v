@@ -16,8 +16,6 @@ namespace IVJ
 {
 void SistemaControl(CE::Objeto &ente, float dt)
 {
-    // no hay necesidad verificar si tiene, se asume que tiene
-    // control y transformada
     auto p = ente.getTransformada();
     auto c = ente.getComponente<CE::IControl>();
     (void)dt;
@@ -38,7 +36,6 @@ void SistemaMover(const std::vector<std::shared_ptr<CE::Objeto>> &entes, float d
 
     for (auto &ente : entes)
     {
-        // todo ente tiene ITransform por lo que no requiere verificación
         auto trans = ente->getTransformada();
         trans->posicion.suma(trans->velocidad.escala(dt));
     }
@@ -73,7 +70,7 @@ void SistemaMover(const std::shared_ptr<CE::Objeto> &objeto, float dt)
     {
         auto n = vel;
         n.normalizacion();
-        auto trian = objeto->getComponente<ITriangulo>(); // nulo
+        auto trian = objeto->getComponente<ITriangulo>(); 
         if (vel.x != 0 || vel.y != 0)
         {
             if (trian)
@@ -169,9 +166,9 @@ void SistemaSpawn(CE::Pool &spawns)
                     std::make_shared<CE::ISprite>(CE::GestorAssets::Get().getTextura("hoja_blue"), 68, 91, 1.f))
                 .addComponente(std::make_shared<CE::IShader>("", ASSETS "/shaders/contorno.frag"));
             malillo->getComponente<CE::IPaths>()->addCurva(CE::Vector2D{500.f, 300.f}, CE::Vector2D{600.f, 500.f},
-                                                           CE::Vector2D{800.f, 300.f});
+                                                            CE::Vector2D{800.f, 300.f});
             malillo->getComponente<CE::IPaths>()->addCurva(CE::Vector2D{800.f, 300.f}, CE::Vector2D{600.f, 100.f},
-                                                           CE::Vector2D{500.f, 300.f});
+                                                            CE::Vector2D{500.f, 300.f});
 
             // mandar datos al shader
             auto shader = malillo->getComponente<CE::IShader>();
@@ -301,5 +298,108 @@ void pintarLinea(CE::Vector2D &p1, CE::Vector2D &p2, const sf::Color &color)
 
 
 
+
+
+// Recorre el pool completo, pero solo actúa sobre las entidades que tengan IGirar
+void SistemaGirar(CE::Objeto &ente, float dt)
+{
+    // Sin el componente no hay nada que hacer: el sistema se salta esta entidad
+    if (!ente.getComponente<IGirar>())
+        return;
+    auto componente = ente.getComponente<IGirar>();
+    auto pos = ente.getTransformada()->posicion;
+    float radio = componente->radio;
+    // Desplazamiento sobre la circunferencia con coseno y seno del ángulo actual
+    float x = radio * cos(componente->angulo);
+    float y = radio * sin(componente->angulo);
+    ente.setPosicion(pos.x + x, pos.y + y);
+    // El ángulo avanza en función del delta time para que el giro sea
+    // independiente de los cuadros por segundo
+    componente->angulo += 3.146f * dt;
+}
+
+
+// Mueve al objeto de arriba hacia abajo alrededor de su punto de partida.
+// El sistema recorre todo el pool, pero solo trabaja con quien traiga el componente
+void SistemaMoverVertical(CE::Objeto &ente, float dt)
+{
+    // Sin el componente no hay datos que usar: esta entidad se salta
+    auto componente = ente.getComponente<IMoverVertical>();
+    if (!componente)
+        return;
+
+    // La primera vez se guarda donde nacio el objeto. Todo el movimiento se mide
+    // desde ese punto, de modo que la figura oscila sin irse desplazando poco a poco
+    if (!componente->origen_listo)
+    {
+        componente->origen = ente.getTransformada()->posicion;
+        componente->origen_listo = true;
+    }
+
+    // La fase avanza con el delta time, asi la oscilacion tarda lo mismo
+    // sin importar cuantos cuadros por segundo corra el juego
+    componente->fase += componente->velocidad * dt;
+
+    // El seno va y viene entre -1 y 1, y multiplicado por la amplitud
+    // convierte ese vaiven en pixeles de subida y bajada
+    float y = componente->origen.y + componente->amplitud * std::sin(componente->fase);
+    ente.setPosicion(componente->origen.x, y);
+}
+
+// Desplaza al objeto en horizontal mientras lo sube y baja, de manera que
+// la trayectoria completa dibuja una onda (~~~~)
+void SistemaMoverOnda(CE::Objeto &ente, float dt)
+{
+    // Sin el componente esta entidad no le corresponde a este sistema
+    auto componente = ente.getComponente<IMoverOnda>();
+    if (!componente)
+        return;
+
+    // Se guarda el punto de partida la primera vez, para medir el avance desde ahi
+    if (!componente->origen_listo)
+    {
+        componente->origen = ente.getTransformada()->posicion;
+        componente->origen_listo = true;
+    }
+
+    // El objeto avanza en linea recta hacia la derecha
+    componente->avance += componente->velocidad * dt;
+    // Al terminar el tramo regresa al inicio, asi el recorrido se repite sin fin
+    if (componente->avance > componente->recorrido)
+        componente->avance = 0.f;
+
+    // La altura depende de que tan avanzado va el recorrido: el angulo crece de 0 a
+    // 2*PI*frecuencia, de modo que caben tantas ondas completas como diga la frecuencia
+    float angulo = (componente->avance / componente->recorrido) * componente->frecuencia * 2.f * 3.1416f;
+    float x = componente->origen.x + componente->avance;
+    float y = componente->origen.y + componente->amplitud * std::sin(angulo);
+    ente.setPosicion(x, y);
+}
+
+// Hace girar al objeto alrededor de un centro fijo, describiendo una circunferencia
+void SistemaMoverCircular(CE::Objeto &ente, float dt)
+{
+    // Sin el componente esta entidad no le corresponde a este sistema
+    auto componente = ente.getComponente<IMoverCircular>();
+    if (!componente)
+        return;
+
+    // El centro de la orbita es el lugar donde nacio el objeto y se guarda una sola vez.
+    // Recalcular la posicion desde ese centro cada frame evita que la figura se aleje
+    if (!componente->centro_listo)
+    {
+        componente->centro = ente.getTransformada()->posicion;
+        componente->centro_listo = true;
+    }
+
+    // El angulo avanza con el delta time para que la vuelta dure siempre lo mismo
+    componente->angulo += componente->velocidad * dt;
+
+    // Coseno y seno del mismo angulo dan el punto de la circunferencia:
+    // el coseno aporta el desplazamiento horizontal y el seno el vertical
+    float x = componente->centro.x + componente->radio * std::cos(componente->angulo);
+    float y = componente->centro.y + componente->radio * std::sin(componente->angulo);
+    ente.setPosicion(x, y);
+}
 
 } // namespace IVJ

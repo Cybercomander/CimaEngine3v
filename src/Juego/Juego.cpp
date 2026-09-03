@@ -15,6 +15,7 @@
 #include <ctime>
 #include <Juego/Escenas/Escena_Init.hpp>
 #include <Juego/Escenas/Escena_figuras.hpp>
+#include <Juego/Escenas/Escena_Menu.hpp>
 #include <Juego/objetos/Entidad.hpp>
 
 
@@ -43,11 +44,13 @@ namespace IVJ
 
         //AQUÍ CAMBIÉ LA ESCENA ACTIVA, PARA QUE LOS CAMBIOS DE LA PRÁCTICA DE FIGURAS SE GUARDE SIN NECESIDAD 
         //... DE ALTERARLA LUEGO Y ASÍ PODER TENER UNA ESCENA POR CADA PRÁCTICA.
-        //CE::GestorEscenas::Get().registrarEscena("Menu",std::make_shared<Escena_Init>());
+        CE::GestorEscenas::Get().registrarEscena("Init",std::make_shared<Escena_Init>());
+        //Escena del laboratirio 1: múltiples figuras cargadas desde archivo
         CE::GestorEscenas::Get().registrarEscena("Figuras", std::make_shared<Escena_Figuras>());
+        //Escena del laboratorio 2 y 3: menu con botones, componentes y sistemas
+        CE::GestorEscenas::Get().registrarEscena("Menu", std::make_shared<Escena_Menu>());
 
-        //CE::GestorEscenas::Get().cambiarEscena("Menu"); //ejecuta onInit()A
-        CE::GestorEscenas::Get().cambiarEscena("Figuras");
+        CE::GestorEscenas::Get().cambiarEscena("Menu"); //ejecuta onInit()
         escena_actual = &CE::GestorEscenas::Get().getEscenaActual();
 
         

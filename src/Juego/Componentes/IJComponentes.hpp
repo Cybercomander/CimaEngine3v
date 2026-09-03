@@ -67,6 +67,118 @@ class IRayo : public CE::IComponentes
     }
 };
 
+// Datos para que un objeto describa una trayectoria circular.
+// Por si solo no hace nada: el SistemaGirar es quien lo lee y mueve al objeto
+class IGirar : public CE::IComponentes
+{
+  public:
+    // 'explicit' evita conversiones implícitas al construirlo con un solo valor
+    explicit IGirar(const float ang, const float r);
+
+    virtual ~IGirar() override {};
+    // Copia el componente en un objeto nuevo en lugar de compartir la referencia,
+    // para que dos entidades clonadas no giren con el mismo estado
+    std::shared_ptr<IComponentes> clonar() const override
+    {
+        return std::make_shared<IGirar>(*this);
+    };
+
+  public:
+    // Ángulo actual en radianes; el sistema lo incrementa cada frame
+    float angulo;
+    // Radio de la circunferencia que describe el objeto
+    float radio;
+};
+
+// Datos de un movimiento de arriba hacia abajo.
+// Lo ejecuta el SistemaMoverVertical; lo usa un cuadro de la escena Menu
+class IMoverVertical : public CE::IComponentes
+{
+  public:
+    // amp = pixeles que sube y baja, vel = radianes por segundo,
+    // fase = desfase inicial para que no todos oscilen al mismo tiempo
+    explicit IMoverVertical(const float amp, const float vel, const float fase = 0.f);
+    virtual ~IMoverVertical() override {};
+    // Devuelve una copia independiente del componente, no una referencia compartida
+    std::shared_ptr<IComponentes> clonar() const override
+    {
+        return std::make_shared<IMoverVertical>(*this);
+    };
+
+  public:
+    // Amplitud del recorrido vertical en pixeles
+    float amplitud;
+    // Velocidad angular de la oscilacion en radianes por segundo
+    float velocidad;
+    // Angulo acumulado; avanza cada frame y alimenta al seno
+    float fase;
+    // Punto de partida del objeto. Se guarda la primera vez que corre el sistema,
+    // asi el movimiento siempre se calcula respecto a esa posicion y no se desvia
+    CE::Vector2D origen;
+    // Indica si 'origen' ya fue capturado
+    bool origen_listo{false};
+};
+
+// Datos de un avance horizontal con subidas y bajadas, que dibuja una onda (~~~~).
+// Lo ejecuta el SistemaMoverOnda; lo usa un cuadro de la escena Menu
+class IMoverOnda : public CE::IComponentes
+{
+  public:
+    // amp = altura de las crestas, frec = ondas completas por recorrido,
+    // vel = pixeles por segundo, recorrido = distancia antes de regresar al inicio
+    explicit IMoverOnda(const float amp, const float frec, const float vel, const float recorrido);
+    virtual ~IMoverOnda() override {};
+    // Devuelve una copia independiente del componente
+    std::shared_ptr<IComponentes> clonar() const override
+    {
+        return std::make_shared<IMoverOnda>(*this);
+    };
+
+  public:
+    // Altura de la onda en pixeles
+    float amplitud;
+    // Numero de ondas completas dentro del recorrido
+    float frecuencia;
+    // Velocidad de avance horizontal en pixeles por segundo
+    float velocidad;
+    // Longitud del tramo que recorre antes de reiniciar
+    float recorrido;
+    // Distancia horizontal avanzada hasta ahora dentro del recorrido
+    float avance{0.f};
+    // Punto de partida, capturado en la primera ejecucion del sistema
+    CE::Vector2D origen;
+    // Indica si 'origen' ya fue capturado
+    bool origen_listo{false};
+};
+
+// Datos de un giro alrededor de un centro fijo, recalculado cada frame desde el centro.
+// Lo ejecuta el SistemaMoverCircular; lo usa un cuadro de la escena Menu
+class IMoverCircular : public CE::IComponentes
+{
+  public:
+    // radio = distancia al centro en pixeles, vel = radianes por segundo,
+    // ang = angulo inicial en radianes
+    explicit IMoverCircular(const float radio, const float vel, const float ang = 0.f);
+    virtual ~IMoverCircular() override {};
+    // Devuelve una copia independiente del componente
+    std::shared_ptr<IComponentes> clonar() const override
+    {
+        return std::make_shared<IMoverCircular>(*this);
+    };
+
+  public:
+    // Radio de la circunferencia que recorre el objeto
+    float radio;
+    // Velocidad angular en radianes por segundo
+    float velocidad;
+    // Angulo actual de la orbita, en radianes
+    float angulo;
+    // Centro de la orbita, capturado en la primera ejecucion del sistema
+    CE::Vector2D centro;
+    // Indica si 'centro' ya fue capturado
+    bool centro_listo{false};
+};
+
 class IInteractuable : public CE::IComponentes
 {
   public:

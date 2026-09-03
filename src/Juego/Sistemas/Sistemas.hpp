@@ -26,6 +26,21 @@ void SistemaMoverBalas(const std::shared_ptr<CE::Objeto> &ente, float dt);
 
 bool revisarDistanciaInteraccion(CE::Objeto &jugador, CE::Objeto &npc, float distancia_maxima);
 
+// Sistema de giro: mueve el objeto sobre una circunferencia si trae el componente IGirar.
+// [[maybe_unused]] evita la advertencia si la función no se usa (se compila con -Werror)
+[[maybe_unused]] void SistemaGirar(CE::Objeto &ente, float dt);
+
+// Sistema de vaiven vertical: sube y baja al objeto si trae el componente IMoverVertical
+[[maybe_unused]] void SistemaMoverVertical(CE::Objeto &ente, float dt);
+
+// Sistema de onda: avanza al objeto en horizontal dibujando una onda,
+// siempre que traiga el componente IMoverOnda
+[[maybe_unused]] void SistemaMoverOnda(CE::Objeto &ente, float dt);
+
+// Sistema de orbita: hace girar al objeto alrededor de un centro fijo
+// si trae el componente IMoverCircular
+[[maybe_unused]] void SistemaMoverCircular(CE::Objeto &ente, float dt);
+
 // DEBUG
 [[maybe_unused]] void pintarLinea(CE::Vector2D &p1, CE::Vector2D &p2, const sf::Color &color = sf::Color::Red);
 
