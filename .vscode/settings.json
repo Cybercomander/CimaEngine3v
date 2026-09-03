@@ -33,5 +33,18 @@
         "memory": "cpp",
         "algorithm": "cpp"
     },
-    "FSharp.suggestGitignore": false
+    "FSharp.suggestGitignore": false,
+    "C_Cpp.intelliSenseEngine": "default",
+    "C_Cpp.configurationWarnings": "enabled",
+    "cmake.configureOnOpen": false,
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "C_Cpp.errorSquiggles": "enabled",
+    "C_Cpp.files.exclude": {
+        "**/.vscode": true,
+        "**/.git": true,
+        "${workspaceFolder}/build/CMakeFiles": true,
+        "${workspaceFolder}/bin": true,
+        "${workspaceFolder}/documentacion": true
+    },
+    "C_Cpp.loggingLevel": "Debug"
 }

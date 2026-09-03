@@ -5,11 +5,8 @@
 
 namespace IVJ
 {
-    // Escena del menú principal del juego.
-    // Hereda de CE::Escena, por lo que el motor la puede registrar en el gestor de
-    // escenas y llamarle los hooks del ciclo de vida (init, update, inputs, render, final).
-    // Su función es mostrar las opciones "Iniciar" y "Salir" y permitir elegir una
-    // con el teclado usando el esquema de botones que ella misma registra
+    // Escena del menú principal: muestra las opciones "Iniciar" y "Salir" y deja
+    // elegir una con el teclado, usando el esquema de botones que ella misma registra
     class Escena_Menu : public CE::Escena
     {
         public:

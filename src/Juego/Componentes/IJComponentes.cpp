@@ -41,6 +41,26 @@ IGirar::IGirar(const float ang, const float r) : CE::IComponentes{}, angulo{ang}
 {
 }
 
+// Guarda los parametros del vaiven vertical. El punto de partida no se conoce aqui:
+// lo captura el sistema la primera vez que mueve al objeto
+IMoverVertical::IMoverVertical(const float amp, const float vel, const float fase)
+    : CE::IComponentes{}, amplitud{amp}, velocidad{vel}, fase{fase}, origen{}
+{
+}
+
+// Guarda los parametros de la onda. El avance arranca en cero y el punto de partida
+// lo captura el sistema en su primera ejecucion
+IMoverOnda::IMoverOnda(const float amp, const float frec, const float vel, const float recorrido)
+    : CE::IComponentes{}, amplitud{amp}, frecuencia{frec}, velocidad{vel}, recorrido{recorrido}, origen{}
+{
+}
+
+// Guarda los parametros de la orbita. El centro lo captura el sistema en su primera ejecucion
+IMoverCircular::IMoverCircular(const float radio, const float vel, const float ang)
+    : CE::IComponentes{}, radio{radio}, velocidad{vel}, angulo{ang}, centro{}
+{
+}
+
 // Interactuables
 IDialogo::IDialogo() : IInteractuable(), texto{L""}, id_texto{0}
 {

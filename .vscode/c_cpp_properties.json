@@ -12,16 +12,26 @@
             ],
             "defines": [
                 "DEBUG=1",
+                "ASSETS=\"${workspaceFolder}/assets\"",
                 "IMGUI_USER_CONFIG=\"imconfig-SFML.h\""
             ],
             "macFrameworkPath": [
                 "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks"
             ],
-            "compileCommands": "${workspaceFolder}/compile_commands.json",
             "compilerPath": "/usr/bin/c++",
+            "compilerArgs": [
+                "-arch",
+                "arm64"
+            ],
             "cStandard": "c17",
             "cppStandard": "gnu++17",
-            "intelliSenseMode": "macos-clang-arm64"
+            "intelliSenseMode": "macos-clang-arm64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/src"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            }
         }
     ]
 }

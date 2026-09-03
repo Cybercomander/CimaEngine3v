@@ -25,9 +25,8 @@ namespace IVJ
         // Guarda de una sola ejecución: si ya se inicializó, no se vuelve a construir el menú
         if(!inicializar) return;
 
-        // Cada escena registra su propio esquema de botones: así el mismo teclado
-        // puede significar cosas distintas según el contexto (menú, combate, exploración).
-        // registrarBotones mapea un scancode físico a un nombre de acción lógico
+        // Cada escena registra su propio esquema: registrarBotones mapea un scancode
+        // físico a un nombre de acción, así una tecla cambia de significado por contexto
         registrarBotones(sf::Keyboard::Scancode::W,"arriba");
         registrarBotones(sf::Keyboard::Scancode::Up,"arriba");
         registrarBotones(sf::Keyboard::Scancode::S,"abajo");
@@ -42,6 +41,9 @@ namespace IVJ
         // Marcador: círculo verde que señala la opción activa
         auto marcador  = std::make_shared<Circulo>(15.f, sf::Color::Green,sf::Color::Black);
         marcador->setPosicion(470.f,295.f);
+        // Se le pone un nombre descriptivo para identificarlo en la lista de objetos
+        // del editor, en lugar del "Objeto N" que le asigna el constructor de CE::Objeto
+        marcador->getNombre()->nombre = "Ruedita de seleccion";
 
         // Texto de la primera opción. La fuente se pide al gestor de assets,
         // que la cargó al inicializar el motor con la clave "default_font"
@@ -51,6 +53,7 @@ namespace IVJ
                 );
         strIniciar->setPosicion(510.f,250.f);
         strIniciar->setColor(sf::Color::Green);
+        strIniciar->getNombre()->nombre = "txt Iniciar";
 
         // Texto de la segunda opción
         auto strSalir = std::make_shared<Texto>(
@@ -58,25 +61,54 @@ namespace IVJ
                 "Salir"
                 );
         strSalir->setPosicion(510.f,300.f);
+        strSalir->getNombre()->nombre = "txt Salir";
 
-        // Rectángulo decorativo: por sí mismo no gira. Se le agrega el componente
-        // IGirar, que solo guarda los datos (ángulo y radio); el movimiento lo produce
-        // el SistemaGirar al recorrer el pool en onUpdate
-        auto cuadro = std::make_shared<Rectangulo>(
-                150,150,
+        // Los tres cuadros blancos son el mismo tipo de objeto y se ven igual: solo los
+        // distingue el componente que llevan, que su sistema ejecuta en onUpdate
+
+        // Cuadro con vaivén vertical: sube y baja 80 píxeles desde donde nace
+        auto cuadro_vertical = std::make_shared<Rectangulo>(
+                80.f,80.f,
                 sf::Color::White,
                 sf::Color::Black
                 );
-        cuadro->addComponente(std::make_shared<IGirar>(3.1416f,5.5f));
-        cuadro->setPosicion(500,300);
+        cuadro_vertical->setPosicion(150.f,360.f);
+        cuadro_vertical->addComponente(std::make_shared<IMoverVertical>(80.f,2.f));
+        // El nombre dice qué sistema lo mueve, para reconocerlo en la lista de objetos
+        cuadro_vertical->getNombre()->nombre = "Sistem Vertical";
 
-        // El pool de la escena toma posesión de los objetos: a partir de aquí
-        // el motor los actualiza y los dibuja. El orden importa: el marcador queda
-        // en el índice 0 y por eso onInputs lo consulta con getPool()[0]
+        // Cuadro con movimiento ondulatorio: avanza hacia la derecha subiendo y bajando,
+        // de modo que su trayectoria dibuja una onda (~~~~) a lo largo de 700 píxeles
+        auto cuadro_onda = std::make_shared<Rectangulo>(
+                80.f,80.f,
+                sf::Color::White,
+                sf::Color::Black
+                );
+        cuadro_onda->setPosicion(120.f,620.f);
+        cuadro_onda->addComponente(std::make_shared<IMoverOnda>(50.f,2.f,150.f,700.f));
+        cuadro_onda->getNombre()->nombre = "S istem Onda";
+
+        // Cuadro con movimiento circular: gira alrededor del punto donde fue colocado,
+        // a 90 píxeles de distancia de ese centro
+        auto cuadro_circular = std::make_shared<Rectangulo>(
+                80.f,80.f,
+                sf::Color::White,
+                sf::Color::Black
+                );
+        cuadro_circular->setPosicion(880.f,400.f);
+        cuadro_circular->addComponente(std::make_shared<IMoverCircular>(90.f,1.5f));
+        cuadro_circular->getNombre()->nombre = "Sistem Circular";
+
+        // El pool toma posesión de los objetos y el motor ya los actualiza y dibuja.
+        // El orden importa: el marcador queda en el índice 0 que consulta onInputs
         objetos.agregarPool(marcador);
         objetos.agregarPool(strIniciar);
         objetos.agregarPool(strSalir);
-        objetos.agregarPool(cuadro);
+        // Los cuadros de demostración se agregan al final, después del marcador,
+        // para que este siga siendo el objeto en el índice 0 que consulta onInputs
+        objetos.agregarPool(cuadro_vertical);
+        objetos.agregarPool(cuadro_onda);
+        objetos.agregarPool(cuadro_circular);
 
         // Se baja la bandera para que la construcción no se repita
         inicializar=false;
@@ -94,9 +126,11 @@ namespace IVJ
         {
             // Lógica propia de cada objeto (polimorfismo: cada figura implementa la suya)
             obj->onUpdate(dt);
-            // Sistema: se ejecuta sobre todos los objetos, pero solo actúa en los que
-            // tengan el componente IGirar; los demás salen de inmediato
-            SistemaGirar(*obj,dt);
+            // Cada sistema revisa primero si el objeto trae su componente y, si no, se
+            // retira: por eso los textos y el marcador no se mueven y cada cuadro sí
+            SistemaMoverVertical(*obj,dt);
+            SistemaMoverOnda(*obj,dt);
+            SistemaMoverCircular(*obj,dt);
         }
     }
 
