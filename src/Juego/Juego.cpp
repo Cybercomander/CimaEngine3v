@@ -17,6 +17,7 @@
 #include <Juego/Escenas/Escena_figuras.hpp>
 #include <Juego/Escenas/Escena_Menu.hpp>
 #include <Juego/objetos/Entidad.hpp>
+#include <Juego/Escenas/Escena_vibora.hpp>
 
 
 
@@ -49,6 +50,8 @@ namespace IVJ
         CE::GestorEscenas::Get().registrarEscena("Figuras", std::make_shared<Escena_Figuras>());
         //Escena del laboratorio 2 y 3: menu con botones, componentes y sistemas
         CE::GestorEscenas::Get().registrarEscena("Menu", std::make_shared<Escena_Menu>());
+        //Escena del laboratorio 4: Viborita que aumenta de tamaño
+        CE::GestorEscenas::Get().registrarEscena("Viborita", std::make_shared<Escena_vibora>());
 
         CE::GestorEscenas::Get().cambiarEscena("Menu"); //ejecuta onInit()
         escena_actual = &CE::GestorEscenas::Get().getEscenaActual();
