@@ -77,6 +77,14 @@ namespace IVJ
                     CE::Vector2D{500,300} //ventana
                     )
                 );
+        //Ventana + Platform Snapping (estilo Mario Bros 3)
+        CE::GestorCamaras::Get().agregarCamara(
+                std::make_shared<CE::CamaraVentanaPlataforma>(
+                    CE::Vector2D{0.f,0.f}, //posición
+                    CE::Vector2D{1024,720}, //dimensiones
+                    CE::Vector2D{500,300} //ventana
+                    )
+                );
     }
     
     void Juego::OnInputs()

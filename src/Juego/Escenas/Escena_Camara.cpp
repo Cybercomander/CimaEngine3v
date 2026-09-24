@@ -22,7 +22,8 @@ namespace IVJ
         //la asiignamos antes, porque podemos entrar y salir de escenas
         //así la camara regresa a la que debería en la escena
         //ID = 1 = LERP es en el orden que se agreguen
-        CE::GestorCamaras::Get().setCamaraActiva(2);
+        //ID = 3 = Ventana + Platform Snapping (estilo Mario Bros 3)
+        CE::GestorCamaras::Get().setCamaraActiva(3);
         //le decimos a quien persigue
         CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(jugador_ref);
         if(!inicializar) return;

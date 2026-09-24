@@ -196,4 +196,25 @@ namespace CE
         private:
             bool lock{false};
     };
+
+    /**
+     * @class CamaraVentanaPlataforma
+     * @brief Cámara ventana con platform snapping (estilo Super Mario Bros 3 / Super Mario World).
+     *
+     * En ambos ejes se comporta como CamaraSnapVentana: el jugador empuja la cámara
+     * al tocar los bordes de la ventana. Además, en cuanto el jugador "aterriza"
+     * (deja de moverse en el eje y) la cámara se alinea suavemente con él en y.
+     */
+    class CamaraVentanaPlataforma: public CamaraSnapVentana
+    {
+        public:
+            CamaraVentanaPlataforma(const Vector2D& pos, const Vector2D& dim, const Vector2D& dven);
+            ~CamaraVentanaPlataforma() override{};
+            void onUpdate(float dt) override;
+        private:
+            /** @brief Velocidad del snap vertical (mayor = más rápido) */
+            float vel_snap{5.f};
+            /** @brief Posición y del jugador en el frame anterior, para saber si aterrizó */
+            float y_prev{0.f};
+    };
 }

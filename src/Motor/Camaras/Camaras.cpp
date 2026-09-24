@@ -1,6 +1,8 @@
 #include "Camaras.hpp"
 #include "../GUI/GLogger.hpp"
 #include "../Utils/Lerp.hpp"
+#include <algorithm>
+#include <cmath>
 
 namespace CE
 {
@@ -137,5 +139,29 @@ namespace CE
             m_transform->posicion.y +=(jpos.y-ldn);
         else if(jpos.y<=lup)
             m_transform->posicion.y +=(jpos.y-lup);
+    }
+
+    //Camara Ventana + Platform Snapping (estilo Mario Bros 3)
+    CamaraVentanaPlataforma::CamaraVentanaPlataforma(const Vector2D& pos, const Vector2D& dim, const Vector2D& vdim)
+        :CamaraSnapVentana{pos,dim,vdim}
+    {
+        nombre = "Camara Ventana Plataforma #"+std::to_string(Camara::num_camaras);
+    }
+
+    void CamaraVentanaPlataforma::onUpdate(float dt)
+    {
+        //ventana: el jugador empuja la camara al tocar los bordes
+        CamaraSnapVentana::onUpdate(dt);
+        if(!m_lockObj.lock()) return;
+
+        float jy = m_lockObj.lock()->getTransformada()->posicion.y;
+        //si ya no se mueve en y es que "aterrizó": snap vertical suave hacia el jugador
+        bool aterrizo = std::abs(jy-y_prev) < 0.01f;
+        if(aterrizo)
+        {
+            float t = std::min(1.f,vel_snap*dt);
+            m_transform->posicion.y += (jy-m_transform->posicion.y)*t;
+        }
+        y_prev = jy;
     }
 }
