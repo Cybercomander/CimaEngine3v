@@ -19,6 +19,7 @@
 #include <Juego/objetos/Entidad.hpp>
 #include <Juego/Escenas/Escena_vibora.hpp>
 #include <Juego/Escenas/Escena_Sim.hpp>
+#include <Juego/Escenas/Escena_Camara.hpp>
 
 
 
@@ -55,11 +56,27 @@ namespace IVJ
         CE::GestorEscenas::Get().registrarEscena("Viborita", std::make_shared<Escena_vibora>());
         //Escena del laboratorio 5: simulación de selección natural (presa-depredador)
         CE::GestorEscenas::Get().registrarEscena("Sim", std::make_shared<Escena_Sim>());
+        //Escena del laboratorio 6: camaras
+        CE::GestorEscenas::Get().registrarEscena("ECamara",std::make_shared<Escena_Camara>(jugador));
 
         CE::GestorEscenas::Get().cambiarEscena("Menu"); //ejecuta onInit()
         escena_actual = &CE::GestorEscenas::Get().getEscenaActual();
 
-        
+        //creamos la Camara
+        CE::GestorCamaras::Get().agregarCamara(
+                std::make_shared<CE::CamaraLERP>(
+                    CE::Vector2D{0.f,0.f}, //posición
+                    CE::Vector2D{1024,720} //dimensiones
+                    )
+                );
+        //SnapVentana
+        CE::GestorCamaras::Get().agregarCamara(
+                std::make_shared<CE::CamaraSnapVentana>(
+                    CE::Vector2D{0.f,0.f}, //posición
+                    CE::Vector2D{1024,720}, //dimensiones
+                    CE::Vector2D{500,300} //ventana
+                    )
+                );
     }
     
     void Juego::OnInputs()
