@@ -6,6 +6,7 @@
 #include "Motor/GUI/GLogger.hpp"
 #include "Motor/Utils/Vector2D.hpp"
 #include "Sistemas.hpp"
+#include <algorithm>
 #include <cmath>
 #include <memory>
 
@@ -400,6 +401,225 @@ void SistemaMoverCircular(CE::Objeto &ente, float dt)
     float x = componente->centro.x + componente->radio * std::cos(componente->angulo);
     float y = componente->centro.y + componente->radio * std::sin(componente->angulo);
     ente.setPosicion(x, y);
+}
+
+// Lab 5 Simulación
+void SistemaBuscarComida(CE::Objeto &ente, const std::vector<std::shared_ptr<CE::Objeto>> &objetos)
+{
+    // comida y mundo son un ente pero no tienen estos componentes, por eso salir temprano.
+    // (la guía usa &&; con || basta que falte uno para no desreferenciar un nullptr)
+    if (!ente.tieneComponente<IEstadoInterno>() || !ente.tieneComponente<ITargetComida>())
+        return;
+    // si ya tiene una comida en mente, no ocupamos buscar
+    if (ente.getComponente<ITargetComida>()->getTargetComida().lock() != nullptr)
+        return;
+    // si no esta buscando que no busque
+    if (ente.getComponente<IEstadoInterno>()->getEstadoInterno() != IEstadoInterno::Estados::BUSCAR)
+        return;
+
+    // ahora si buscamos una comida lo más cerca posible, pero solo dentro de su rango de visión:
+    // agi es el alcance, la comida más lejos que agi no la ve
+    const float alcance = (float)ente.getStats()->agi;
+    std::shared_ptr<Circulo> comida_mas_cerca = nullptr;
+    float dist_min = alcance;
+    auto mi_pos = ente.getTransformada()->posicion;
+    for (auto &objeto : objetos)
+    {
+        // verificamos si el objeto es Circulo, de lo contrario no nos interesa como comida
+        std::shared_ptr<Circulo> comida = std::dynamic_pointer_cast<Circulo>(objeto);
+        // no es comida
+        if (!comida || !comida->tieneComponente<ITieneDueño>())
+            continue;
+        // calculamos la distancia; fuera del alcance no la ve
+        float dist = mi_pos.distancia(comida->getTransformada()->posicion);
+        if (dist > dist_min)
+            continue;
+        // tiene dueño
+        if (comida->getComponente<ITieneDueño>()->tiene)
+            continue;
+        dist_min = dist;
+        comida_mas_cerca = comida;
+    }
+    // no hay comida libre en su rango: se queda en BUSCAR y SistemaCaminarEnfrente lo avanza
+    if (!comida_mas_cerca)
+        return;
+
+    ente.getComponente<ITargetComida>()->setTargetComida(comida_mas_cerca);
+    // la guía usa Estados::ENMOVIMIENTO, que no existe en el enum
+    ente.getComponente<IEstadoInterno>()->setEstadoInterno(IEstadoInterno::Estados::ENMOVIMIENTOCOMIDA);
+}
+
+void SistemaCaminarEnfrente(CE::Objeto &ente, float dt, const CE::Vector2D &limite_inf, const CE::Vector2D &limite_sup)
+{
+    // comida y mundo no tienen estos componentes
+    if (!ente.tieneComponente<IEstadoInterno>() || !ente.tieneComponente<ITargetComida>())
+        return;
+    // solo camina mientras busca y no ha visto comida en su rango
+    if (ente.getComponente<IEstadoInterno>()->getEstadoInterno() != IEstadoInterno::Estados::BUSCAR)
+        return;
+    if (ente.getComponente<ITargetComida>()->getTargetComida().lock() != nullptr)
+        return;
+
+    auto &t = ente.getTransformada();
+    // enfrente es hacia donde apunta la figura: con ángulo 0 el pentágono apunta hacia arriba (-y)
+    // y con 180 hacia abajo (+y)
+    float rad = t->angulo * 3.14159265f / 180.f;
+    CE::Vector2D enfrente{std::sin(rad), -std::cos(rad)};
+    // velocidad constante; se escala la magnitud de la velocidad del ente (1.4 - 14.1) a pixeles/seg
+    float rapidez = t->velocidad.magnitud() * 1.f;
+    float x = t->posicion.x + enfrente.x * rapidez * dt;
+    float y = t->posicion.y + enfrente.y * rapidez * dt;
+
+    // si se sale del mundo da media vuelta y sigue buscando en sentido contrario
+    bool fuera = (x < limite_inf.x && enfrente.x < 0.f) || (x > limite_sup.x && enfrente.x > 0.f) ||
+                (y < limite_inf.y && enfrente.y < 0.f) || (y > limite_sup.y && enfrente.y > 0.f);
+    if (fuera)
+    {
+        t->angulo = std::fmod(t->angulo + 180.f, 360.f);
+        if (auto figura = dynamic_cast<Pentagono *>(&ente))
+            figura->getShape().setRotation(sf::degrees(t->angulo));
+        x = std::clamp(x, limite_inf.x, limite_sup.x);
+        y = std::clamp(y, limite_inf.y, limite_sup.y);
+    }
+    ente.setPosicion(x, y);
+}
+
+void SistemaMoveraComidaoCasa(CE::Objeto &ente, float dt)
+{
+    // comida y mundo no tienen IEstadoInterno
+    if (!ente.tieneComponente<IEstadoInterno>())
+        return;
+
+    // aún esta buscando
+    auto estado = ente.getComponente<IEstadoInterno>()->getEstadoInterno();
+    if (estado != IEstadoInterno::Estados::ENMOVIMIENTOCASA && estado != IEstadoInterno::Estados::ENMOVIMIENTOCOMIDA)
+        return;
+
+    // desplazarse hacia casa o comida
+    switch (estado)
+    {
+    case IEstadoInterno::Estados::ENMOVIMIENTOCOMIDA: {
+        auto po = ente.getTransformada()->posicion;
+        auto vo = ente.getTransformada()->velocidad;
+        std::shared_ptr<Circulo> target = ente.getComponente<ITargetComida>()->getTargetComida().lock();
+        // no tiene target
+        if (!target)
+        {
+            ente.getComponente<IEstadoInterno>()->setEstadoInterno(IEstadoInterno::Estados::BUSCAR);
+            ente.getComponente<ITargetComida>()->quitarTarget();
+            return;
+        }
+        auto pt = target->getTransformada()->posicion;
+        auto dir = pt - po;
+        float dx = po.x + (dir.x * vo.x * dt);
+        float dy = po.y + (dir.y * vo.y * dt);
+        ente.setPosicion(dx, dy);
+        float dist = po.distancia(pt);
+        if (target->getComponente<ITieneDueño>()->tiene)
+        {
+            // otro ente le ganó la comida
+            ente.getComponente<IEstadoInterno>()->setEstadoInterno(IEstadoInterno::Estados::BUSCAR);
+            ente.getComponente<ITargetComida>()->quitarTarget();
+        }
+        else if (dist < 0.15)
+        {
+            // si target no tiene dueño, ser el dueño del target y guardar en inventario
+            ente.getComponente<IEstadoInterno>()->setEstadoInterno(IEstadoInterno::Estados::ENMOVIMIENTOCASA);
+            ente.getComponente<IInventarioComida>()->guardarComida(target);
+            target->getComponente<ITieneDueño>()->tiene = true;
+        }
+    }
+    break;
+    case IEstadoInterno::Estados::ENMOVIMIENTOCASA: {
+        auto po = ente.getTransformada()->posicion;
+        auto vo = ente.getTransformada()->velocidad;
+        auto pt = ente.getComponente<IPosicionInicial>()->pos_init;
+        auto dir = pt - po;
+        float dx = po.x + (dir.x * vo.x * dt);
+        float dy = po.y + (dir.y * vo.y * dt);
+        ente.setPosicion(dx, dy);
+        float dist = po.distancia(pt);
+        // mover comida con el ente
+        auto comida = ente.getComponente<IInventarioComida>()->getComidaGuardada().lock();
+        if (comida)
+            comida->setPosicion(dx, dy);
+        if (dist < 0.15)
+            ente.getComponente<IEstadoInterno>()->setEstadoInterno(IEstadoInterno::Estados::CONSUMIR);
+    }
+    break;
+    default:
+        break;
+    }
+}
+
+void SistemaConsumirComida(CE::Objeto &ente)
+{
+    // comida y mundo no tiene IEstadoInterno ni ITargetComida
+    if (!ente.tieneComponente<IEstadoInterno>() || !ente.tieneComponente<ITargetComida>())
+        return;
+    // si no tiene target
+    if (ente.getComponente<ITargetComida>()->getTargetComida().lock() == nullptr)
+        return;
+    // si no esta en estado consumir
+    if (ente.getComponente<IEstadoInterno>()->getEstadoInterno() != IEstadoInterno::Estados::CONSUMIR)
+        return;
+
+    // si llega aquí es que esta en el estado consumir y solo puede estar en este estado si ya llego a la posición
+    // inicial. quitar comida del inventario
+    ente.getComponente<IInventarioComida>()->sacarComida();
+    // quitar comida del target del ente
+    ente.getComponente<ITargetComida>()->quitarTarget();
+    // no quitar propetario de comida, para que nadie lo busque, y por defecto ya esta marcado para borrar
+    // incrementar score
+    ente.getComponente<IScore>()->score++;
+    // pasar a reproducir (SistemaReproducirEnte lo regresa a BUSCAR)
+    ente.getComponente<IEstadoInterno>()->setEstadoInterno(IEstadoInterno::Estados::REPRODUCIR);
+}
+
+void SistemaReproducirEnte(CE::Objeto &ente, CE::Pool &pool)
+{
+    // no es ente
+    if (!ente.tieneComponente<IScore>() || !ente.tieneComponente<IEstadoInterno>())
+        return;
+
+    // es ente pero aún no esta en la fase de reproducirse
+    if (ente.getComponente<IEstadoInterno>()->getEstadoInterno() != IEstadoInterno::Estados::REPRODUCIR)
+        return;
+
+    // cambiar estado a buscar nueva comida
+    ente.getComponente<IEstadoInterno>()->setEstadoInterno(IEstadoInterno::Estados::BUSCAR);
+
+    // no tiene suficiente score
+    if (ente.getComponente<IScore>()->score < 2)
+        return;
+
+    // tiene suficiente score pero no es multiplo de 2
+    if (ente.getComponente<IScore>()->score % 2 != 0)
+        return;
+    // si tiene un score mayor a 2 y es multiplo de 2 y es un ente, entonces lo reproducimos con los mismos stats y
+    // guardamos en el pool de la escena
+    auto nuevo = std::make_shared<Pentagono>(15.f, sf::Color::Blue, sf::Color::Black);
+    nuevo->getStats()->hp_max = ente.getStats()->hp_max;
+    nuevo->getStats()->hp = ente.getStats()->hp;
+    nuevo->getStats()->agi = ente.getStats()->agi;
+    auto pos_init = ente.getComponente<IPosicionInicial>()->pos_init;
+    nuevo->getTransformada()->velocidad = ente.getTransformada()->velocidad;
+    nuevo->getTransformada()->angulo = ente.getTransformada()->angulo;
+    nuevo->getShape().setRotation(sf::degrees(nuevo->getTransformada()->angulo));
+    nuevo->setPosicion(pos_init.x, pos_init.y);
+    // componentes
+    nuevo->addComponente(std::make_shared<IEstadoInterno>(IEstadoInterno::Estados::BUSCAR))
+        // agregar inventario
+        .addComponente(std::make_shared<IInventarioComida>())
+        // agregar target nulo
+        .addComponente(std::make_shared<ITargetComida>())
+        // agregar la posicion inicial
+        .addComponente(std::make_shared<IPosicionInicial>(pos_init.x, pos_init.y))
+        // agregar score
+        .addComponente(std::make_shared<IScore>());
+    // OJO: esto hace push_back al vector del pool; quien llame no debe estar
+    // iterando el pool con un range-for (una realocación invalida los iteradores)
+    pool.agregarPool(nuevo);
 }
 
 } // namespace IVJ

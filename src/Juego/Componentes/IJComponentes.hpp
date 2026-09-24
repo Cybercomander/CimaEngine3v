@@ -237,4 +237,119 @@ class IDialogo : public IInteractuable
     bool activo{false};
 };
 
+// Lab 5 Simulación
+// Estado interno del ente: indica qué debe hacer en cada frame
+class IEstadoInterno : public CE::IComponentes
+{
+  public:
+    enum class Estados
+    {
+        BUSCAR,
+        ENMOVIMIENTOCOMIDA,
+        ENMOVIMIENTOCASA,
+        CONSUMIR,
+        REPRODUCIR // se agrego para reproducir
+    };
+
+  public:
+    explicit IEstadoInterno(const IEstadoInterno::Estados &estado_inicial);
+    virtual ~IEstadoInterno() override {};
+    std::shared_ptr<IComponentes> clonar() const override
+    {
+        return std::make_shared<IEstadoInterno>(*this);
+    };
+
+    void setEstadoInterno(const IEstadoInterno::Estados &ne);
+    IEstadoInterno::Estados getEstadoInterno() const
+    {
+        return estado;
+    };
+
+  private:
+    IEstadoInterno::Estados estado;
+};
+
+// Inventario de 1 espacio para cargar la comida de regreso a casa
+class IInventarioComida : public CE::IComponentes
+{
+  public:
+    virtual ~IInventarioComida() override {};
+    void guardarComida(const std::shared_ptr<Circulo> &c);
+    void sacarComida();
+    std::weak_ptr<Circulo> getComidaGuardada() const
+    {
+        return comida;
+    };
+    std::shared_ptr<IComponentes> clonar() const override
+    {
+        return std::make_shared<IInventarioComida>(*this);
+    };
+
+  private:
+    std::weak_ptr<Circulo> comida;
+};
+
+// Comida que el ente eligió como objetivo
+class ITargetComida : public CE::IComponentes
+{
+  public:
+    virtual ~ITargetComida() override {};
+    void setTargetComida(const std::shared_ptr<Circulo> &c);
+    void quitarTarget();
+    std::weak_ptr<Circulo> getTargetComida() const
+    {
+        return target;
+    };
+    std::shared_ptr<IComponentes> clonar() const override
+    {
+        return std::make_shared<ITargetComida>(*this);
+    };
+
+  private:
+    std::weak_ptr<Circulo> target;
+};
+
+// Punto donde spawneó el ente (su casa)
+class IPosicionInicial : public CE::IComponentes
+{
+  public:
+    explicit IPosicionInicial(float x, float y);
+    virtual ~IPosicionInicial() override {};
+    std::shared_ptr<IComponentes> clonar() const override
+    {
+        return std::make_shared<IPosicionInicial>(*this);
+    };
+
+  public:
+    CE::Vector2D pos_init;
+};
+
+// Marca si la comida ya fue recogida por algún ente
+class ITieneDueño : public CE::IComponentes
+{
+  public:
+    virtual ~ITieneDueño() override {};
+    std::shared_ptr<IComponentes> clonar() const override
+    {
+        return std::make_shared<ITieneDueño>(*this);
+    };
+
+  public:
+    bool tiene{false};
+};
+
+// Comidas consumidas por el ente en la generación actual
+class IScore : public CE::IComponentes
+{
+  public:
+    virtual ~IScore() override {};
+    std::shared_ptr<IComponentes> clonar() const override
+    {
+        return std::make_shared<IScore>(*this);
+    };
+
+  public:
+    int score{0};
+};
+
 } // namespace IVJ

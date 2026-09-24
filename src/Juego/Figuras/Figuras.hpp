@@ -106,6 +106,12 @@ namespace IVJ
         void draw(sf::RenderTarget& target, sf::RenderStates state) const override;
         // Actualización por frame de esta figura
         void onUpdate(float dt) override;
+        // Lab 5: expone la forma por referencia para poder rotarla desde fuera
+        // (así se sabe hacia dónde apunta el ente en la simulación)
+        sf::CircleShape& getShape()
+        {
+            return circ_img;
+        }
     private:
         // Forma de SFML que representa el pentágono (círculo de 5 puntos)
         sf::CircleShape circ_img;

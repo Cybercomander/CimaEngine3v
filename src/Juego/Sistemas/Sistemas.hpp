@@ -41,6 +41,23 @@ bool revisarDistanciaInteraccion(CE::Objeto &jugador, CE::Objeto &npc, float dis
 // si trae el componente IMoverCircular
 [[maybe_unused]] void SistemaMoverCircular(CE::Objeto &ente, float dt);
 
+// Lab 5 Simulación
+// BuscarComida
+[[maybe_unused]] void SistemaBuscarComida(CE::Objeto &ente, const std::vector<std::shared_ptr<CE::Objeto>> &objetos);
+
+// Caminar hacia enfrente mientras no haya comida en su rango (agi); rebota en los límites del mundo
+[[maybe_unused]] void SistemaCaminarEnfrente(CE::Objeto &ente, float dt, const CE::Vector2D &limite_inf,
+                                             const CE::Vector2D &limite_sup);
+
+// Mover a comida o casa
+[[maybe_unused]] void SistemaMoveraComidaoCasa(CE::Objeto &ente, float dt);
+
+// consumir comida
+[[maybe_unused]] void SistemaConsumirComida(CE::Objeto &ente);
+
+// reproducir si tienen 2 o más comidas
+[[maybe_unused]] void SistemaReproducirEnte(CE::Objeto &ente, CE::Pool &pool);
+
 // DEBUG
 [[maybe_unused]] void pintarLinea(CE::Vector2D &p1, CE::Vector2D &p2, const sf::Color &color = sf::Color::Red);
 
