@@ -15,14 +15,19 @@ void Pool::agregarPool(const std::shared_ptr<Objeto> &obj)
     }
     objetos.emplace_back(obj);
 }
+void Pool::agregarPoolEnfrete(const std::shared_ptr<Objeto> &obj)
+{
+    // es lento
+    objetos.insert(objetos.begin(), obj);
+}
 void Pool::borrarPool()
 {
     // lambda para borrar todo objeto
     // marcado como muerto
     objetos.erase(std::remove_if(objetos.begin(), objetos.end(),
                                  // lamda
-                                 [](std::shared_ptr<Objeto> &o) { return !o->estaVivo(); }),
-                  objetos.end());
+                                    [](std::shared_ptr<Objeto> &o) { return !o->estaVivo(); }),
+                    objetos.end());
 }
 std::shared_ptr<Objeto> &Pool::operator[](std::size_t idx)
 {

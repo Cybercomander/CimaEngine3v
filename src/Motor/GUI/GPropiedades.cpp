@@ -51,6 +51,8 @@ namespace CE
             {
                 ImGui::Separator();
             }
+            if(panelIScore(objeto_select->getComponente<IVJ::IScore>()))
+                ImGui::Separator();
 
             ImGui::End();
         }
@@ -325,6 +327,17 @@ namespace CE
         //ImGui::Separator();
         ImGui::TextColored(ImVec4{0,255,0,255},"%10sIMaquinaEstado%10s"," "," ");
         ImGui::Text("Estado: %s",me->fsm->getNombre().c_str());
+        return true;
+    }
+    bool GPropiedades::panelIScore(IVJ::IScore *componente)
+    {
+        if(!componente) return false;
+
+        ImGui::TextColored(ImVec4{0,255,0,255},"%15sIScore%15s"," "," ");
+
+        int score = componente->score;
+        ImGui::InputInt("Score",&score);
+
         return true;
     }
 }

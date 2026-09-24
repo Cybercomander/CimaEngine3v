@@ -7,6 +7,7 @@
 #if DEBUG
     #include "GUI/GLogger.hpp"
     #include "GUI/GListaObjetos.hpp"
+    #include "GUI/GHistograma.hpp"
     //#include "GUI/GPaths.hpp"
 #endif
 #include "Camaras/CamarasGestor.hpp"
@@ -66,6 +67,10 @@ namespace CE
         gui_layers.push_back(std::make_shared<GViewport>());
 #if DEBUG
         gui_layers.push_back(std::make_shared<GListaObjetos>());
+        //Lab 5: histogramas de la simulación (score, alcance agi y hp máximo)
+        gui_layers.push_back(std::make_shared<GHistograma>(GHistograma::Medida::SCORE));
+        gui_layers.push_back(std::make_shared<GHistograma>(GHistograma::Medida::ALCANCE));
+        gui_layers.push_back(std::make_shared<GHistograma>(GHistograma::Medida::HP_MAX));
         //gui_layers.push_back(std::make_shared<GPaths>());
 #endif
         GestorCamaras::Get().agregarCamara(std::make_shared<Camara>(Vector2D{540,360},Vector2D{1080,720}));

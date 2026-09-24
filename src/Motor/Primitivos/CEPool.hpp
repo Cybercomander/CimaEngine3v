@@ -25,8 +25,15 @@ namespace CE
              * @brief Agrega un objeto al pool.
              * @param obj Puntero compartido al objeto a agregar
              */
-            void agregarPool(const std::shared_ptr<Objeto>& obj); 
-            
+            void agregarPool(const std::shared_ptr<Objeto>& obj);
+
+            /**
+             * @brief Agrega un objeto al inicio del pool (Lab 5).
+             * @param obj Puntero compartido al objeto a agregar
+             * @note Operación O(n): desplaza todos los objetos. Solo usar en inicializaciones.
+             */
+            void agregarPoolEnfrete(const std::shared_ptr<Objeto>& obj);
+
             /**
              * @brief Limpia todos los objetos del pool.
              */

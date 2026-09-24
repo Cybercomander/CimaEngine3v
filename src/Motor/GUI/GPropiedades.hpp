@@ -108,7 +108,14 @@ namespace CE
              * @return true si se muestra
              */
             bool panelIMaquinaEstado(IVJ::IMaquinaEstado *me);
-            
+
+            /**
+             * @brief Renderiza panel del score de la simulación (Lab 5).
+             * @param componente Puntero al componente IScore a mostrar
+             * @return true si se muestra
+             */
+            bool panelIScore(IVJ::IScore *componente);
+
         private:
             /** @brief Puntero al objeto siendo editado */
             Objeto *objeto_select{nullptr};

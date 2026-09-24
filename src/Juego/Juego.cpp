@@ -18,6 +18,7 @@
 #include <Juego/Escenas/Escena_Menu.hpp>
 #include <Juego/objetos/Entidad.hpp>
 #include <Juego/Escenas/Escena_vibora.hpp>
+#include <Juego/Escenas/Escena_Sim.hpp>
 
 
 
@@ -52,6 +53,8 @@ namespace IVJ
         CE::GestorEscenas::Get().registrarEscena("Menu", std::make_shared<Escena_Menu>());
         //Escena del laboratorio 4: Viborita que aumenta de tamaño
         CE::GestorEscenas::Get().registrarEscena("Viborita", std::make_shared<Escena_vibora>());
+        //Escena del laboratorio 5: simulación de selección natural (presa-depredador)
+        CE::GestorEscenas::Get().registrarEscena("Sim", std::make_shared<Escena_Sim>());
 
         CE::GestorEscenas::Get().cambiarEscena("Menu"); //ejecuta onInit()
         escena_actual = &CE::GestorEscenas::Get().getEscenaActual();
