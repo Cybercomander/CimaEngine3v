@@ -17,10 +17,17 @@ namespace CE
     {
         if(id > (int)(m_listaCamaras.size()-1) ||
                 id < 0) return ;
+        std::shared_ptr<Objeto> obj;
         if(m_camaraActiva.lock())
+        {
             m_camaraActiva.lock()->esta_activa=false;
+            obj = m_camaraActiva.lock()->getLockObj();
+        }
         m_camaraActiva = m_listaCamaras[id];
         m_camaraActiva.lock()->esta_activa=true;
+        //la nueva camara sigue al mismo objeto que la anterior
+        if(obj)
+            m_camaraActiva.lock()->lockEnObjeto(obj);
     }
     void GestorCamaras::onUpdateCamaras(float dt)
     {

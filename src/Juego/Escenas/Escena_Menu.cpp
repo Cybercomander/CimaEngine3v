@@ -165,8 +165,8 @@ namespace IVJ
                             exit(EXIT_SUCCESS);
                             break;
                         case 1:
-                            // Opción "Iniciar": pide al gestor cambiar a la escena de la víbora
-                            CE::GestorEscenas::Get().cambiarEscena("Viborita");
+                            // Opción "Iniciar": pide al gestor cambiar a la escena de la camara
+                            CE::GestorEscenas::Get().cambiarEscena("ECamara");
                             break;
                     }
                 }
