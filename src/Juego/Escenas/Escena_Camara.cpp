@@ -136,7 +136,9 @@ namespace IVJ
 
 #if DEBUG
         auto cam = &CE::GestorCamaras::Get().getCamaraActiva();
-        auto csv = (CE::CamaraSnapVentana*)cam;
+        //solo las camaras con ventana tienen algo que dibujar
+        auto csv = dynamic_cast<CE::CamaraSnapVentana*>(cam);
+        if(!csv) return;
         auto csvpos = csv->getTransformada().posicion;
         sf::RectangleShape debugcam{{csv->m_vdim.x,csv->m_vdim.y}};
         debugcam.setOrigin({csv->m_vdim.x/2.f,csv->m_vdim.y/2.f});

@@ -65,6 +65,11 @@ namespace CE
              */
             void lockEnObjeto(const std::shared_ptr<Objeto>& obj);
 
+            [[nodiscard]]std::shared_ptr<Objeto> getLockObj() const
+            {
+                return m_lockObj.lock();
+            }
+
             /**
              * @brief Establece el tamaño de la vista de cámara.
              * @param x Nuevo ancho
