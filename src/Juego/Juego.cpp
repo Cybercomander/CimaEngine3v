@@ -85,6 +85,15 @@ namespace IVJ
                     CE::Vector2D{500,300} //ventana
                     )
                 );
+        //Ventana + Snap al foco (dual-forward-focus de Super Mario World)
+        CE::GestorCamaras::Get().agregarCamara(
+                std::make_shared<CE::CamaraVentanaSnapFoco>(
+                    CE::Vector2D{0.f,0.f}, //posición
+                    CE::Vector2D{1024,720}, //dimensiones
+                    CE::Vector2D{400,300}, //ventana (líneas punteadas)
+                    100.f //foco (líneas sólidas)
+                    )
+                );
     }
     
     void Juego::OnInputs()

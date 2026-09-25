@@ -23,7 +23,8 @@ namespace IVJ
         //así la camara regresa a la que debería en la escena
         //ID = 1 = LERP es en el orden que se agreguen
         //ID = 3 = Ventana + Platform Snapping (estilo Mario Bros 3)
-        CE::GestorCamaras::Get().setCamaraActiva(3);
+        //ID = 4 = Ventana + Snap al foco (Super Mario World)
+        CE::GestorCamaras::Get().setCamaraActiva(4);
         //le decimos a quien persigue
         CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(jugador_ref);
         if(!inicializar) return;
@@ -144,6 +145,18 @@ namespace IVJ
         debugcam.setOutlineColor(sf::Color::Yellow);
         debugcam.setFillColor(sf::Color::Transparent);
         CE::Render::Get().AddToDraw(debugcam);
+        //lineas solidas de foco donde se re-encuadra al jugador
+        if(auto csf = dynamic_cast<CE::CamaraVentanaSnapFoco*>(cam))
+        {
+            sf::RectangleShape linea{{3.f,csv->m_vdim.y}};
+            linea.setOrigin({1.5f,csv->m_vdim.y/2.f});
+            linea.setFillColor(sf::Color::White);
+            for(float lado : {-1.f,1.f})
+            {
+                linea.setPosition({csvpos.x+lado*csf->foco,csvpos.y});
+                CE::Render::Get().AddToDraw(linea);
+            }
+        }
 #endif
     }
 }

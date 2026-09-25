@@ -164,4 +164,55 @@ namespace CE
         }
         y_prev = jy;
     }
+
+    //Camara Ventana + Snap al foco (dual-forward-focus de Super Mario World)
+    CamaraVentanaSnapFoco::CamaraVentanaSnapFoco(const Vector2D& pos, const Vector2D& dim, const Vector2D& vdim, float foco)
+        :CamaraVentanaPlataforma{pos,dim,vdim},foco{foco}
+    {
+        nombre = "Camara Ventana Snap Foco #"+std::to_string(Camara::num_camaras);
+    }
+
+    void CamaraVentanaSnapFoco::onUpdate(float dt)
+    {
+        //el eje y lo resuelve la ventana + platform snapping, el eje x lo decide esta camara
+        float cx = m_transform->posicion.x;
+        CamaraVentanaPlataforma::onUpdate(dt);
+        if(!m_lockObj.lock()) return;
+
+        float jx = m_lockObj.lock()->getTransformada()->posicion.x;
+        if(!iniciada) //primer frame: el jugador en la linea solida izquierda
+        {
+            cx = jx+foco;
+            iniciada = true;
+        }
+        float umbral = m_vdim.x/2.f;
+        //si cruza la linea punteada contraria cambia la direccion y hay que re-encuadrar
+        if(dir>0 && jx<=cx-umbral)
+        {
+            dir = -1;
+            reencuadrando = true;
+        }
+        else if(dir<0 && jx>=cx+umbral)
+        {
+            dir = 1;
+            reencuadrando = true;
+        }
+        //centro de camara que deja al jugador en la linea solida trasera
+        float objetivo = jx+dir*foco;
+        if(reencuadrando)
+        {
+            //snap: se desliza a velocidad constante hasta encuadrarlo
+            float paso = vel_reencuadre*dt;
+            if(std::abs(objetivo-cx)<=paso)
+            {
+                cx = objetivo;
+                reencuadrando = false;
+            }
+            else
+                cx += (objetivo>cx) ? paso : -paso;
+        }
+        else if((objetivo-cx)*dir>0) //el jugador empuja la linea solida hacia donde avanza
+            cx = objetivo;
+        m_transform->posicion.x = cx;
+    }
 }

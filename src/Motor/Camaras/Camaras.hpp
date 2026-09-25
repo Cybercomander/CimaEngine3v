@@ -217,4 +217,33 @@ namespace CE
             /** @brief Posición y del jugador en el frame anterior, para saber si aterrizó */
             float y_prev{0.f};
     };
+
+    /**
+     * @class CamaraVentanaSnapFoco
+     * @brief Cámara ventana + snap al foco (dual-forward-focus de Super Mario World).
+     *
+     * En x hay 4 líneas: los bordes de la ventana (punteadas, a ±m_vdim.x/2 del centro)
+     * y las líneas de foco (sólidas, a ±foco del centro). El jugador queda anclado en la
+     * línea sólida trasera para ver más hacia donde avanza; al regresar la cámara no se mueve
+     * hasta que cruza la línea punteada contraria, y entonces se desliza (más rápido que él)
+     * hasta encuadrarlo en la otra línea sólida. En y usa ventana + platform snapping.
+     */
+    class CamaraVentanaSnapFoco: public CamaraVentanaPlataforma
+    {
+        public:
+            CamaraVentanaSnapFoco(const Vector2D& pos, const Vector2D& dim, const Vector2D& dven, float foco);
+            ~CamaraVentanaSnapFoco() override{};
+            void onUpdate(float dt) override;
+        public:
+            /** @brief Distancia del centro de la cámara a las líneas sólidas (donde se ancla el jugador) */
+            float foco;
+        private:
+            /** @brief Velocidad del re-encuadre en px/s (debe ser mayor que la del jugador) */
+            float vel_reencuadre{1000.f};
+            /** @brief Hacia dónde mira la cámara: 1 derecha, -1 izquierda */
+            int dir{1};
+            /** @brief true mientras se desliza para encuadrar al jugador en la otra línea sólida */
+            bool reencuadrando{false};
+            bool iniciada{false};
+    };
 }
