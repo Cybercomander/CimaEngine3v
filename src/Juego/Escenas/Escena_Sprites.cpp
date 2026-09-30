@@ -1,5 +1,5 @@
 #include "Escena_Sprites.hpp"
-#include "Escena_Camara.hpp"
+#include "Escena_Sprites.hpp"
 #include "Motor/Utils/Vector2D.hpp"
 #include <Motor/Inputs/Botones.hpp>
 #include <Motor/Render/Render.hpp>
@@ -75,21 +75,21 @@ namespace IVJ
     }
 
 
-    void Escena_Camara::onFinal()
+    void Escena_Sprites::onFinal()
     {
         //reseteamos la camara a la estática al salir/cambiar de escena
         CE::GestorCamaras::Get().setCamaraActiva(0);
     }
-    void Escena_Camara::onUpdate(float dt)
+    void Escena_Sprites::onUpdate(float dt)
     {
-        jugador_ref->onUpdate(dt);
-        SistemaMover(jugador_ref,dt);
+        player->onUpdate(dt);
+        SistemaMover(player,dt);
         for(auto& obj: objetos.getPool())
         {
             obj->onUpdate(dt);
         }
     }
-    void Escena_Camara::onInputs(const CE::Botones& accion)
+    void Escena_Sprites::onInputs(const CE::Botones& accion)
     {
         switch(accion.getTipo())
         {
@@ -97,19 +97,19 @@ namespace IVJ
             {
                 if(accion.getNombre() == "arriba")
                 {
-                    jugador_ref->getComponente<CE::IControl>()->arr=true;
+                    player->getComponente<CE::IControl>()->arr=true;
                 }
                 if(accion.getNombre() == "abajo")
                 {
-                    jugador_ref->getComponente<CE::IControl>()->abj=true;
+                    player->getComponente<CE::IControl>()->abj=true;
                 }
                 if(accion.getNombre() == "derecha")
                 {
-                    jugador_ref->getComponente<CE::IControl>()->der=true;
+                    player->getComponente<CE::IControl>()->der=true;
                 }
                 if(accion.getNombre() == "izquierda")
                 {
-                    jugador_ref->getComponente<CE::IControl>()->izq=true;
+                    player->getComponente<CE::IControl>()->izq=true;
                 }
                 break;
             }
@@ -117,19 +117,19 @@ namespace IVJ
             {
                 if(accion.getNombre() == "arriba")
                 {
-                    jugador_ref->getComponente<CE::IControl>()->arr=false;
+                    player->getComponente<CE::IControl>()->arr=false;
                 }
                 if(accion.getNombre() == "abajo")
                 {
-                    jugador_ref->getComponente<CE::IControl>()->abj=false;
+                    player->getComponente<CE::IControl>()->abj=false;
                 }
                 if(accion.getNombre() == "derecha")
                 {
-                    jugador_ref->getComponente<CE::IControl>()->der=false;
+                    player->getComponente<CE::IControl>()->der=false;
                 }
                 if(accion.getNombre() == "izquierda")
                 {
-                    jugador_ref->getComponente<CE::IControl>()->izq=false;
+                    player->getComponente<CE::IControl>()->izq=false;
                 }
                 break;
             }
@@ -139,11 +139,11 @@ namespace IVJ
             }
         }
     }
-    void Escena_Camara::onRender()
+    void Escena_Sprites::onRender()
     {
         for(auto& obj: objetos.getPool())
             CE::Render::Get().AddToDraw(*obj);
-        CE::Render::Get().AddToDraw(*jugador_ref);
+        CE::Render::Get().AddToDraw(*player);
 
 #if DEBUG
         auto cam = &CE::GestorCamaras::Get().getCamaraActiva();

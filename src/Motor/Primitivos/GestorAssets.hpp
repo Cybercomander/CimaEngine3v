@@ -49,10 +49,7 @@ namespace CE
              */
             void agregarTextura(const std::string& key, const std::string& filepath,
                                 const CE::Vector2D& pos_init,const CE::Vector2D& dim);
-            sf::Texture& GestorAssets::getTextura(const std::string& key);
 
-
-            
             /**
              * @brief Carga un sonido de archivo.
              * @param key Identificador único para acceso posterior
