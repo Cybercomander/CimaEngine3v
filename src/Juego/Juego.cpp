@@ -20,6 +20,7 @@
 #include <Juego/Escenas/Escena_vibora.hpp>
 #include <Juego/Escenas/Escena_Sim.hpp>
 #include <Juego/Escenas/Escena_Camara.hpp>
+#include <Juego/Escenas/Escena_Sprites.hpp>
 
 
 
@@ -57,7 +58,9 @@ namespace IVJ
         //Escena del laboratorio 5: simulación de selección natural (presa-depredador)
         CE::GestorEscenas::Get().registrarEscena("Sim", std::make_shared<Escena_Sim>());
         //Escena del laboratorio 6: camaras
-        CE::GestorEscenas::Get().registrarEscena("ECamara",std::make_shared<Escena_Camara>(jugador));
+        CE::GestorEscenas::Get().registrarEscena("Camaras",std::make_shared<Escena_Camara>(jugador));
+        //Escena del laboratorio 7: sprites
+        CE::GestorEscenas::Get().registrarEscena("Sprites",std::make_shared<Escena_Sprites>(jugador));
 
         CE::GestorEscenas::Get().cambiarEscena("Menu"); //ejecuta onInit()
         escena_actual = &CE::GestorEscenas::Get().getEscenaActual();
