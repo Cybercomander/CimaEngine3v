@@ -32,7 +32,7 @@ namespace IVJ
             registrarBotones(sf::Keyboard::Scancode::D,"derecha");
             registrarBotones(sf::Keyboard::Scancode::Right,"derecha");
 
-            //mapa de una capa: tileMapP7 cortado en tiles de 16x16
+            //mapa de una capa: tileMapP7 en una matriz de 20x10 (tiles de 62x63)
             tiles_layers.push_back(TileMap());
             if(!tiles_layers[0].loadTileMap(ASSETS "/mapas/indiana_layer1.txt"))
                 exit(EXIT_FAILURE);
@@ -66,8 +66,8 @@ namespace IVJ
 
             inicializar=false;
         }
-        //SnapVentana: el personaje se mueve en las 4 direcciones
-        CE::GestorCamaras::Get().setCamaraActiva(1);
+        //SnapVentana (la 0 es la del motor): el personaje se mueve en las 4 direcciones
+        CE::GestorCamaras::Get().setCamaraActiva(2);
         CE::GestorCamaras::Get().getCamaraActiva().lockEnObjeto(indiana);
     }
 

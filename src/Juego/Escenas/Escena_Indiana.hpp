@@ -21,7 +21,7 @@ namespace IVJ
         private:
             int inicializar{1};
             std::shared_ptr<Entidad> indiana;
-            // escala del mapa en el mundo (los tiles son de 16x16)
+            // escala del mapa en el mundo (pixel art, se dibuja al doble)
             float escala_mapa{2.f};
             float escala_indiana{1.5f};
     };
