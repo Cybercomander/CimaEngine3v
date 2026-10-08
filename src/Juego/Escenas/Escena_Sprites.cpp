@@ -1,5 +1,4 @@
 #include "Escena_Sprites.hpp"
-#include "Escena_Sprites.hpp"
 #include "Motor/Utils/Vector2D.hpp"
 #include <Motor/Inputs/Botones.hpp>
 #include <Motor/Render/Render.hpp>
@@ -7,11 +6,12 @@
 #include <Motor/Camaras/CamarasGestor.hpp>
 #include <Juego/objetos/Entidad.hpp>
 #include <Juego/Figuras/Figuras.hpp>
+#include <Juego/objetos/TileMap.hpp>
 #include <Motor/Componentes/IComponentes.hpp>
 #include <Juego/Componentes/IJComponentes.hpp>
 #include <Juego/Sistemas/Sistemas.hpp>
 #include <Motor/Primitivos/GestorAssets.hpp>
-#include <cmath>
+#include <cstdlib>
 #include <memory>
 namespace IVJ
 {
@@ -35,6 +35,18 @@ namespace IVJ
         registrarBotones(sf::Keyboard::Scancode::Right,"derecha");
         registrarBotones(sf::Keyboard::Scancode::Enter,"aceptar");
 
+        //cargar mapa 3 layers
+        tiles_layers.push_back(TileMap()); //puro mar
+        tiles_layers.push_back(TileMap()); // las islas
+        tiles_layers.push_back(TileMap()); // los objetos
+
+        if(!tiles_layers[0].loadTileMap(ASSETS "/mapas/playa_layer1.txt"))
+            exit(EXIT_FAILURE);
+        if(!tiles_layers[1].loadTileMap(ASSETS "/mapas/playa_layer2.txt"))
+            exit(EXIT_FAILURE);
+        if(!tiles_layers[2].loadTileMap(ASSETS "/mapas/playa_layer3.txt"))
+            exit(EXIT_FAILURE);
+
         //Cargar el sprite
         CE::GestorAssets::Get().agregarTextura(
                 "naveb",                                //llave
@@ -55,21 +67,6 @@ namespace IVJ
         player->addComponente(sprite);
         player->addComponente(std::make_shared<CE::IControl>());
 
-
-        //objetos para que se muestre el movimiento
-        int montes_count=100;
-        float dstd= 20.f;
-        for(int i=0;i<montes_count;i++)
-        {
-            //gauss
-            double por = std::exp(-0.5*(((i- montes_count/2.f)*(i-montes_count/2.f))/(dstd*dstd))); 
-            int inc = 200;
-            auto monte = std::make_shared<Rectangulo>(
-                        200.f,200.f+(inc*por),
-                        sf::Color{184, 134, 11},sf::Color::Black);
-            monte->setPosicion(100+(i*200),100-(inc*por/2.f));
-            objetos.agregarPool(monte);
-        }
 
         inicializar=false;
     }
@@ -141,6 +138,11 @@ namespace IVJ
     }
     void Escena_Sprites::onRender()
     {
+        //renderizamos los layers primero para
+        //que se pinten atrás de todo
+        for(auto& al: tiles_layers)
+            CE::Render::Get().AddToDraw(al);
+
         for(auto& obj: objetos.getPool())
             CE::Render::Get().AddToDraw(*obj);
         CE::Render::Get().AddToDraw(*player);
