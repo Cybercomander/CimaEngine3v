@@ -21,6 +21,7 @@
 #include <Juego/Escenas/Escena_Sim.hpp>
 #include <Juego/Escenas/Escena_Camara.hpp>
 #include <Juego/Escenas/Escena_Sprites.hpp>
+#include <Juego/Escenas/Escena_Indiana.hpp>
 
 
 
@@ -61,6 +62,8 @@ namespace IVJ
         CE::GestorEscenas::Get().registrarEscena("Camaras",std::make_shared<Escena_Camara>(jugador));
         //Escena del laboratorio 7: sprites
         CE::GestorEscenas::Get().registrarEscena("Sprites",std::make_shared<Escena_Sprites>(jugador));
+        //Escena del laboratorio 7: Indiana con sprites por dirección sobre tileMapP7
+        CE::GestorEscenas::Get().registrarEscena("Indiana",std::make_shared<Escena_Indiana>());
 
         CE::GestorEscenas::Get().cambiarEscena("Menu"); //ejecuta onInit()
         escena_actual = &CE::GestorEscenas::Get().getEscenaActual();
