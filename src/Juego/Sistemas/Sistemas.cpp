@@ -83,6 +83,45 @@ void SistemaMover(const std::shared_ptr<CE::Objeto> &objeto, float dt)
     trans->posicion.suma(vel.escala(dt));
 }
 
+void SistemaMoverPlano(const std::shared_ptr<CE::Objeto> &objeto, float dt)
+{
+    auto trans = objeto->getTransformada();
+
+    auto control = objeto->getComponente<CE::IControl>();
+    if (!control || !control->isActivo())
+        return;
+
+    auto dir = CE::Vector2D{0.f, 0.f};
+    if (control->arr)
+        dir.y -= 1.f;
+    if (control->abj)
+        dir.y += 1.f;
+    if (control->der)
+        dir.x += 1.f;
+    if (control->izq)
+        dir.x -= 1.f;
+    if (dir.x == 0 && dir.y == 0)
+        return;
+
+    // normalizar para que en diagonal no camine más rápido
+    dir.normalizacion();
+    auto vel = CE::Vector2D{dir.x * trans->velocidad.x, dir.y * trans->velocidad.y};
+    trans->posicion.suma(vel.escala(dt));
+}
+
+void SistemaSpriteDireccion(CE::Objeto &ente, const sf::Texture &der, const sf::Texture &izq)
+{
+    auto control = ente.getComponente<CE::IControl>();
+    auto sprite = ente.getComponente<CE::ISprite>();
+    if (!control || !sprite)
+        return;
+
+    if (control->der && !control->izq)
+        sprite->m_sprite.setTexture(der);
+    else if (control->izq && !control->der)
+        sprite->m_sprite.setTexture(izq);
+}
+
 bool SistemaColAABB(CE::Objeto &A, CE::Objeto &B, bool resolucion)
 {
     if (!A.tieneComponente<CE::IBoundingBox>() || !B.tieneComponente<CE::IBoundingBox>())

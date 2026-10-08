@@ -49,7 +49,7 @@ namespace CE
              */
             void agregarTextura(const std::string& key, const std::string& filepath,
                                 const CE::Vector2D& pos_init,const CE::Vector2D& dim);
-            
+
             /**
              * @brief Carga un sonido de archivo.
              * @param key Identificador único para acceso posterior

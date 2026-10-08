@@ -26,6 +26,11 @@ bool TileMap::loadTileMap(const std::string &atlas_path, CE::Pool &objetos)
     char col;
     while (archivo >> id)
     {
+        if (j >= map_r) // la matriz trae más ids que map_r x map_c
+        {
+            std::cerr << "[TileMap] La matriz excede " << map_r << "x" << map_c << " en " << atlas_path << "\n";
+            break;
+        }
         archivo >> col;
         if (id != -1) // no ignorar tile
         {
@@ -91,6 +96,11 @@ bool TileMap::loadTileMap(const std::string &atlas_path, CE::Pool &objetos, cons
     char col;
     while (archivo >> id)
     {
+        if (j >= map_r) // la matriz trae más ids que map_r x map_c
+        {
+            std::cerr << "[TileMap] La matriz excede " << map_r << "x" << map_c << " en " << atlas_path << "\n";
+            break;
+        }
         archivo >> col;
         if (id != -1) // no ignorar tile
         {
@@ -152,6 +162,11 @@ bool TileMap::loadTileMap(const std::string &atlas_path)
     int max_col = atlas_w / tile_w;
     while (archivo >> id)
     {
+        if (j >= map_r) // la matriz trae más ids que map_r x map_c
+        {
+            std::cerr << "[TileMap] La matriz excede " << map_r << "x" << map_c << " en " << atlas_path << "\n";
+            break;
+        }
         if (id != -1) // no ignorar tile
         {
             // referencia al triangulo a dibujar

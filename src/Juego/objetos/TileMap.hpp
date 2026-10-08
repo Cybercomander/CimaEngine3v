@@ -23,6 +23,11 @@ class TileMap : public sf::Transformable, public sf::Drawable
     {
         return tilemap_shader.get();
     };
+    // tamaño del mapa en píxeles, sin aplicar la escala del Transformable
+    CE::Vector2D getDimension() const
+    {
+        return CE::Vector2D{(float)(map_c * tile_w), (float)(map_r * tile_h)};
+    }
 
   private:
     int atlas_w{};
