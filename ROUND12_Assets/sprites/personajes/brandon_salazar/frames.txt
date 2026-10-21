@@ -1,0 +1,4 @@
+0 frente_firme 0 0 44 56
+1 frente_guardia 44 0 44 56
+2 lateral_firme 88 0 44 56
+3 lateral_jab 132 0 44 56
