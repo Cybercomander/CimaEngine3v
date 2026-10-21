@@ -42,7 +42,8 @@ namespace IVJ
         tiles_layers.push_back(TileMap()); // las islas
         tiles_layers.push_back(TileMap()); // los objetos
 
-        if(!tiles_layers[0].loadTileMap(ASSETS "/mapas/playa_layer1.txt"))
+        //lab 9 colisiones: usar la función que tiene un pool
+        if(!tiles_layers[0].loadTileMap(ASSETS "/mapas/playa_col_layer1.txt",objetos))
             exit(EXIT_FAILURE);
         if(!tiles_layers[1].loadTileMap(ASSETS "/mapas/playa_layer2.txt"))
             exit(EXIT_FAILURE);
@@ -76,7 +77,11 @@ namespace IVJ
         
         player->addComponente(sprite);
         player->addComponente(std::make_shared<CE::IControl>());
-        
+        //lab 9 colisiones
+        player->addComponente(std::make_shared<CE::IBoundingBox>(
+            CE::Vector2D{64.f,64.f} //dimensiones del sprite
+        ));
+
         //lab 8 animaciones
         auto me = std::make_shared<IMaquinaEstado>();
         me->fsm = std::make_shared<IdleJugadores>();
@@ -106,6 +111,38 @@ namespace IVJ
 
         objetos.agregarPool(boss);
 
+        //lab 9 colisiones: objeto individual tomado del atlas
+        auto techo = std::make_shared<Entidad>();
+        techo->getStats()->hp_max=100;
+        techo->getStats()->hp=100;
+        techo->getStats()->def=150;
+
+        //cargar todo el atlas para poder poner cosas individuales
+        CE::GestorAssets::Get().agregarTextura("atlas_playa",
+                ASSETS "/atlas/playa_atlas.png",
+                CE::Vector2D{0.f,0.f},
+                CE::Vector2D{2048,768});
+
+        auto techo_sprite = std::make_shared<CE::ISprite>(
+            CE::GestorAssets::Get().getTextura("atlas_playa"),
+            128,256, //dim
+            1.f);
+        //acomodar el sprite en el area deseada del atlas
+        techo_sprite->m_sprite.setTextureRect(
+                sf::IntRect{
+                {64*28,64*6}, //220 indice
+                {128,256} //dos tiles, 4 tiles en dimensiones
+                });
+        //acomodar el pivote para centrar bien el bounding box en el centro
+        //128/2 = 64, 256/2 = 128
+        techo_sprite->m_sprite.setOrigin({64,128});
+        techo->addComponente(techo_sprite)
+            .addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{128,256}));
+
+        techo->setPosicion(1300,175);
+
+        objetos.agregarPool(techo);
+
         inicializar=false;
     }
 
@@ -129,6 +166,8 @@ namespace IVJ
                 auto& tpos = *obj->getComponente<ITarget>()->pos;
                 SistemaNPCLookTarget(*obj,tpos);
             }
+            //lab9
+            SistemaColAABBMid(*player, *obj, true);
         }
     }
     void Escena_Sprites::onInputs(const CE::Botones& accion)

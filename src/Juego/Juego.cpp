@@ -46,6 +46,9 @@ namespace IVJ
         jugador->getStats()->str = 255;
         jugador->getStats()->def = 255;
         jugador->getStats()->agi = 255;
+        //copia con los mismos stats y sin componentes: cada escena agrega los suyos
+        //sin que el triangulo de Camaras se mezcle con el sprite/colisión de Sprites
+        jugador_sprites = std::make_shared<Entidad>(*jugador);
 
         //AQUÍ CAMBIÉ LA ESCENA ACTIVA, PARA QUE LOS CAMBIOS DE LA PRÁCTICA DE FIGURAS SE GUARDE SIN NECESIDAD 
         //... DE ALTERARLA LUEGO Y ASÍ PODER TENER UNA ESCENA POR CADA PRÁCTICA.
@@ -60,8 +63,8 @@ namespace IVJ
         CE::GestorEscenas::Get().registrarEscena("Sim", std::make_shared<Escena_Sim>());
         //Escena del laboratorio 6: camaras
         CE::GestorEscenas::Get().registrarEscena("Camaras",std::make_shared<Escena_Camara>(jugador));
-        //Escena del laboratorio 7: sprites
-        CE::GestorEscenas::Get().registrarEscena("Sprites",std::make_shared<Escena_Sprites>(jugador));
+        //Escena de los laboratorios 7, 8 y 9: sprites, animaciones y colisiones
+        CE::GestorEscenas::Get().registrarEscena("Sprites",std::make_shared<Escena_Sprites>(jugador_sprites));
         //Escena del laboratorio 7: Indiana con sprites por dirección sobre tileMapP7
         CE::GestorEscenas::Get().registrarEscena("Indiana",std::make_shared<Escena_Indiana>());
 

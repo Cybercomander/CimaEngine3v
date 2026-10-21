@@ -23,6 +23,8 @@ namespace IVJ
             //CE::Pool pool{1000};
             CE::Escena* escena_actual;
             std::shared_ptr<Entidad> jugador;
+            //jugador propio de Escena_Sprites (labs 7, 8 y 9)
+            std::shared_ptr<Entidad> jugador_sprites;
     };
 
 }
