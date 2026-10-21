@@ -13,6 +13,8 @@
 #include <Motor/Primitivos/GestorAssets.hpp>
 #include <cstdlib>
 #include <memory>
+#include <Juego/Maquinas/Naves/IdleJugadores.hpp>
+#include <Juego/Maquinas/Bosses/IdleBoss.hpp>
 namespace IVJ
 {
     Escena_Sprites::Escena_Sprites(std::shared_ptr<Entidad>& pref)
@@ -47,26 +49,62 @@ namespace IVJ
         if(!tiles_layers[2].loadTileMap(ASSETS "/mapas/playa_layer3.txt"))
             exit(EXIT_FAILURE);
 
-        //Cargar el sprite
+        //Lab 8 animacinoes
         CE::GestorAssets::Get().agregarTextura(
-                "naveb",                                //llave
-                ASSETS "/sprites/naves/player_b.png",   //path del sprite
-                CE::Vector2D{0.f,0.f},                  //pos dentro de la hoja
-                CE::Vector2D{64.f,64.f});               // dimensiones
+                "nave_sheet",                               //key
+                ASSETS "/sprites/naves/player_sheet.png",   //hoja
+                CE::Vector2D{0.f,0.f},                      //inicio
+                CE::Vector2D{320.f,64.f}                    //dim de la hoja
+            );
 
+        CE::GestorAssets::Get().agregarTextura(
+                "boss_sheet",
+                ASSETS "/sprites/bosses/VileCrustaceanIdleAttack.png",
+                CE::Vector2D{0.f,0.f},
+                CE::Vector2D{924.f,260.f}
+            );
 
         auto trans = player->getTransformada();
         trans->velocidad = CE::Vector2D{500.f,500.f};
         player->setPosicion(300.f,300.f);
         
+        //Lab 8 animaciones
         auto sprite = std::make_shared<CE::ISprite>(
-                CE::GestorAssets::Get().getTextura("naveb"), //textura
+                CE::GestorAssets::Get().getTextura("nave_sheet"), //textura
                 64,64,                                      // dim
                 1.f);                                       // escala
         
         player->addComponente(sprite);
         player->addComponente(std::make_shared<CE::IControl>());
+        
+        //lab 8 animaciones
+        auto me = std::make_shared<IMaquinaEstado>();
+        me->fsm = std::make_shared<IdleJugadores>();
+        player->addComponente(me);
+        //ejecuta onEntrar para inicializar variables
+        player->setFSM(me->fsm);
+        
 
+        //boss entidad
+        auto boss = std::make_shared<Entidad>();
+        auto boss_sprite = std::make_shared<CE::ISprite>(
+                CE::GestorAssets::Get().getTextura("boss_sheet"),
+                154.f,130.f,
+                1.f);
+        auto boss_me = std::make_shared<IVJ::IMaquinaEstado>();
+        //probar patch con nodo IdleBoss
+        boss_me->fsm = std::make_shared<IVJ::IdleBoss>(6,0.25f);
+        auto boss_target = std::make_shared<ITarget>(nullptr);
+        boss_target->setTarget(*player);
+        
+        boss->addComponente(boss_sprite)
+            .addComponente(boss_me)
+            .addComponente(std::make_shared<IRangoAggro>(500.f))
+            .addComponente(boss_target)
+            .setPosicion(500.f,500.f);
+        boss->setFSM(boss_me->fsm);
+
+        objetos.agregarPool(boss);
 
         inicializar=false;
     }
@@ -79,11 +117,18 @@ namespace IVJ
     }
     void Escena_Sprites::onUpdate(float dt)
     {
+        player->inputFSM();
         player->onUpdate(dt);
         SistemaMover(player,dt);
         for(auto& obj: objetos.getPool())
         {
+            obj->inputFSM();
             obj->onUpdate(dt);
+            if(obj->tieneComponente<ITarget>())
+            {
+                auto& tpos = *obj->getComponente<ITarget>()->pos;
+                SistemaNPCLookTarget(*obj,tpos);
+            }
         }
     }
     void Escena_Sprites::onInputs(const CE::Botones& accion)
@@ -144,7 +189,18 @@ namespace IVJ
             CE::Render::Get().AddToDraw(al);
 
         for(auto& obj: objetos.getPool())
+        {   
+            //Lab 8 animaciones
+            if(obj->tieneComponente<IRangoAggro>())
+            {
+                auto rango  = obj->getComponente<IRangoAggro>();
+                auto pos = obj->getTransformada()->posicion;
+                rango->marcador.setPosition({pos.x,pos.y});
+                CE::Render::Get().AddToDraw(rango->marcador);
+            }
+
             CE::Render::Get().AddToDraw(*obj);
+        }
         CE::Render::Get().AddToDraw(*player);
 
 #if DEBUG

@@ -65,7 +65,7 @@ namespace IVJ
         //Escena del laboratorio 7: Indiana con sprites por dirección sobre tileMapP7
         CE::GestorEscenas::Get().registrarEscena("Indiana",std::make_shared<Escena_Indiana>());
 
-        CE::GestorEscenas::Get().cambiarEscena("Menu"); //ejecuta onInit()
+        CE::GestorEscenas::Get().cambiarEscena("Init"); //ejecuta onInit()
         escena_actual = &CE::GestorEscenas::Get().getEscenaActual();
 
         //creamos la Camara

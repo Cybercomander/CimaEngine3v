@@ -186,4 +186,41 @@ IPosicionInicial::IPosicionInicial(float x, float y) : CE::IComponentes{}, pos_i
 
 
 
+    // Lab 8 Animaciones
+    ITarget::ITarget(CE::Objeto *target)
+        :CE::IComponentes{},pos{nullptr}
+    {
+        if(target)
+            pos = &target->getTransformada()->posicion;
+    }
+                                    //& garantiza que no sea nulo
+    void ITarget::setTarget(CE::Objeto& t)
+    {
+        pos = &(t.getTransformada()->posicion);
+    }
+
+    IRangoAggro::IRangoAggro(float radio)
+        :CE::IComponentes{},radio{radio},
+        marcador{sf::CircleShape{radio}}        
+    {
+        marcador.setOrigin({radio,radio});
+        marcador.setFillColor(sf::Color{255,0,0,128});
+    }
+    bool IRangoAggro::estaDentroRango(CE::Objeto& parent,CE::Vector2D& target)
+    {
+        auto pos = parent.getTransformada()->posicion;
+        
+        //asumiendo la formula del circulo x^2+y^2 =r^2
+        //si quiero saber si un punto esta dentro del circulo entonces
+        //el centro en (h,k) podemos calcular la distancia del punto(x,y)
+        //con respecto al centro y el radio.
+        //(x-h)^2 + (y-k)^2 <= r^2
+        //punto es el target y centro la pos del ente 
+        float r2 = radio*radio;
+        float diX = (target.x-pos.x);
+        float diY = (target.y-pos.y);
+        float dist = diX*diX + diY*diY;
+
+        return dist <= r2;
+    }
 } // namespace IVJ

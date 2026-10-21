@@ -352,4 +352,33 @@ class IScore : public CE::IComponentes
     int score{0};
 };
 
+// Lab 8 Animaciones
+class ITarget : public CE::IComponentes
+{
+  public:
+    //puede ser nula por eso *
+    explicit ITarget(CE::Objeto * target);
+    void setTarget(CE::Objeto& t);
+    std::shared_ptr<IComponentes> clonar() const override
+    {
+        return std::make_shared<ITarget>(*this);
+    };
+  public:
+    CE::Vector2D* pos;
+};
+class IRangoAggro : public CE::IComponentes
+{
+  public:
+    explicit IRangoAggro(float radio);
+    virtual ~IRangoAggro(){};
+    bool estaDentroRango(CE::Objeto& parent, CE::Vector2D& target);
+    std::shared_ptr<IComponentes> clonar() const override
+    {
+        return std::make_shared<IRangoAggro>(*this);
+    };
+  public:
+    float radio;
+    sf::CircleShape marcador;
+};
+
 } // namespace IVJ

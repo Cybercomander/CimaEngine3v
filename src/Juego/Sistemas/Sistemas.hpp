@@ -63,6 +63,9 @@ bool revisarDistanciaInteraccion(CE::Objeto &jugador, CE::Objeto &npc, float dis
 // reproducir si tienen 2 o más comidas
 [[maybe_unused]] void SistemaReproducirEnte(CE::Objeto &ente, CE::Pool &pool);
 
+// Lab 8 Animaciones
+[[maybe_unused]] void SistemaNPCLookTarget(CE::Objeto &ente, CE::Vector2D& target);
+
 // DEBUG
 [[maybe_unused]] void pintarLinea(CE::Vector2D &p1, CE::Vector2D &p2, const sf::Color &color = sf::Color::Red);
 
