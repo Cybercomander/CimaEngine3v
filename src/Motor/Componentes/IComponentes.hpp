@@ -1,5 +1,6 @@
 #pragma once
 #include "../Utils/Vector2D.hpp"
+#include <cstdint>
 #include <map>
 #include <memory>
 #include <string>
@@ -398,6 +399,9 @@ class IControl : public IComponentes
 
     /** @brief Entrada: acción secundaria */
     bool sacc;
+
+    /** @brief Botones extra como bits; cada juego define qué significa cada bit */
+    std::uint32_t botones{0};
 
   public:
     /**

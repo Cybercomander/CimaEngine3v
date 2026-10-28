@@ -11,6 +11,8 @@
 #include <Juego/Sistemas/Sistemas.hpp>
 #include <Juego/Maquinas/Boxeadores/NodosBoxeo.hpp>
 #include <algorithm>
+#include <cstdint>
+#include <map>
 #include <cstdlib>
 #include <memory>
 #include <string>
@@ -29,15 +31,22 @@ namespace IVJ
         //vista 3:2 (igual que el viewport 1080x720) con la altura del mundo: zoom 3.75x
         constexpr float VISTA_W = 288.f;
         constexpr float VELOCIDAD = 50.f;
-        constexpr float VEL_CORRER = 100.f;
-        constexpr float RANGO_RIVAL = 30.f; //alcance del jab de un rival
-        constexpr float PISO_Y = 172.f;     //el suelo transitable va de y=152 a y=192
-        //caja de colisión en los pies: el ancla de las hojas es (40,70)
-        const CE::Vector2D CAJA_PIES{16.f,6.f};
+        constexpr float RANGO_RIVAL = 28.f; //centro a centro: medio cuerpo + brazo extendido
+        //lona del ring: el marco de colisión deja los pies entre y=148 y y=160
+        constexpr float PIES_RING = 154.f;
+        constexpr float PIES_PISO = 184.f;  //piso del gimnasio, frente al ring
+
+        //caja del cuerpo sin brazos, medida en las hojas 80x80: x 33-47, y 18-70
+        //(cabeza a pies); los guantes quedan fuera para usarlos después como golpe
+        const CE::Vector2D CAJA_CUERPO{14.f,52.f};
+        //el pivote va al centro del cuerpo para que la caja quede centrada en él
+        constexpr float ORIGEN_X = 40.f, ORIGEN_Y = 44.f;
+        constexpr float PIES_A_CENTRO = 70.f-ORIGEN_Y; //los pies están en y=70 del cuadro
 
         // Fábrica: arma cualquier boxeador con su hoja de animaciones 80x80,
-        // dirección, máquina de estados y caja de colisión en los pies
-        std::shared_ptr<Entidad> crearBoxeador(const std::string& key, float x, float y,
+        // dirección, máquina de estados y caja de colisión del cuerpo.
+        // pies_y: altura de los pies en el mundo
+        std::shared_ptr<Entidad> crearBoxeador(const std::string& key, float x, float pies_y,
                 int dir, const std::shared_ptr<FSM>& inicial)
         {
             auto ente = std::make_shared<Entidad>();
@@ -46,7 +55,7 @@ namespace IVJ
             sprite->width = 80;
             sprite->height = 80;
             sprite->m_sprite.setTextureRect(sf::IntRect{{0,0},{80,80}});
-            sprite->m_sprite.setOrigin({40.f,70.f}); //pies
+            sprite->m_sprite.setOrigin({ORIGEN_X,ORIGEN_Y});
             auto direccion = std::make_shared<IDireccion>();
             direccion->dir = dir;
             auto me = std::make_shared<IMaquinaEstado>();
@@ -54,12 +63,19 @@ namespace IVJ
             //IDireccion antes de setFSM: onEntrar la lee para elegir la fila
             ente->addComponente(sprite)
                 .addComponente(direccion)
-                .addComponente(std::make_shared<CE::IBoundingBox>(CAJA_PIES))
+                .addComponente(std::make_shared<CE::IBoundingBox>(CAJA_CUERPO))
                 .addComponente(me);
-            ente->setPosicion(x,y);
+            ente->setPosicion(x,pies_y-PIES_A_CENTRO);
             ente->setFSM(me->fsm);
             return ente;
         }
+
+        // Comando: cada botón registrado activa un bit de IControl::botones (GDD Avance 4)
+        const std::map<std::string,std::uint32_t> BOTONES_COMBATE = {
+            {"jab",BotonBox::JAB},{"recto",BotonBox::RECTO},
+            {"gancho",BotonBox::GANCHO},{"uppercut",BotonBox::UPPERCUT},
+            {"guardia",BotonBox::GUARDIA},
+            {"esquiva_izq",BotonBox::ESQ_IZQ},{"esquiva_der",BotonBox::ESQ_DER}};
     }
 
     Escena_Round12Col::Escena_Round12Col()
@@ -79,13 +95,18 @@ namespace IVJ
             registrarBotones(sf::Keyboard::Scancode::Left,"izquierda");
             registrarBotones(sf::Keyboard::Scancode::D,"derecha");
             registrarBotones(sf::Keyboard::Scancode::Right,"derecha");
-            registrarBotones(sf::Keyboard::Scancode::LShift,"correr");
-            registrarBotones(sf::Keyboard::Scancode::Space,"golpe");
-            registrarBotones(sf::Keyboard::Scancode::J,"golpe");
+            //controles del GDD (Avance 4)
+            registrarBotones(sf::Keyboard::Scancode::J,"jab");
             registrarBotones(sf::Keyboard::Scancode::K,"recto");
+            registrarBotones(sf::Keyboard::Scancode::L,"gancho");
+            registrarBotones(sf::Keyboard::Scancode::I,"uppercut");
+            registrarBotones(sf::Keyboard::Scancode::LShift,"guardia");
+            registrarBotones(sf::Keyboard::Scancode::RShift,"guardia");
+            registrarBotones(sf::Keyboard::Scancode::Q,"esquiva_izq");
+            registrarBotones(sf::Keyboard::Scancode::E,"esquiva_der");
 
-            //segunda forma: el mapa marca con 'c' los tiles de pared que tocan el suelo
-            //y el TileMap los agrega al pool con su IBoundingBox
+            //segunda forma: el mapa marca con 'c' el marco del ring (cuerdas y límites
+            //de carril) y el TileMap agrega esos tiles al pool con su IBoundingBox
             tiles_layers.push_back(TileMap());
             if(!tiles_layers[0].loadTileMap(ASSETS "/mapas/r12_sanchez_gym_col.txt",objetos))
                 exit(EXIT_FAILURE);
@@ -99,45 +120,40 @@ namespace IVJ
                         R12 "/ROUND12_Sprites_Animaciones/hojas/"+b+".png",
                         CE::Vector2D{0.f,0.f}, CE::Vector2D{480.f,2560.f});
 
-            diego = crearBoxeador("r12a_diego_ureta",60.f,PISO_Y,
-                    IDireccion::DERECHA,std::make_shared<GuardiaJugador>());
+            //Diego y Brandon (sparring del GDD) en el ring
+            diego = crearBoxeador("r12a_diego_ureta",120.f,PIES_RING,
+                    IDireccion::DERECHA,std::make_shared<IdleJugador>());
             diego->addComponente(std::make_shared<CE::IControl>());
 
-            //los 4 rivales reutilizan GuardiaRival/GolpeRival
-            float x = 200.f;
+            //los 4 rivales reutilizan GuardiaRival/GolpeRival; los que esperan turno
+            //están en el piso del gimnasio, frente al ring
+            struct Lugar { float x, pies; };
+            const Lugar lugares[] = {{330.f,PIES_RING},{20.f,PIES_PISO},{604.f,PIES_PISO},{626.f,PIES_PISO}};
             for(int i = 1; i < 5; ++i)
             {
-                //alternar altura para que se pueda pasar entre ellos
-                float y = PISO_Y + (i%2 ? -10.f : 10.f);
-                auto rival = crearBoxeador("r12a_"+boxeadores[i],x,y,
+                auto rival = crearBoxeador("r12a_"+boxeadores[i],lugares[i-1].x,lugares[i-1].pies,
                         IDireccion::IZQUIERDA,std::make_shared<GuardiaRival>());
                 rival->addComponente(std::make_shared<ITarget>(diego.get()))
                     .addComponente(std::make_shared<IRangoAggro>(RANGO_RIVAL));
                 objetos.agregarPool(rival);
-                x += 110.f;
             }
 
             //primera forma + objeto individual de una hoja: Carlos Sánchez con su
-            //cronómetro (pose 4 de spritesheet_npc.png, cada pose de 44x60)
+            //cronómetro (pose 4 de spritesheet_npc.png, 44x60) en la esquina de Diego
             assets.agregarTextura("r12_carlos_npc",
                     R12 "/sprites/personajes/carlos_sanchez/spritesheet_npc.png",
                     CE::Vector2D{0.f,0.f}, CE::Vector2D{220.f,60.f});
             auto carlos = std::make_shared<Entidad>();
             auto carlos_sprite = std::make_shared<CE::ISprite>(assets.getTextura("r12_carlos_npc"),1.f);
             carlos_sprite->m_sprite.setTextureRect(sf::IntRect{{44*4,0},{44,60}});
-            //pivote en los pies para que la caja quede en el piso
-            carlos_sprite->m_sprite.setOrigin({22.f,58.f});
+            //pivote al centro del cuerpo (pies en y=58 del cuadro) para centrar la caja
+            constexpr float CARLOS_ALTO = 56.f;
+            carlos_sprite->m_sprite.setOrigin({22.f,58.f-CARLOS_ALTO/2.f});
             carlos->addComponente(carlos_sprite)
-                .addComponente(std::make_shared<CE::IBoundingBox>(CAJA_PIES));
-            carlos->setPosicion(MUNDO_W-50.f,PISO_Y);
+                .addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{14.f,CARLOS_ALTO}));
+            carlos->setPosicion(66.f,150.f-CARLOS_ALTO/2.f);
             carlos->onUpdate(0.f); //no se mueve: colocar el sprite una vez
             objetos.agregarPool(carlos);
-
-            //primera forma: pared invisible bajo el ring (la capa de colisión no la trae)
-            auto limite = std::make_shared<Entidad>();
-            limite->addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{MUNDO_W,8.f}));
-            limite->setPosicion(MUNDO_W/2.f,MUNDO_H+4.f);
-            objetos.agregarPool(limite);
 
             //cámara propia con zoom al mundo nativo; sigue al foco (ventana de ancho 0)
             foco = std::make_shared<Entidad>();
@@ -163,10 +179,9 @@ namespace IVJ
     void Escena_Round12Col::onUpdate(float dt)
     {
         diego->inputFSM();
-        //la velocidad depende del estado: guardia y golpes no se desplazan
-        auto estado = diego->getComponente<IMaquinaEstado>()->fsm->getNombre();
-        float vel = estado == "CorrerJugador" ? VEL_CORRER
-                  : estado == "CaminarJugador" ? VELOCIDAD : 0.f;
+        //solo se desplaza caminando: reposo, guardia, golpes y esquivas no
+        bool camina = diego->getComponente<IMaquinaEstado>()->fsm->getNombre() == "CaminarJugador";
+        float vel = camina ? VELOCIDAD : 0.f;
         diego->getTransformada()->velocidad = CE::Vector2D{vel,vel*0.6f};
         //orden del lab 9: onUpdate guarda pos_prev, luego mover y al final colisionar
         diego->onUpdate(dt);
@@ -175,7 +190,7 @@ namespace IVJ
         {
             obj->inputFSM();
             obj->onUpdate(dt);
-            //paredes, rivales, Carlos y el límite regresan a Diego a su posición anterior
+            //cuerdas, límites de carril, Brandon y Carlos regresan a Diego a su posición anterior
             SistemaColAABBMid(*diego,*obj,true);
         }
         float x = std::clamp(diego->getTransformada()->posicion.x,VISTA_W/2.f,MUNDO_W-VISTA_W/2.f);
@@ -192,9 +207,12 @@ namespace IVJ
         if(n == "abajo")     control->abj = presionado;
         if(n == "izquierda") control->izq = presionado;
         if(n == "derecha")   control->der = presionado;
-        if(n == "correr")    control->run = presionado;
-        if(n == "golpe")     control->acc = presionado;
-        if(n == "recto")     control->sacc = presionado;
+        auto boton = BOTONES_COMBATE.find(n);
+        if(boton != BOTONES_COMBATE.end())
+        {
+            if(presionado) control->botones |= boton->second;
+            else           control->botones &= ~boton->second;
+        }
     }
 
     void Escena_Round12Col::onRender()
@@ -202,18 +220,19 @@ namespace IVJ
         for(auto& al: tiles_layers)
             CE::Render::Get().AddToDraw(al);
 
-        //profundidad: se dibuja primero lo que está más arriba en pantalla
+        //profundidad: se dibuja primero lo que está más arriba en pantalla;
+        //Diego va al final para quedar al frente cuando empata en altura
         std::vector<CE::Objeto*> orden;
         orden.reserve(objetos.getPool().size()+1);
         for(auto& obj: objetos.getPool())
             orden.push_back(obj.get());
         orden.push_back(diego.get());
-        std::sort(orden.begin(),orden.end(),[](CE::Objeto* a, CE::Objeto* b){
+        std::stable_sort(orden.begin(),orden.end(),[](CE::Objeto* a, CE::Objeto* b){
                 return a->getTransformada()->posicion.y < b->getTransformada()->posicion.y;});
 
-        for(auto* obj: orden)
-        {
 #if DEBUG
+        //los rangos van abajo de todos los personajes para no taparlos
+        for(auto* obj: orden)
             if(auto rango = obj->getComponente<IRangoAggro>())
             {
                 auto p = obj->getTransformada()->posicion;
@@ -221,7 +240,7 @@ namespace IVJ
                 CE::Render::Get().AddToDraw(rango->marcador);
             }
 #endif
+        for(auto* obj: orden)
             CE::Render::Get().AddToDraw(*obj);
-        }
     }
 }

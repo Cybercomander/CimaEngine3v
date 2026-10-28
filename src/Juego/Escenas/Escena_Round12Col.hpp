@@ -3,10 +3,12 @@
 namespace IVJ
 {
     // Lab 9 Colisiones con los assets de ROUND12 (Sanchez Boxing GYM, mundo nativo 640x192):
-    // - tilemap de ROUND12 con 'c'/'n' (assets/mapas/r12_sanchez_gym_col.txt)
-    // - IBoundingBox en los pies de cada boxeador y en el límite inferior del ring
-    // - Carlos Sánchez como objeto individual tomado de su hoja de poses
-    // - nuevas hojas de animación de 4 direcciones (guardia, caminar, correr, jab, recto)
+    // - el combate es dentro del ring: el tilemap marca con 'c' las cuerdas y los
+    //   límites de carril (assets/mapas/r12_sanchez_gym_col.txt)
+    // - IBoundingBox en el cuerpo de cada boxeador (cabeza a pies, sin brazos)
+    // - Carlos Sánchez en la esquina, como objeto individual tomado de su hoja de poses
+    // - todas las animaciones de 4 direcciones con los controles del GDD (Avance 4):
+    //   WASD moverse, J jab, K recto, L gancho, I uppercut, Shift guardia, Q/E esquivas
     class Escena_Round12Col : public CE::Escena
     {
         public:

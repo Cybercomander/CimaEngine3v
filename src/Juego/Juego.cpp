@@ -76,7 +76,7 @@ namespace IVJ
         //Lab 8 con los sprites propios de ROUND12: animaciones de boxeadores
         CE::GestorEscenas::Get().registrarEscena("Round12",std::make_shared<Escena_Round12>());
         //Escena del laboratorio 9 tal como la propone la guía: colisiones
-        CE::GestorEscenas::Get().registrarEscena("Lab9",std::make_shared<Escena_Lab9>());
+        CE::GestorEscenas::Get().registrarEscena("Colisiones",std::make_shared<Escena_Lab9>());
         //Lab 9 con los assets de ROUND12: colisiones y animaciones en 4 direcciones
         CE::GestorEscenas::Get().registrarEscena("Round12Col",std::make_shared<Escena_Round12Col>());
 
