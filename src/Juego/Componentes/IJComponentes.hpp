@@ -381,4 +381,20 @@ class IRangoAggro : public CE::IComponentes
     sf::CircleShape marcador;
 };
 
+// Lab 9 Round12: hacia dónde mira la entidad. Vive en la entidad (no en el nodo)
+// porque los nodos de la máquina se recrean en cada transición.
+// El orden coincide con las direcciones de las hojas de ROUND12
+class IDireccion : public CE::IComponentes
+{
+  public:
+    enum Dir { ADELANTE = 0, ATRAS, DERECHA, IZQUIERDA };
+    std::shared_ptr<IComponentes> clonar() const override
+    {
+        return std::make_shared<IDireccion>(*this);
+    };
+
+  public:
+    int dir{DERECHA};
+};
+
 } // namespace IVJ

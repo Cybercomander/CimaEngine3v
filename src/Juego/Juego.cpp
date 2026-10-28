@@ -22,6 +22,10 @@
 #include <Juego/Escenas/Escena_Camara.hpp>
 #include <Juego/Escenas/Escena_Sprites.hpp>
 #include <Juego/Escenas/Escena_Indiana.hpp>
+#include <Juego/Escenas/Escena_Lab8.hpp>
+#include <Juego/Escenas/Escena_Round12.hpp>
+#include <Juego/Escenas/Escena_Lab9.hpp>
+#include <Juego/Escenas/Escena_Round12Col.hpp>
 
 
 
@@ -67,6 +71,14 @@ namespace IVJ
         CE::GestorEscenas::Get().registrarEscena("Sprites",std::make_shared<Escena_Sprites>(jugador_sprites));
         //Escena del laboratorio 7: Indiana con sprites por dirección sobre tileMapP7
         CE::GestorEscenas::Get().registrarEscena("Indiana",std::make_shared<Escena_Indiana>());
+        //Escena del laboratorio 8 tal como la propone la guía: nave y jefe animados
+        CE::GestorEscenas::Get().registrarEscena("Animaciones",std::make_shared<Escena_Lab8>());
+        //Lab 8 con los sprites propios de ROUND12: animaciones de boxeadores
+        CE::GestorEscenas::Get().registrarEscena("Round12",std::make_shared<Escena_Round12>());
+        //Escena del laboratorio 9 tal como la propone la guía: colisiones
+        CE::GestorEscenas::Get().registrarEscena("Lab9",std::make_shared<Escena_Lab9>());
+        //Lab 9 con los assets de ROUND12: colisiones y animaciones en 4 direcciones
+        CE::GestorEscenas::Get().registrarEscena("Round12Col",std::make_shared<Escena_Round12Col>());
 
         CE::GestorEscenas::Get().cambiarEscena("Init"); //ejecuta onInit()
         escena_actual = &CE::GestorEscenas::Get().getEscenaActual();
@@ -100,7 +112,7 @@ namespace IVJ
                     CE::Vector2D{0.f,0.f}, //posición
                     CE::Vector2D{1024,720}, //dimensiones
                     CE::Vector2D{400,300}, //ventana (líneas punteadas)
-                    100.f //foco (líneas sólidas)
+                    100.f //foco (líneas sólidas) salidas 
                     )
                 );
     }

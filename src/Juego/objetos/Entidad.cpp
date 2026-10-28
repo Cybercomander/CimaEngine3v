@@ -59,12 +59,14 @@ void Entidad::inputFSM()
     if (!getComponente<IMaquinaEstado>() || !getComponente<IMaquinaEstado>()->fsm)
         return;
     auto mq = getComponente<IMaquinaEstado>();
-    // Lab 8 Animaciones: Pequeño facade usando el nombre del nodo
-    if (mq->fsm->getNombre().find("Boss") != std::string::npos)
+    // Lab 8 Animaciones: Pequeño facade. Se revisa el tipo del nodo (no su nombre)
+    // para que cualquier nodo con target (bosses, rivales de Round12) use sus inputs
+    if (auto nodo_target = std::dynamic_pointer_cast<FSMBoss>(mq->fsm))
     {
-        auto target = getComponente<ITarget>()->pos;
-        // usar el nodo correcto de boss
-        auto n_estado = std::static_pointer_cast<FSMBoss>(mq->fsm)->onInputs(*this, *target);
+        auto target_comp = getComponente<ITarget>();
+        if (!target_comp || !target_comp->pos)
+            return;
+        auto n_estado = nodo_target->onInputs(*this, *target_comp->pos);
         std::shared_ptr<FSM> estado(n_estado);
         if (estado)
             setFSM(estado);

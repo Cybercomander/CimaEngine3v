@@ -1,0 +1,83 @@
+{
+  "version": "1.0",
+  "game": "ROUND 12",
+  "format": "RGBA PNG con transparencia",
+  "frame_size_px": [
+    80,
+    80
+  ],
+  "frame_sequence": "frame_00.png a frame_05.png",
+  "loop": "caminar/guardia: loop; golpes/esquivas: one-shot de 6 cuadros",
+  "directions": [
+    "adelante",
+    "atras",
+    "derecha",
+    "izquierda"
+  ],
+  "actions": [
+    "caminar",
+    "guardia",
+    "jab",
+    "recto",
+    "gancho",
+    "uppercut",
+    "esquiva_izquierda",
+    "esquiva_derecha"
+  ],
+  "frames_per_action": 6,
+  "origin_px": [
+    40,
+    70
+  ],
+  "fps_recommended": 60,
+  "duration_ms_by_action": {
+    "caminar": 110,
+    "guardia": 120,
+    "jab": 70,
+    "recto": 75,
+    "gancho": 80,
+    "uppercut": 85,
+    "esquiva_izquierda": 90,
+    "esquiva_derecha": 90
+  },
+  "sprites": {
+    "diego_ureta": {
+      "type": "boxeador",
+      "frame_count": 192,
+      "actions": 8,
+      "directions": 4
+    },
+    "brandon_salazar": {
+      "type": "boxeador",
+      "frame_count": 192,
+      "actions": 8,
+      "directions": 4
+    },
+    "javier_castaneda": {
+      "type": "boxeador",
+      "frame_count": 192,
+      "actions": 8,
+      "directions": 4
+    },
+    "kevin_ramirez": {
+      "type": "boxeador",
+      "frame_count": 192,
+      "actions": 8,
+      "directions": 4
+    },
+    "ricardo_oropeza": {
+      "type": "boxeador",
+      "frame_count": 192,
+      "actions": 8,
+      "directions": 4
+    },
+    "carlos_sanchez": {
+      "type": "NPC entrenador (movimientos de demostración)",
+      "frame_count": 192,
+      "actions": 8,
+      "directions": 4
+    }
+  },
+  "note": "Generado mediante reensamblaje pixel a pixel de sprites originales. Cabezas, vestimenta y paletas se reutilizan. Miembros en movimiento, vista posterior y transición de golpes son nuevos cuadros derivados; no hay animaciones del GDD para esos estados.",
+  "total_png_frames": 1152
+}
