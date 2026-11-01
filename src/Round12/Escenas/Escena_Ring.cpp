@@ -153,7 +153,9 @@ namespace Round12
             if(l.frontera && seguidos >= 4 && cfg.objetivo != Objetivo::PERDER_FORZADO)
                 combate->barras(false).resistencia = 0.f;
         }
-        if(!bd->guardia) def.setFSM(std::make_shared<AturdidoR12>());
+        // solo los golpes fuertes aturden (si no, una ráfaga de jabs deja al rival sin responder)
+        bool fuerte = ba->ultimo == Golpe::GANCHO || ba->ultimo == Golpe::UPPERCUT || l.combo || l.contragolpe;
+        if(!bd->guardia && fuerte) def.setFSM(std::make_shared<AturdidoR12>());
     }
 
     void Escena_Ring::simular(float dt)

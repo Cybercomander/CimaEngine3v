@@ -7,7 +7,8 @@ target_sources(CimaEngine3v PRIVATE ${r12_cpp})
 
 # Pruebas de la lógica pura (sin SFML): ctest --test-dir build -C Debug
 file(GLOB r12_logica CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/Logica/*.cpp")
-add_executable(Round12Pruebas ${r12_logica} pruebas/pruebas_logica.cpp)
+add_executable(Round12Pruebas ${r12_logica} Datos/Niveles.cpp pruebas/pruebas_logica.cpp)
+target_link_libraries(Round12Pruebas PRIVATE SFML::Graphics) # solo sf::Color de Datos/Niveles
 target_include_directories(Round12Pruebas PRIVATE ${CMAKE_SOURCE_DIR}/src)
 target_compile_features(Round12Pruebas PRIVATE cxx_std_17)
 if(NOT MSVC)

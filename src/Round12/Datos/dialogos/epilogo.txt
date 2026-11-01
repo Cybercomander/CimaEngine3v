@@ -1,0 +1,6 @@
+narrador|0|-|Ricardo controló la distancia y anuló el gancho de Diego. Ganó por decisión unánime, sin nocaut ni polémica.
+narrador|0|-|El castigo fue devastador. Treinta horas después...
+narrador|0|-|Diego despierta en el hospital. Sus papás y Carlos están a su lado.
+carlos|1|-|Los campeones no se definen en el primer round. Se definen en el último, cuando ya no queda aire.
+carlos|2|-|Solo sigue de pie el que se preparó para llegar ahí.
+diego|0|-|Entonces voy a prepararme para llegar al round 12. El próximo año, el campeón voy a ser yo.

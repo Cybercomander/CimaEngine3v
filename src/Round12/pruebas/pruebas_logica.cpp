@@ -11,7 +11,10 @@
 #include <Round12/Logica/EstiloIA.hpp>
 #include <Round12/Logica/Combate.hpp>
 #include <Round12/Logica/Ritmo.hpp>
+#include <Round12/Datos/Niveles.hpp>
+#include <Round12/Rutas.hpp>
 #include <cstdio>
+#include <filesystem>
 #include <fstream>
 #include <random>
 #include <cmath>
@@ -247,10 +250,43 @@ namespace
         CHECK(pulsoMasCercano(1.08f) == 2);
         CHECK(pulsoMasCercano(0.95f) == 2);
     }
+
+    void revisarSecuencia(const std::vector<Paso>& pasos)
+    {
+        CHECK(!pasos.empty() && pasos.front().id == "prologo");
+        CHECK(!pasos.empty() && pasos.back().tipo == TipoPaso::FIN);
+        for(auto& p : pasos)
+        {
+            if(!existeNivel(p.tipo,p.id)) { std::cout<<"  sin nivel: "<<p.id<<"\n"; CHECK(false); }
+            if(p.tipo == TipoPaso::CINEMATICA)
+            {
+                auto ruta = std::string(R12_DATOS) + "/dialogos/" + p.id + ".txt";
+                if(!std::filesystem::exists(ruta)) { std::cout<<"  sin diálogo: "<<ruta<<"\n"; CHECK(false); }
+            }
+        }
+    }
+
+    void pruebasHistoria()
+    {
+        auto demo = secuenciaDemo();
+        revisarSecuencia(demo);
+        revisarSecuencia(secuenciaHistoria());
+        // los 3 niveles del demo en orden: gimnasio, playa y Mexicali contra Javier
+        std::vector<std::string> niveles;
+        for(auto& p : demo)
+            if(p.id == "gym_tutorial" || p.id == "playa" || p.id == "javier") niveles.push_back(p.id);
+        CHECK((niveles == std::vector<std::string>{"gym_tutorial","playa","javier"}));
+        bool hay_semifinal = false;
+        for(auto& p : secuenciaHistoria())
+            if(p.id == "semifinal_ricardo") hay_semifinal = pelea(p.id).objetivo == Objetivo::PERDER_FORZADO;
+        CHECK(hay_semifinal);
+        CHECK(pelea("final_ricardo").rounds == 12);
+    }
 }
 
 int main()
 {
+    pruebasHistoria();
     pruebasRitmo();
     pruebasCombate();
     pruebasIA();

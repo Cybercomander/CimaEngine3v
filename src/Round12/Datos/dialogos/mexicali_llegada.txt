@@ -1,0 +1,4 @@
+narrador|0|03_gimnasio_mexicali|Seis meses después. Gimnasio de Box de Mexicali: torneo internacional «Guerra en la Frontera».
+narrador|0|03_gimnasio_mexicali|Gradas llenas, banderas de México y Estados Unidos y luces blancas sobre el ring.
+javier|0|03_gimnasio_mexicali|Soy Javier Castañeda, de Ensenada. En mi puerto me dicen «El Toro». Nadie me aguanta dos rounds.
+diego|1|03_gimnasio_mexicali|Pues vamos a ver si tú aguantas tres.

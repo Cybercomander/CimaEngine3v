@@ -55,6 +55,7 @@ namespace Round12
     void Escena_Cinematica::actualizar(float dt)
     {
         letras += 40.f*dt; // máquina de escribir
+        if(JuegoR12::prueba.autopiloto && letras > 60.f) terminar = true; // prueba sin teclado
         if(!terminar) return;
         terminar = false;
         Partida::Get().historia().avanzar();

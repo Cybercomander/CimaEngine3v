@@ -1,0 +1,4 @@
+narrador|0|03_gimnasio_mexicali|«Guerra en la Frontera», un año después. La final.
+ricardo|1|03_gimnasio_mexicali|Creciste, Diego. Pero esto dura doce rounds.
+diego|1|03_gimnasio_mexicali|Por eso entrené. Para seguir de pie en el último.
+carlos|1|03_gimnasio_mexicali|Guardia arriba, maneja el aire y toma agua en cada esquina. ¡Vamos, campeón!

@@ -1,0 +1,4 @@
+narrador|0|03_gimnasio_mexicali|Diego gana su primera pelea en «Guerra en la Frontera».
+narrador|0|03_gimnasio_mexicali|Desde las gradas, alguien no le quita la vista de encima.
+ricardo|0|03_gimnasio_mexicali|Buen gancho... pero deja la guardia abierta. Nos vemos en la semifinal, niño.
+narrador|0|-|Fin del demo de ROUND 12. Gracias por jugar.

@@ -1,6 +1,7 @@
 #include "Escena_Resultados.hpp"
 #include <Round12/JuegoR12.hpp>
 #include <Round12/Logica/Partida.hpp>
+#include <iostream>
 
 namespace Round12
 {
@@ -12,10 +13,17 @@ namespace Round12
             {"Velocidad",&Atributos::velocidad},{"Defensa",&Atributos::defensa},{"Poder",&Atributos::poder}};
     }
 
+    void Escena_Resultados::actualizar(float dt)
+    {
+        t += dt;
+        if(JuegoR12::prueba.autopiloto && t > 1.5f) { t = -1000.f; alPresionar("jab",true); }
+    }
+
     void Escena_Resultados::alPresionar(const std::string& a, bool p)
     {
         if(!p || (a != "jab" && a != "aceptar")) return;
         auto& partida = Partida::Get();
+        std::cout<<"[prueba-r12] resultados: "<<partida.resumen<<std::endl;
         partida.alTerminarNivel();
         partida.historia().avanzar();
         irAPaso();

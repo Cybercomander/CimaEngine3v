@@ -36,6 +36,7 @@ namespace Round12
             c.botones = u(rng) < 0.5f ? BB::ESQ_IZQ : BB::ESQ_DER;
             return;
         }
+        if(diego_ataca && u(rng) < e.prob_guardia) { c.botones = BB::GUARDIA; return; }
         siguiente = elegirGolpe(e.pesos_golpe,u(rng));
         bool alcanza = dist < 34.f && std::abs(dy) < 8.f;
         bool con_aire = b->barras.aire > costoAire(siguiente,b->atr) + 5.f;
