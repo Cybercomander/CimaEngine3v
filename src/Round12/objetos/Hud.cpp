@@ -2,6 +2,7 @@
 #include <Motor/Primitivos/GestorAssets.hpp>
 #include <Motor/Render/Render.hpp>
 #include <Round12/Logica/Stats.hpp>
+#include <Round12/objetos/FabricaR12.hpp>
 #include <algorithm>
 
 namespace Round12
@@ -53,7 +54,7 @@ namespace Round12
     void Barra::dibujar(sf::RenderTarget& t, sf::Vector2f tam)
     {
         if(!visible) return;
-        float w = ancho*tam.x, h = std::max(8.f, tam.y*0.018f);
+        float w = ancho*tam.x, h = std::max(6.f, tam.y*0.0125f);
         float x = pos.x*tam.x, y = pos.y*tam.y;
         float frac = std::clamp(*valor / std::max(1.f,*maximo), 0.f, 1.f);
         sf::RectangleShape fondo{{w,h}};
@@ -66,9 +67,9 @@ namespace Round12
         lleno.setFillColor(color);
         t.draw(fondo);
         t.draw(lleno);
-        auto txt = texto(etiqueta,(unsigned)std::max(10.f,h*0.95f),sf::Color::White);
+        auto txt = texto(etiqueta,(unsigned)std::max(9.f,h*1.1f),sf::Color::White);
         auto b = txt.getLocalBounds();
-        txt.setPosition({espejo ? x + w + 6.f : x - b.size.x - 6.f, y - h*0.25f});
+        txt.setPosition({espejo ? x + w + 6.f : x - b.size.x - 6.f, y - h*0.35f});
         t.draw(txt);
     }
 
@@ -82,17 +83,33 @@ namespace Round12
 
     namespace { const float CIEN = BARRA_MAX; }
 
+    void Retrato::dibujar(sf::RenderTarget& t, sf::Vector2f tam)
+    {
+        if(!visible) return;
+        sf::Sprite s{textura(archivo())};
+        float k = lado/96.f*tam.y/720.f;
+        s.setScale({k,k});
+        s.setPosition({pos.x*tam.x,pos.y*tam.y});
+        t.draw(s);
+    }
+
+    void agregarBandas(Widget& raiz)
+    {
+        raiz.agregar(std::make_unique<Panel>(sf::FloatRect{{0.f,0.f},{1.f,56.f/720.f}},sf::Color(10,12,18,235)));
+        raiz.agregar(std::make_unique<Panel>(sf::FloatRect{{0.f,664.f/720.f},{1.f,56.f/720.f}},sf::Color(10,12,18,235)));
+    }
+
     void agregarBarras(Widget& raiz, const Barras& b, bool derecha, const std::string& nombre_boxeador)
     {
-        float x = derecha ? 0.60f : 0.12f, w = 0.28f;
+        float x = derecha ? 0.63f : 0.10f, w = 0.27f;
         raiz.agregar(std::make_unique<Etiqueta>([nombre_boxeador]{ return nombre_boxeador; },
-                    sf::Vector2f{derecha ? x : x, 0.015f}, 0.03f));
+                    sf::Vector2f{derecha ? 0.70f : 0.02f, 0.926f}, 0.028f));
         const char* et[] = {"RES","AIRE","SED","CONC"};
         const float* val[] = {&b.resistencia,&b.aire,&b.sed,&b.concentracion};
         const float* max[] = {&b.resistencia_max,&CIEN,&CIEN,&CIEN};
         sf::Color col[] = {COLOR_RESISTENCIA,COLOR_AIRE,COLOR_SED,COLOR_CONCENTRACION};
         for(int i = 0; i < 4; ++i)
             raiz.agregar(std::make_unique<Barra>(et[i],val[i],max[i],col[i],
-                        sf::Vector2f{x,0.06f + i*0.032f},w,derecha));
+                        sf::Vector2f{x,0.009f + i*0.0175f},w,derecha));
     }
 }

@@ -48,6 +48,14 @@ namespace Round12
             struct Lanzamiento { bool combo{false}, contragolpe{false}, frontera{false}; } pendiente;
             bool esquivaba[2]{false,false};
             DetectorAgacharse agacharse;
+            // retratos del HUD: emoción de cada boxeador (0 = Diego, 1 = rival)
+            float golpeado[2]{0.f,0.f}, sonrisa[2]{0.f,0.f};
+            std::string emo_fase[2];          // la fase manda (presentación, esquina, fin); "" = automático
+            std::string emocion(int i) const;
+            // Carlos camina a la esquina de Diego entre rounds y regresa junto a la escalera
+            Pt carlos_casa{0,0}, carlos_meta{0,0};
+            bool carlos_habla{false};
+            void mandarCarlos(bool a_esquina);
         protected:
             void cargar() override;
             void reiniciar() override;

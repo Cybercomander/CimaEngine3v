@@ -8,6 +8,7 @@
 #include <Round12/objetos/FabricaR12.hpp>
 #include <Round12/objetos/Vineta.hpp>
 #include <algorithm>
+#include <cmath>
 #include <functional>
 #include <iostream>
 
@@ -76,7 +77,11 @@ namespace Round12
         br->atr = a_rival;
         br->mira_fijo = true;
         // Carlos abajo de la esquina de Diego, junto a la escalera
-        carlos = FabricaR12::npc(Personaje::CARLOS,esc->escalera_izq.x - 170.f,esc->escalera_izq.y - 150.f,DERECHA);
+        carlos_casa = {esc->escalera_izq.x - 170.f,esc->escalera_izq.y - 150.f};
+        carlos_meta = carlos_casa;
+        carlos_habla = false;
+        carlos = FabricaR12::npc(Personaje::CARLOS,carlos_casa.x,carlos_casa.y,DERECHA);
+        for(int i = 0; i < 2; ++i) { golpeado[i] = sonrisa[i] = 0.f; emo_fase[i].clear(); }
 
         lista.limpiar();
         for(const auto& pr : esc->props) lista.agregar(FabricaR12::prop(pr));
@@ -89,14 +94,26 @@ namespace Round12
             [this](sf::RenderTarget& t){ dibujarRival(t); }));
 
         hud.limpiar();
-        hud.agregar(std::make_unique<Panel>(sf::FloatRect{{0.f,0.f},{1.f,0.25f}},sf::Color(0,0,0,150)));
+        agregarBandas(hud);
         agregarBarras(hud,combate->barras(true),false,"Diego");
         agregarBarras(hud,combate->barras(false),true,Round12::nombre(cfg.rival));
+        const std::string rival_hoja = hoja(cfg.rival);
+        hud.agregar(std::make_unique<Retrato>([this]{
+                    return "sprites/personajes/diego_ureta/retratos/" + emocion(0) + ".png"; },
+                    sf::Vector2f{4.f/1080.f,4.f/720.f},48.f));
+        hud.agregar(std::make_unique<Retrato>([this,rival_hoja]{
+                    return "sprites/personajes/" + rival_hoja + "/retratos/" + emocion(1) + ".png"; },
+                    sf::Vector2f{1028.f/1080.f,4.f/720.f},48.f));
+        hud.agregar(std::make_unique<Etiqueta>([this]{
+                    return "ROUND " + std::to_string(round_actual) + "/" + std::to_string(cfg.rounds);
+                    },sf::Vector2f{0.5f,0.004f},0.03f,COLOR_CONCENTRACION,true));
         hud.agregar(std::make_unique<Etiqueta>([this]{
                     int s = std::max(0,(int)std::ceil(reloj));
-                    return "ROUND " + std::to_string(round_actual) + "/" + std::to_string(cfg.rounds) +
-                        "   " + std::to_string(s/60) + ":" + (s%60 < 10 ? "0" : "") + std::to_string(s%60);
-                    },sf::Vector2f{0.5f,0.2f},0.04f,sf::Color::White,true));
+                    return std::to_string(s/60) + ":" + (s%60 < 10 ? "0" : "") + std::to_string(s%60);
+                    },sf::Vector2f{0.5f,0.038f},0.026f,sf::Color::White,true));
+        hud.agregar(std::make_unique<Etiqueta>([]{
+                    return std::string("J K L I golpes · Shift guardia · Q/E esquiva · Q+E agacharse");
+                    },sf::Vector2f{0.5f,0.968f},0.018f,sf::Color(190,190,190),true));
         fase.reset();
         cambiarFase(std::make_unique<Presentacion>());
     }
@@ -157,6 +174,8 @@ namespace Round12
         }
         Lanzamiento l = atk_diego ? pendiente : Lanzamiento{};
         combate->recibir(!atk_diego,ba->ultimo,bd->guardia,l.combo,l.contragolpe,l.frontera,bd->agachado);
+        golpeado[atk_diego ? 1 : 0] = 0.4f;
+        if(l.combo) sonrisa[atk_diego ? 0 : 1] = 1.f;
         if(atk_diego)
         {
             seguidos++;
@@ -173,6 +192,7 @@ namespace Round12
     {
         tiempo_total += dt;
         consejo = std::max(0.f,consejo - dt);
+        for(int i = 0; i < 2; ++i) { golpeado[i] = std::max(0.f,golpeado[i] - dt); sonrisa[i] = std::max(0.f,sonrisa[i] - dt); }
         if(piloto) piloto->pensar(dt,*diego,*rival,control);
         *diego->getComponente<CE::IControl>() = control;
         cerebro->pensar(dt,*rival,*diego,*rival->getComponente<CE::IControl>());
@@ -216,7 +236,47 @@ namespace Round12
         if(siguiente) { fase = std::move(siguiente); fase->entrar(*this); }
         if(!fase) return;
         fase->actualizar(*this,dt);
-        if(auto* a = carlos->getComponente<IAnimR12>()) { a->actualizar(dt); aplicarCuadro(*carlos); }
+        // Carlos: camina hacia su meta; al llegar habla (dialogo/hablando) o espera (idle)
+        auto& pc = carlos->getTransformada()->posicion;
+        float dx = carlos_meta.x - pc.x, dy = carlos_meta.y - pc.y, d = std::hypot(dx,dy);
+        auto* a = carlos->getComponente<IAnimR12>();
+        if(d > 4.f)
+        {
+            float v = std::min(d,300.f*dt);
+            pc.x += dx/d*v; pc.y += dy/d*v;
+            a->dialogo = false;
+            a->dir = direccionHacia(dx,dy);
+            a->poner(Accion::CAMINAR);
+        }
+        else if(carlos_habla)
+        {
+            a->dir = direccionHacia(diego->getTransformada()->posicion.x - pc.x,0.f);
+            if(!a->dialogo) { a->dialogo = true; a->emocion = 4; a->cuadro = 0; a->t = 0.f; } // hablando
+            // la hoja de diálogo tiene 4 cuadros en ciclo
+            a->t += dt*1000.f;
+            if(a->t >= 150.f) { a->t = 0.f; a->cuadro = (a->cuadro + 1) % 4; }
+        }
+        else { a->dialogo = false; a->dir = DERECHA; a->poner(Accion::IDLE); }
+        if(!a->dialogo) a->actualizar(dt);
+        carlos->onUpdate(0.f);
+        aplicarCuadro(*carlos);
+    }
+
+    void Escena_Ring::mandarCarlos(bool a_esquina)
+    {
+        carlos_meta = a_esquina ? Pt{esc->esquina_diego.x - 150.f,esc->ring_frente_y + 40.f} : carlos_casa;
+        carlos_habla = a_esquina;
+    }
+
+    std::string Escena_Ring::emocion(int i) const
+    {
+        if(!emo_fase[i].empty()) return emo_fase[i];
+        const auto& b = combate->barras(i == 0);
+        if(golpeado[i] > 0.f) return "sorprendido";
+        if(sonrisa[i] > 0.f) return "sonriendo";
+        if(b.aire < 25.f) return "cansado";
+        if(i == 0 && b.concentracion >= 100.f) return "decidido";
+        return "neutral";
     }
 
     void Escena_Ring::terminar(bool gano, bool de_pie, const std::string& como)

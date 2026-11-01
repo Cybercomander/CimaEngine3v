@@ -49,7 +49,7 @@ namespace Round12
             m["mexicali"] = gimnasio("03_gimnasio_mexicali_torneo",
                 {{0,200,330,520},{1590,200,330,520},{640,930,640,150},{100,1010,360,70},{1460,1010,370,70},
                  {0,830,150,140},{1770,830,150,140}},
-                {{"cartel_mexicali",{1080,330}},{"valla",{560,1000}},{"banderola",{1400,1000},false},
+                {{"cartel_mexicali",{1370,1075},false},{"valla",{560,1000}},{"banderola",{1400,1000},false},
                  {"silla",{215,770},false},{"gradas",{760,320}}});
 
             EscenarioR12 sf;

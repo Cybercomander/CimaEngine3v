@@ -65,6 +65,7 @@ namespace Round12
             bool termino{false};
             bool dialogo{false};  // usa la hoja de diálogo (emocion = fila)
             int emocion{5};       // neutral
+            std::string hoja;     // carpeta del personaje (motor/hojas/<hoja>.png)
     };
 
     enum class TipoItem { BOTELLA, ISOTONICA, PLATANO, TOALLA };

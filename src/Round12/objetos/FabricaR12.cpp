@@ -62,6 +62,9 @@ namespace Round12
         auto* a = e.getComponente<IAnimR12>();
         auto* s = e.getComponente<CE::ISprite>();
         if(!a || !s) return;
+        // cambia de hoja solo cuando hace falta (la textura ya está cargada)
+        auto& tex = textura("motor/hojas/" + a->hoja + (a->dialogo ? "_dialogo.png" : ".png"));
+        if(&s->m_sprite.getTexture() != &tex) s->m_sprite.setTexture(tex);
         auto r = a->dialogo ? rectDialogo(a->emocion,a->dir,a->cuadro % 4) : rectCuadro(a->accion,a->dir,a->cuadro);
         s->m_sprite.setTextureRect(sf::IntRect{{r.x,r.y},{r.w,r.h}});
     }
@@ -93,6 +96,7 @@ namespace Round12
                 direccion->dir = dir;
                 auto anim = std::make_shared<IAnimR12>();
                 anim->dir = dir;
+                anim->hoja = hoja(p);
                 ente->addComponente(sprite).addComponente(direccion).addComponente(anim)
                     .addComponente(std::make_shared<CE::IControl>());
                 ente->setPosicion(x,pies_y);

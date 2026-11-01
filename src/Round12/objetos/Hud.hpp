@@ -79,9 +79,24 @@ namespace Round12
             bool centrada;
     };
 
-    // las 4 barras del GDD para un boxeador (lado derecho en espejo para el rival)
+    // retrato de 96x96 (sprites/personajes/<p>/retratos/<emocion>.png); lado = px de pantalla
+    class Retrato : public Widget
+    {
+        public:
+            Retrato(std::function<std::string()> archivo, sf::Vector2f pos, float lado)
+                :archivo{std::move(archivo)},pos{pos},lado{lado} {}
+            void dibujar(sf::RenderTarget& t, sf::Vector2f tam) override;
+        private:
+            std::function<std::string()> archivo;
+            sf::Vector2f pos;
+            float lado;
+    };
+
+    // las 4 barras del GDD para un boxeador en la banda superior (el rival a la derecha, en espejo)
     struct Barras;
     void agregarBarras(Widget& raiz, const Barras& b, bool derecha, const std::string& nombre);
+    // fondo oscuro de las dos bandas del HUD (arriba y abajo del escenario)
+    void agregarBandas(Widget& raiz);
 
     inline const sf::Color COLOR_RESISTENCIA{220,60,60}, COLOR_AIRE{110,190,255},
         COLOR_SED{255,150,40}, COLOR_CONCENTRACION{250,220,60};
