@@ -18,6 +18,7 @@
 #include <Round12/Logica/Piso.hpp>
 #include <Round12/Logica/Camino.hpp>
 #include <Round12/Logica/LineaDialogo.hpp>
+#include <Round12/Logica/Iso.hpp>
 #include <set>
 #include <string>
 #include <cstdio>
@@ -179,6 +180,27 @@ namespace
         cp.x = 4000.f; cp.aire = 0.f;
         cp.reaparecer();
         CHECK(cp.x == 3000.f && cp.tiempo == 60.f && cp.aire == 100.f);
+        // obstáculo ALTO (banderola): agachado pasa por debajo; de pie choca
+        Runner bajo{cfg};
+        bajo.paso(1.f/30.f,0,false,true,false);
+        Rect alto = obstaculoRunner(TipoChoque::ALTO,bajo.x);
+        CHECK(!bajo.chocaCon(alto));
+        Runner parado{cfg};
+        parado.paso(1.f/30.f,0,false,false,false);
+        CHECK(parado.chocaCon(obstaculoRunner(TipoChoque::ALTO,parado.x)));
+        // ROMPIBLE (caja): un golpe lo alcanza si está enfrente y cerca; cuesta aire
+        Runner g{cfg};
+        CHECK(g.alcanzaGolpe(obstaculoRunner(TipoChoque::ROMPIBLE,g.x + 20.f)));
+        CHECK(!g.alcanzaGolpe(obstaculoRunner(TipoChoque::ROMPIBLE,g.x + 80.f)));
+        CHECK(!g.alcanzaGolpe(obstaculoRunner(TipoChoque::ROMPIBLE,g.x - 40.f)));
+        float a0 = g.aire;
+        g.golpear();
+        CHECK(g.aire < a0);
+        // BAJO: saltando se libra
+        Runner s2{cfg};
+        s2.paso(1.f/30.f,0,true,false,false);
+        for(int i = 0; i < 8; ++i) s2.paso(1.f/30.f,0,false,false,false);
+        CHECK(!s2.chocaCon(obstaculoRunner(TipoChoque::BAJO,s2.x)));
     }
 
     void pruebasMapa()
@@ -379,6 +401,15 @@ namespace
         CERCA(agachado,normal*1.5f);
     }
 
+    void pruebasIso()
+    {
+        auto m = leerIso(std::string(R12_DATOS) + "/iso/playa_final.txt");
+        CHECK(m.has_value());
+        // arena, arena húmeda, mar, espuma, muelle, huellas y mar profundo
+        if(m) CHECK((m->usados() == std::set<int>{10,11,12,13,22,28,31}));
+        CHECK(!leerIso("no_existe.txt"));
+    }
+
     void pruebasDialogo()
     {
         CHECK(!parsearLinea("carlos|serio|-|hola"));
@@ -409,6 +440,7 @@ int main()
     pruebasPiso();
     pruebasAgacharse();
     pruebasDialogo();
+    pruebasIso();
     pruebasFiltroTeclas();
     pruebasHistoria();
     pruebasRitmo();

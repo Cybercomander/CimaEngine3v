@@ -43,7 +43,6 @@ namespace Round12
 
     struct ConfigRunner
     {
-        std::string mapa;
         float meta, tiempo;
         int vueltas;          // 0 = playa (meta lineal)
         float meta_vuelta;    // segundos por vuelta para el bono (circuito)

@@ -30,10 +30,10 @@ namespace Round12
                 {{{1150,925},"pasillo_vendaje"},{{620,925},"pasillo_carlos"}},"publico",{1450,975},true}}};
 
         const std::map<std::string,ConfigRunner> RUNNERS = {
-            {"playa",{"05_playa_rosarito",9000.f,180.f,0,0.f,true,5}},
-            {"playa_dif2",{"05_playa_rosarito",9000.f,150.f,0,0.f,true,6}},
-            {"circuito",{"06_circuito_rosarito",4500.f,100.f,3,26.f,false,7}},
-            {"circuito_dif2",{"06_circuito_rosarito",4500.f,85.f,3,26.f,false,8}}};
+            {"playa",{9000.f,180.f,0,0.f,true,5}},
+            {"playa_dif2",{9000.f,150.f,0,0.f,true,6}},
+            {"circuito",{4500.f,100.f,3,26.f,false,7}},
+            {"circuito_dif2",{4500.f,85.f,3,26.f,false,8}}};
 
         const std::map<std::string,ConfigSantaFe> SANTA_FE = {
             {"santa_fe",{120.f}},{"santa_fe_dif2",{100.f}}};

@@ -5,6 +5,16 @@ namespace Round12
 {
     namespace { constexpr float GRAVEDAD = 420.f, SALTO = 160.f; }
 
+    Rect obstaculoRunner(TipoChoque t, float x)
+    {
+        switch(t)
+        {
+            case TipoChoque::ALTO: return {x,30.f,14.f,40.f};   // agachado mide 26: pasa abajo
+            case TipoChoque::ROMPIBLE: return {x,0.f,14.f,16.f};
+            default: return {x,0.f,12.f,14.f};
+        }
+    }
+
     void Runner::paso(float dt, int ritmo, bool saltar, bool agachar, bool en_sombra)
     {
         float base = ritmo < 0 ? LENTO : (ritmo > 0 ? MAXIMA : RITMO);
