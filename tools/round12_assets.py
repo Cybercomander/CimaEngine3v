@@ -2,6 +2,7 @@
 
 1. Empaqueta los 192 PNG sueltos de cada personaje en UNA hoja (480x2560):
    columna = frame (0-5), fila = direccion*8 + accion (orden de abajo).
+3. Convierte los 6 tilemaps a ROUND12_Assets/motor/ (ROUND 12 en src/Round12).
 2. Convierte el tilemap del Sanchez Boxing GYM al formato del motor
    ([Atlas_info] ... [ID_Matrix] con 'c'/'n' por tile). La colisión es el ring:
    un marco de tiles 'c' (cuerdas a los lados, límites de carril al fondo y al
@@ -83,6 +84,26 @@ def mapa_gym():
     print("mapa:", destino, f"({n} tiles con colision)")
 
 
+def mapas_motor():
+    """Los 6 tilemaps de ROUND12_Assets al formato del motor (todos 'n'):
+    src/Round12 lee la colisión directo de colisiones/*.txt (MapaColision)."""
+    from PIL import Image
+
+    salida = R12 / "motor"
+    salida.mkdir(exist_ok=True)
+    for ruta in sorted((R12 / "tilemaps").glob("*.txt")):
+        cols, filas, tiles = leer_matriz(ruta)
+        with Image.open(R12 / "tilesets" / f"{ruta.stem}.png") as atlas:
+            aw, ah = atlas.size
+        lineas = ["[Atlas_info]", f"/../ROUND12_Assets/tilesets/{ruta.stem}.png",
+                  f"{aw} {ah}", "8 8", f"{filas} {cols}", "[ID_Matrix]"]
+        lineas += [" ".join(f"{t} n" for t in fila) for fila in tiles]
+        (salida / ruta.name).write_text("\n".join(lineas) + "\n")
+        print("motor:", salida / ruta.name)
+    assert len(list(salida.glob("*.txt"))) == 6
+
+
 if __name__ == "__main__":
     hojas()
     mapa_gym()
+    mapas_motor()
