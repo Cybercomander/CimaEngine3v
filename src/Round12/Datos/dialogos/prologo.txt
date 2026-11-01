@@ -1,8 +1,8 @@
-# orador|pose|fondo|texto
-narrador|0|-|Tijuana, 2024. Diego Alejandro Ureta tiene 12 años y una idea fija: entrenar box.
-diego|0|-|Desde que veo Hajime no Ippo no pienso en otra cosa. ¡Quiero subirme a un ring!
-narrador|0|-|Después de semanas de insistir, sus papás lo llevan al Sanchez Boxing GYM, donde entrenó su hermano mayor.
-carlos|1|01_sanchez_boxing_gym|Así que tú eres el hermano. Yo soy Carlos Sánchez.
-carlos|2|01_sanchez_boxing_gym|Una regla nada más: aquí nadie pelea hasta que aprende a entrenar.
-diego|1|01_sanchez_boxing_gym|¡Sí, entrenador! ¿Por dónde empiezo?
-carlos|4|01_sanchez_boxing_gym|Por el costal, las manoplas y la cuerda. Y cuida tu aire: sin aire no hay golpes.
+# orador|emocion|fondo|texto[|der]
+narrador|neutral|-|Tijuana, 2024. Diego Alejandro Ureta tiene 12 años y una idea fija: entrenar box.
+diego|decidido|-|Desde que veo Hajime no Ippo no pienso en otra cosa. ¡Quiero subirme a un ring!
+narrador|neutral|-|Después de semanas de insistir, sus papás lo llevan al Sanchez Boxing GYM, donde entrenó su hermano mayor.
+carlos|hablando|01_sanchez_boxing_gym_tijuana|Así que tú eres el hermano. Yo soy Carlos Sánchez.|der
+carlos|decidido|01_sanchez_boxing_gym_tijuana|Una regla nada más: aquí nadie pelea hasta que aprende a entrenar.|der
+diego|sorprendido|01_sanchez_boxing_gym_tijuana|¡Sí, entrenador! ¿Por dónde empiezo?
+carlos|decidido|01_sanchez_boxing_gym_tijuana|Por el costal, las manoplas y la cuerda. Y cuida tu aire: sin aire no hay golpes.|der

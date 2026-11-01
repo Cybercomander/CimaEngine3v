@@ -22,4 +22,7 @@ namespace Round12
     };
 
     bool dentroPoligono(const std::vector<Pt>& poli, Pt p);
+    // camino de a a b por dentro del piso (búsqueda en anchura sobre una cuadrícula);
+    // termina exactamente en b. Vacío si no hay camino. Lo usa el piloto automático.
+    std::vector<Pt> ruta(const Piso& piso, Pt a, Pt b, float celda = 40.f);
 }

@@ -28,16 +28,16 @@ namespace Round12
     };
     const ConfigPelea& pelea(const std::string& id);
 
-    enum class Estacion { COSTAL, MANOPLAS, CUERDA, AGUA };
+    enum class Estacion { COSTAL, MANOPLAS, CUERDA, AGUA, PLATANO };
     struct ConfigRecorrido
     {
-        std::string mapa;
+        std::string escenario;          // Datos/Escenarios (gym, mexicali)
         std::vector<Estacion> estaciones;
-        float x_ring;
         std::string dialogo_inicio;
-        std::vector<std::pair<float,std::string>> dialogos_en_x;
+        std::vector<std::pair<Pt,std::string>> dialogos_en_punto;  // se disparan al pasar cerca
         const char* musica;
-        bool platano{false};
+        Pt entrada;
+        bool ricardo_en_gradas{false};
     };
     const ConfigRecorrido& recorrido(const std::string& id);
 

@@ -58,6 +58,13 @@ namespace Round12
                     else { cuadro = CUADROS-1; termino = true; }
                 }
             }
+            // hoja de diálogo: 4 cuadros en ciclo de la emoción (índice de EMOCIONES)
+            void hablar(int nueva_emocion, float dt)
+            {
+                if(!dialogo || emocion != nueva_emocion) { dialogo = true; emocion = nueva_emocion; cuadro = 0; t = 0.f; }
+                t += dt*1000.f;
+                if(t >= 150.f) { t = 0.f; cuadro = (cuadro + 1) % 4; }
+            }
             Accion accion{Accion::IDLE};
             int dir{DERECHA};
             int cuadro{0};

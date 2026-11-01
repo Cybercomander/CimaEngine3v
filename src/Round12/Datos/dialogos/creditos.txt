@@ -1,4 +1,4 @@
-narrador|0|03_gimnasio_mexicali|Diego Alejandro Ureta llegó de pie al round final. Campeón de «Guerra en la Frontera».
-carlos|4|03_gimnasio_mexicali|Te lo dije: los campeones se definen en el último round.
-narrador|0|-|ROUND 12 — Carlos Ariel Ureta Armenta. Introducción a los Videojuegos, UABC.
-narrador|0|-|Gracias por jugar.
+narrador|neutral|03_gimnasio_mexicali_torneo|Diego Alejandro Ureta llegó de pie al round final. Campeón de «Guerra en la Frontera».
+carlos|decidido|03_gimnasio_mexicali_torneo|Te lo dije: los campeones se definen en el último round.|der
+narrador|neutral|-|ROUND 12 — Carlos Ariel Ureta Armenta. Introducción a los Videojuegos, UABC.
+narrador|neutral|-|Gracias por jugar.

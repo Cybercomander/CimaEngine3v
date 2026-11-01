@@ -24,10 +24,10 @@ namespace Round12
             {"final_ricardo",{Personaje::RICARDO,12,45.f,Objetivo::GANAR,"mexicali",true,2}}};
 
         const std::map<std::string,ConfigRecorrido> RECORRIDOS = {
-            {"gym_tutorial",{"01_sanchez_boxing_gym",{Estacion::COSTAL,Estacion::MANOPLAS,Estacion::CUERDA,Estacion::AGUA},
-                560.f,"gym_controles",{},"musica_gym",true}},
-            {"pasillo_mexicali",{"03_gimnasio_mexicali",{},760.f,"",
-                {{120.f,"pasillo_vendaje"},{420.f,"pasillo_carlos"}},"publico"}}};
+            {"gym_tutorial",{"gym",{Estacion::AGUA,Estacion::PLATANO,Estacion::COSTAL,Estacion::MANOPLAS,Estacion::CUERDA},
+                "gym_controles",{},"musica_gym",{960,1010}}},
+            {"pasillo_mexicali",{"mexicali",{},"",
+                {{{1150,925},"pasillo_vendaje"},{{620,925},"pasillo_carlos"}},"publico",{1450,975},true}}};
 
         const std::map<std::string,ConfigRunner> RUNNERS = {
             {"playa",{"05_playa_rosarito",9000.f,180.f,0,0.f,true,5}},

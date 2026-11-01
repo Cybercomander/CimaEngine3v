@@ -1,6 +1,6 @@
-narrador|0|01_sanchez_boxing_gym|Capítulo 2: más fuerte que los demás.
-carlos|1|01_sanchez_boxing_gym|Eres más fuerte que todos los niños. Vamos a probarte con alguien mayor.
-brandon|0|01_sanchez_boxing_gym|¿Me vas a poner con un niño de primaria? No me hagas reír.
-carlos|2|01_sanchez_boxing_gym|Brandon se cubre y tira jab todo el día. No gastes todo tu aire contra su guardia, Diego.
-carlos|1|01_sanchez_boxing_gym|Usa Q y E para esquivar. Si esquivas y golpeas enseguida, el contragolpe pega el doble.
-narrador|0|02_gimnasio_visitante|Después vienen los torneos locales en gimnasios de otras ciudades.
+narrador|neutral|01_sanchez_boxing_gym_tijuana|Capítulo 2: más fuerte que los demás.
+carlos|hablando|01_sanchez_boxing_gym_tijuana|Eres más fuerte que todos los niños. Vamos a probarte con alguien mayor.|der
+brandon|sorprendido|01_sanchez_boxing_gym_tijuana|¿Me vas a poner con un niño de primaria? No me hagas reír.|der
+carlos|decidido|01_sanchez_boxing_gym_tijuana|Brandon se cubre y tira jab todo el día. No gastes todo tu aire contra su guardia, Diego.|der
+carlos|hablando|01_sanchez_boxing_gym_tijuana|Usa Q y E para esquivar. Si esquivas y golpeas enseguida, el contragolpe pega el doble.|der
+narrador|neutral|02_gimnasio_visitante|Después vienen los torneos locales en gimnasios de otras ciudades.

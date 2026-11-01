@@ -1,4 +1,4 @@
-narrador|0|05_playa_rosarito|Es fin de semana. Diego sale a correr a la playa de Rosarito.
-carlos|1|05_playa_rosarito|Tienes tres minutos para llegar al muelle. Si corres a tope todo el tiempo, te quedas sin aire.
-carlos|2|05_playa_rosarito|En la orilla la arena está mojada y llegan olas: sáltalas. Usa los puestos de agua y la sombra.
-diego|1|05_playa_rosarito|¡Nos vemos en el muelle!
+narrador|neutral|05_playa_rosarito|Es fin de semana. Diego sale a correr a la playa de Rosarito.
+carlos|hablando|05_playa_rosarito|Tienes tres minutos para llegar al muelle. Si corres a tope todo el tiempo, te quedas sin aire.|der
+carlos|decidido|05_playa_rosarito|En la orilla la arena está mojada y llegan olas: sáltalas. Usa los puestos de agua y la sombra.|der
+diego|decidido|05_playa_rosarito|¡Nos vemos en el muelle!

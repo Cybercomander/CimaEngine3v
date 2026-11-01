@@ -8,7 +8,7 @@ namespace Round12
     {
         // los tres gimnasios comparten la geometría del ring (mismo overlay de cuerdas)
         const std::vector<Pt> LONA = {{520,470},{1400,470},{1630,740},{290,740}};
-        const Rect CAJA_RING{170,400,1590,520}; // ring + faldón: no se cruza caminando
+        const Rect CAJA_RING{170,400,1590,505}; // ring + faldón: no se cruza caminando
         const std::vector<Pt> PISO_GYM = {{0,450},{130,330},{340,255},{1580,255},{1790,330},{1920,440},
                                           {1920,1080},{0,1080}};
 
@@ -37,17 +37,17 @@ namespace Round12
         {
             std::map<std::string,EscenarioR12> m;
             // bancas de abajo, garrafón/banca de la izquierda, pesas de la derecha
-            const std::vector<Rect> MUEBLES_GYM = {{100,1010,360,70},{1460,1010,370,70},{0,280,270,170},{1790,180,130,260}};
+            const std::vector<Rect> MUEBLES_GYM = {{100,1010,360,70},{1460,1010,370,70},{0,280,270,170},{1810,180,110,250}};
             m["gym"] = gimnasio("01_sanchez_boxing_gym_tijuana",MUEBLES_GYM,
                 {{"cartel_sanchez",{1850,800},false},{"silla",{215,770},false},
                  {"caja_madera",{1250,330}},{"bote_basura",{620,330}}},
                 {{"agua",{120,470}},{"platano",{1480,300}},{"costal",{1680,320}},
-                 {"cuerda",{560,990}},{"manoplas",{960,600}}});
+                 {"cuerda",{560,990}},{"manoplas",{1640,970}}});
             m["visitante"] = gimnasio("02_gimnasio_visitante",MUEBLES_GYM,
                 {{"gradas",{960,1075},false},{"banca",{660,1000}},{"silla",{215,770},false},
                  {"lockers",{60,640}},{"costal",{1850,640}},{"pesas",{90,880}},{"fuente_agua",{1840,900}}});
             m["mexicali"] = gimnasio("03_gimnasio_mexicali_torneo",
-                {{0,200,330,520},{1590,200,330,520},{640,930,640,150},{100,1010,360,70},{1460,1010,370,70},
+                {{0,200,330,520},{1590,200,330,520},{640,950,640,130},{100,1010,360,70},{1460,1010,370,70},
                  {0,830,150,140},{1770,830,150,140}},
                 {{"cartel_mexicali",{1370,1075},false},{"valla",{560,1000}},{"banderola",{1400,1000},false},
                  {"silla",{215,770},false},{"gradas",{760,320}}});

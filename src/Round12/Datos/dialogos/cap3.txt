@@ -1,5 +1,5 @@
-narrador|0|03_gimnasio_mexicali|Capítulo 3: Guerra en la Frontera.
-carlos|1|03_gimnasio_mexicali|Te inscribimos en una categoría más alta. Aquí vienen de todo Baja California y del sur de Estados Unidos.
-javier|0|03_gimnasio_mexicali|Javier «El Toro» Castañeda. Mis ganchos tumban a cualquiera.
-kevin|0|03_gimnasio_mexicali|Kevin Ramírez, de Calexico. Me dicen «The Hawk». Pégame si puedes.
-carlos|2|03_gimnasio_mexicali|Con concentración alta vas a ver venir sus golpes. Con el aire lleno y la concentración al máximo, tira la «Frontera»: 1-2-3-4.
+narrador|neutral|03_gimnasio_mexicali_torneo|Capítulo 3: Guerra en la Frontera.
+carlos|hablando|03_gimnasio_mexicali_torneo|Te inscribimos en una categoría más alta. Aquí vienen de todo Baja California y del sur de Estados Unidos.|der
+javier|hablando|03_gimnasio_mexicali_torneo|Javier «El Toro» Castañeda. Mis ganchos tumban a cualquiera.|der
+kevin|hablando|03_gimnasio_mexicali_torneo|Kevin Ramírez, de Calexico. Me dicen «The Hawk». Pégame si puedes.|der
+carlos|decidido|03_gimnasio_mexicali_torneo|Con concentración alta vas a ver venir sus golpes. Con el aire lleno y la concentración al máximo, tira la «Frontera»: 1-2-3-4.|der

@@ -1,4 +1,4 @@
-narrador|0|03_gimnasio_mexicali|Capítulo 4: la semifinal.
-ricardo|0|03_gimnasio_mexicali|Ricardo Oropeza. Campeón nacional de mi edad. Y aquí estoy en casa.
-diego|1|03_gimnasio_mexicali|Nadie me ha podido detener. Tú no vas a ser el primero.
-carlos|1|03_gimnasio_mexicali|Diego... es dos años mayor y no comete errores. Cuida la defensa.
+narrador|neutral|03_gimnasio_mexicali_torneo|Capítulo 4: la semifinal.
+ricardo|hablando|03_gimnasio_mexicali_torneo|Ricardo Oropeza. Campeón nacional de mi edad. Y aquí estoy en casa.|der
+diego|hablando|03_gimnasio_mexicali_torneo|Nadie me ha podido detener. Tú no vas a ser el primero.
+carlos|hablando|03_gimnasio_mexicali_torneo|Diego... es dos años mayor y no comete errores. Cuida la defensa.|der

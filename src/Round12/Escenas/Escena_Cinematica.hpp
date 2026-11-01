@@ -1,16 +1,15 @@
 #pragma once
 #include "EscenaR12.hpp"
+#include <Round12/Logica/LineaDialogo.hpp>
 #include <vector>
 
 namespace Round12
 {
-    struct LineaDialogo { std::string orador; int pose; std::string fondo, texto; };
-
     // Iterador sobre las líneas de un archivo de diálogo
     class Dialogo
     {
         public:
-            // formato por línea: orador|pose|fondo|texto  ('#' = comentario)
+            // formato por línea: orador|emocion|fondo|texto[|der]  ('#' = comentario)
             bool cargar(const std::string& ruta);
             const LineaDialogo& actual() const { return lineas[i]; }
             bool siguiente() { return ++i < lineas.size(); }
@@ -36,6 +35,7 @@ namespace Round12
         private:
             Dialogo dialogo;
             float letras{0.f};
+            float reloj{0.f};
             bool terminar{false};
     };
 }

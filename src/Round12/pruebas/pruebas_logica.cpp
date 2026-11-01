@@ -269,6 +269,14 @@ namespace
             {
                 auto ruta = std::string(R12_DATOS) + "/dialogos/" + p.id + ".txt";
                 if(!std::filesystem::exists(ruta)) { std::cout<<"  sin diálogo: "<<ruta<<"\n"; CHECK(false); }
+                std::ifstream f{ruta};
+                for(std::string l; std::getline(f,l);)
+                {
+                    if(l.empty() || l[0] == '#') continue;
+                    auto d = parsearLinea(l);
+                    if(!d) { std::cout<<"  línea inválida: "<<l<<"\n"; CHECK(false); continue; }
+                    CHECK(d->fondo == "-" || std::filesystem::exists(std::string(R12_RECURSOS) + "/escenarios/" + d->fondo));
+                }
             }
         }
     }
@@ -335,6 +343,16 @@ namespace
         CHECK((p.limitar({50,50},{60,60}) == Pt{60,60}));
         p.bloquear({40,40,20,20});
         CHECK(!p.dentro({50,50}));
+        // ruta alrededor de un bloqueo (piloto automático del recorrido)
+        Piso q;
+        q.agregar({{0,0},{400,0},{400,400},{0,400}});
+        q.bloquear({100,0,200,300});
+        auto r = ruta(q,{50,50},{350,50});
+        CHECK(!r.empty());
+        bool pasa_abajo = false;
+        for(auto& pt : r) { CHECK(q.dentro(pt)); if(pt.y >= 300) pasa_abajo = true; }
+        CHECK(pasa_abajo);
+        CHECK(!r.empty() && std::abs(r.back().x - 350) < 1 && std::abs(r.back().y - 50) < 1);
         Camino c{{{0,0},{100,0},{100,100},{0,100}}};
         CERCA(c.largo(),400.f);
         CERCA(c.punto(450).x,50.f); CERCA(c.punto(450).y,0.f);
