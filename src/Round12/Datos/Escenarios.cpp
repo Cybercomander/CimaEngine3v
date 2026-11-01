@@ -69,7 +69,7 @@ namespace Round12
             ci.bloqueos = {{170,1010,350,70},{1390,1010,350,70},{1800,370,120,130}};
             ci.props = {{"valla",{960,960},false},{"cono",{1700,640},false},{"bandera",{1160,955},false},
                         {"banderola",{80,640},false},{"arbol",{40,1075},false},{"arbusto",{1880,1075},false},
-                        {"maceta",{1880,300},false},{"sombra_muro",{960,300},false}};
+                        {"maceta",{40,330},false}};
             ci.entrada = {960,1000};
             m["circuito"] = ci;
             return m;
