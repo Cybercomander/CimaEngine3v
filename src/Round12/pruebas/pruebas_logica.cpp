@@ -4,6 +4,12 @@
 #include <Round12/Logica/Combos.hpp>
 #include <Round12/Logica/Conteo.hpp>
 #include <Round12/Logica/Jueces.hpp>
+#include <Round12/Logica/Eventos.hpp>
+#include <Round12/Logica/Partida.hpp>
+#include <Round12/Logica/Runner.hpp>
+#include <Round12/Logica/MapaColision.hpp>
+#include <cstdio>
+#include <fstream>
 #include <random>
 #include <cmath>
 #include <iostream>
@@ -102,10 +108,88 @@ namespace
         std::mt19937 a{7}, b{7};
         CHECK(decidir(parejo,a) == decidir(parejo,b));
     }
+
+    void pruebasPartida()
+    {
+        auto& p = Partida::Get();
+        p.nueva({{TipoPaso::PELEA,"semifinal"},{TipoPaso::CINEMATICA,"epilogo"},{TipoPaso::FIN,"fin"}},false);
+        // la semifinal contra Ricardo se pierde siempre y aun así la historia avanza
+        CHECK(p.alTerminarPelea(Objetivo::PERDER_FORZADO,false,false));
+        CHECK(p.historia().actual().id == "epilogo");
+        p.nueva({{TipoPaso::PELEA,"javier"},{TipoPaso::FIN,"fin"}},false);
+        CHECK(!p.alTerminarPelea(Objetivo::GANAR,false,true));
+        CHECK(p.historia().actual().id == "javier");
+        CHECK(!p.alTerminarPelea(Objetivo::SOBREVIVIR,false,false));
+        CHECK(p.alTerminarPelea(Objetivo::SOBREVIVIR,false,true));
+        CHECK(p.historia().fin());
+        p.mejorar(&Atributos::poder,+5);
+        CHECK(p.diego().poder == 10);
+        CHECK(!p.tiene(Habilidad::COMBOS));
+        p.desbloquear(Habilidad::COMBOS);
+        CHECK(p.tiene(Habilidad::COMBOS));
+        CHECK(p.nuevasHabilidades().size() == 1);
+    }
+
+    void pruebasEventos()
+    {
+        auto& e = Eventos::Get();
+        int a = 0, b = 0, c = 0;
+        e.suscribir([&](Evento, float v){ a += (int)v; });
+        e.suscribir([&](Evento, float v){ b += (int)v; });
+        int id = e.suscribir([&](Evento, float){ c++; });
+        e.desuscribir(id);
+        e.emitir(Evento::CAMPANA,2.f);
+        CHECK(a == 2 && b == 2 && c == 0);
+        e.limpiar();
+    }
+
+    void pruebasRunner()
+    {
+        Runner::Config cfg;
+        Runner r{cfg};
+        // dt grande: el barrido detecta un obstáculo delgado que quedó entre dos posiciones
+        r.paso(0.5f,+1,false,false,false);
+        r.paso(0.5f,+1,false,false,false);
+        CHECK(r.chocaCon(Rect{60.f,0.f,2.f,16.f}));
+        CHECK(r.vel < 40.f);
+        Runner aire{cfg};
+        float t = 0.f;
+        while(aire.aire > 0.f && t < 60.f) { aire.paso(1.f/30.f,+1,false,false,false); t += 1.f/30.f; }
+        CHECK(t > 15.f && t < 19.f);
+        CHECK(aire.fallo());
+        Runner salto{cfg};
+        salto.paso(1.f/30.f,0,true,false,false);
+        for(int i = 0; i < 10; ++i) salto.paso(1.f/30.f,0,false,false,false);
+        CHECK(salto.y > 16.f); // saltando pasa por encima de un castillo de 16 px
+        Runner cp{cfg};
+        cp.x = 3000.f; cp.tiempo = 20.f; cp.checkpoint();
+        cp.x = 4000.f; cp.aire = 0.f;
+        cp.reaparecer();
+        CHECK(cp.x == 3000.f && cp.tiempo == 60.f && cp.aire == 100.f);
+    }
+
+    void pruebasMapa()
+    {
+        const char* ruta = "r12_mapa_prueba.txt";
+        { std::ofstream f{ruta}; f<<"3 2\n1 1 0\n0 1 1\n"; }
+        auto rects = MapaColision::cargar(ruta,1);
+        std::remove(ruta);
+        CHECK(rects.size() == 2);
+        if(rects.size() == 2)
+        {
+            CHECK(rects[0].x == 0 && rects[0].y == 0 && rects[0].w == 16 && rects[0].h == 8);
+            CHECK(rects[1].x == 8 && rects[1].y == 8 && rects[1].w == 16 && rects[1].h == 8);
+        }
+        CHECK(MapaColision::cargar("no_existe.txt",1).empty());
+    }
 }
 
 int main()
 {
+    pruebasPartida();
+    pruebasEventos();
+    pruebasRunner();
+    pruebasMapa();
     pruebasStats();
     pruebasCombos();
     pruebasConteo();
