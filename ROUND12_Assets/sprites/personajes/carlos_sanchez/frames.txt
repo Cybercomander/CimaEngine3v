@@ -1,5 +1,0 @@
-0 frente_firme 0 0 44 60
-1 hablando 44 0 44 60
-2 senalando 88 0 44 60
-3 lateral 132 0 44 60
-4 cronometro 176 0 44 60

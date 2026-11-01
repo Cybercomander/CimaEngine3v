@@ -1,0 +1,13 @@
+{
+  "canvas_px": [
+    1920,
+    1080
+  ],
+  "capa_fondo": "decorado_1920x1080.png",
+  "capa_frontal": "primer_plano_1920x1080.png",
+  "tile_width": 64,
+  "tile_height": 32,
+  "resolucion_objetivo": "1080p",
+  "overlay_cuerdas": "cuerdas_frontales_1920x1080.png",
+  "notas_render": "Renderiza los personajes entre la capa de fondo y la capa frontal para que queden detrás de las cuerdas."
+}

@@ -1,0 +1,38 @@
+{
+  "size": [
+    96,
+    128
+  ],
+  "pivot": [
+    48,
+    120
+  ],
+  "nombres": [
+    "costal",
+    "banca",
+    "lockers",
+    "pesas",
+    "arbol",
+    "arbusto",
+    "poste_luz",
+    "sombrilla",
+    "torre_salvavidas",
+    "rampa_skate",
+    "escaleras",
+    "barandal",
+    "cono",
+    "bandera",
+    "bote_basura",
+    "valla",
+    "silla",
+    "banderola",
+    "gradas",
+    "fuente_agua",
+    "cartel_sanchez",
+    "cartel_mexicali",
+    "surf",
+    "maceta",
+    "sombra_muro",
+    "caja_madera"
+  ]
+}

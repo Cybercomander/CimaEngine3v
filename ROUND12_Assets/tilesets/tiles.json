@@ -1,0 +1,137 @@
+{
+  "tile_width": 64,
+  "tile_footprint_height": 32,
+  "tile_png_cell_height": 48,
+  "atlas_columns": 8,
+  "atlas_rows": 4,
+  "indices": {
+    "0": {
+      "name": "piso_concreto",
+      "file": "00_piso_concreto.png"
+    },
+    "1": {
+      "name": "piso_sombra",
+      "file": "01_piso_sombra.png"
+    },
+    "2": {
+      "name": "gimnasio_verde",
+      "file": "02_gimnasio_verde.png"
+    },
+    "3": {
+      "name": "gimnasio_negro",
+      "file": "03_gimnasio_negro.png"
+    },
+    "4": {
+      "name": "ring_azul",
+      "file": "04_ring_azul.png"
+    },
+    "5": {
+      "name": "ring_rojo",
+      "file": "05_ring_rojo.png"
+    },
+    "6": {
+      "name": "madera",
+      "file": "06_madera.png"
+    },
+    "7": {
+      "name": "metal",
+      "file": "07_metal.png"
+    },
+    "8": {
+      "name": "skate_concreto",
+      "file": "08_skate_concreto.png"
+    },
+    "9": {
+      "name": "skate_rayas",
+      "file": "09_skate_rayas.png"
+    },
+    "10": {
+      "name": "arena",
+      "file": "10_arena.png"
+    },
+    "11": {
+      "name": "arena_humeda",
+      "file": "11_arena_humeda.png"
+    },
+    "12": {
+      "name": "mar",
+      "file": "12_mar.png"
+    },
+    "13": {
+      "name": "espuma_mar",
+      "file": "13_espuma_mar.png"
+    },
+    "14": {
+      "name": "pasto",
+      "file": "14_pasto.png"
+    },
+    "15": {
+      "name": "sendero",
+      "file": "15_sendero.png"
+    },
+    "16": {
+      "name": "pista_roja",
+      "file": "16_pista_roja.png"
+    },
+    "17": {
+      "name": "pista_lineas",
+      "file": "17_pista_lineas.png"
+    },
+    "18": {
+      "name": "pista_oscura",
+      "file": "18_pista_oscura.png"
+    },
+    "19": {
+      "name": "asfalto",
+      "file": "19_asfalto.png"
+    },
+    "20": {
+      "name": "piso_gris",
+      "file": "20_piso_gris.png"
+    },
+    "21": {
+      "name": "baldosa",
+      "file": "21_baldosa.png"
+    },
+    "22": {
+      "name": "muelle_madera",
+      "file": "22_muelle_madera.png"
+    },
+    "23": {
+      "name": "tierra",
+      "file": "23_tierra.png"
+    },
+    "24": {
+      "name": "piso_azul",
+      "file": "24_piso_azul.png"
+    },
+    "25": {
+      "name": "piso_pintado",
+      "file": "25_piso_pintado.png"
+    },
+    "26": {
+      "name": "gradas",
+      "file": "26_gradas.png"
+    },
+    "27": {
+      "name": "seto",
+      "file": "27_seto.png"
+    },
+    "28": {
+      "name": "arena_huellas",
+      "file": "28_arena_huellas.png"
+    },
+    "29": {
+      "name": "piso_negro",
+      "file": "29_piso_negro.png"
+    },
+    "30": {
+      "name": "colchoneta",
+      "file": "30_colchoneta.png"
+    },
+    "31": {
+      "name": "mar_profundo",
+      "file": "31_mar_profundo.png"
+    }
+  }
+}

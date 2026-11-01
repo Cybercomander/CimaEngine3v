@@ -68,30 +68,57 @@ La colisión es **una base de implementación, pendiente de ajustar al sistema d
 
 **Actualización solicitada:** mantener el mismo arte, separar cada pose en archivos PNG individuales y preparar recursos compatibles con un flujo de trabajo a **1080×720**.
 
-# ACTUALIZACIÓN 1080X720
-## Qué cambió
+# ROUND 12 Asset Pack Completo v3
 
-1. **Sprites individuales por pose**
-   - Se conservaron las ilustraciones exactamente como estaban.
-   - Cada pose está disponible por separado en:
-     - `sprites_individuales_nativos/` → PNG individual en su tamaño original optimizado.
-     - `sprites_individuales_uniformes/` → PNG individual sobre un canvas uniforme por personaje (útil para animación sin recortar).
-     - `sprites_individuales_1080x720/` → PNG individual centrado en lienzo transparente de 1080×720.
+Paquete actualizado de assets utilizables para integración directa.
 
-2. **Escenarios a 1080×720**
-   - Se añadieron versiones en `escenarios_1080x720/`.
-   - Cada escenario fue escalado con **nearest-neighbor** y centrado en un lienzo exacto de 1080×720.
-   - **No se deformó ni redibujó** la ilustración. Cuando sobró espacio, se rellenó con color de fondo del propio escenario.
+## Ajuste principal
+Los escenarios exteriores fueron corregidos para eliminar el cuadrilátero en:
+- `04_skatepark_santa_fe_tijuana`
+- `05_playa_rosarito`
+- `06_circuito_atletico_rosarito`
 
-3. **Se conservó el paquete base**
-   - Tilesets, tilemaps TXT, colisiones y spritesheets originales se mantienen para que sigas usando el motor en modo optimizado.
+En estos tres escenarios la pelea ocurre en una zona abierta de combate integrada al entorno.
 
-## Recomendación de uso en C++
+## Estructura
+- `personajes/`: sprites y animaciones.
+- `escenarios/`: fondos, tilemaps, colisiones y objetos por escenario.
+- `tilesets/`: tiles reutilizables.
+- `objetos/`: props en PNG.
+- `datos/`: metadatos JSON.
 
-- Para animación: usa `sprites_individuales_uniformes/`.
-- Si prefieres cargar assets ya adaptados a resolución fija: usa `sprites_individuales_1080x720/` y `escenarios_1080x720/`.
-- Si tu prioridad es rendimiento y memoria: usa `sprites_individuales_nativos/` + `tilesets/` + `tilemaps/`.
+## Escenarios corregidos
+### 04 Skatepark Santa Fe Tijuana
+- Sin cuadrilátero.
+- Área central abierta sobre concreto.
+- Tilemap y colisiones ajustados.
 
-## Nota sobre 1080×720
+### 05 Playa Rosarito
+- Sin cuadrilátero.
+- Combate sobre zona abierta de arena y deck costero.
+- Tilemap y colisiones ajustados.
 
-1080×720 es una relación **3:2**. El arte original del proyecto y varias vistas previas partían de una lógica retro cercana a **16:9**. Para respetar tu instrucción de **no cambiar la ilustración**, los escenarios se adaptaron a 1080×720 **sin estiramiento**.
+### 06 Circuito Atlético Rosarito
+- Sin cuadrilátero.
+- Combate sobre plataforma central abierta integrada a pista.
+- Tilemap y colisiones ajustados.
+
+## Formato por carpeta de escenario
+- `decorado_1080x720.png`
+- `primer_plano_1080x720.png`
+- `tilemap.txt`
+- `colisiones.txt`
+- `objetos.txt`
+- `mapa.json`
+
+## Nota
+No se incluyen ejemplos de código. El paquete contiene únicamente recursos gráficos y archivos de soporte para implementación.
+
+## Escenarios sin cuadrilátero
+4. `04_skatepark_santa_fe_tijuana`
+5. `05_playa_rosarito`
+6. `06_circuito_atletico_rosarito`
+
+## Nota sobre las cuerdas
+Se incluyeron tiles modulares en `tilesets/cuerdas_frontales/` además de overlays completos por escenario para facilitar el uso en el motor del juego.
+
