@@ -13,6 +13,7 @@
 #include <Round12/Logica/Ritmo.hpp>
 #include <Round12/Datos/Niveles.hpp>
 #include <Round12/Rutas.hpp>
+#include <Round12/Logica/FiltroTeclas.hpp>
 #include <cstdio>
 #include <filesystem>
 #include <fstream>
@@ -282,10 +283,25 @@ namespace
         CHECK(hay_semifinal);
         CHECK(pelea("final_ricardo").rounds == 12);
     }
+
+    void pruebasFiltroTeclas()
+    {
+        FiltroTeclas f;
+        CHECK(f.presionar(10));
+        CHECK(!f.presionar(10)); // repetición del SO: se descarta
+        CHECK(f.presionar(11));
+        f.soltar(10);
+        CHECK(f.presionar(10));
+        auto sueltas = f.soltarTodas(); // al cambiar de juego se sueltan las que seguían abajo
+        CHECK(sueltas.size() == 2);
+        CHECK(f.soltarTodas().empty());
+        CHECK(f.presionar(11));
+    }
 }
 
 int main()
 {
+    pruebasFiltroTeclas();
     pruebasHistoria();
     pruebasRitmo();
     pruebasCombate();

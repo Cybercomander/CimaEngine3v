@@ -1,6 +1,7 @@
 #pragma once
 #include <Motor/App/ALayer.hpp>
 #include <Motor/Primitivos/Escena.hpp>
+#include <Round12/Logica/FiltroTeclas.hpp>
 #include <functional>
 #include <string>
 #include <vector>
@@ -46,6 +47,7 @@ namespace Round12
             bool pedir_lanzador{false};
             std::string ultima{"R12_Titulo"};
             bool pausado{false};
+            FiltroTeclas teclas;
             int opcion{0};
             // Comando: cada opción del menú de pausa es una acción
             std::vector<std::pair<std::string,std::function<void()>>> menu_pausa;

@@ -3,6 +3,7 @@
 #include <Motor/Camaras/Camaras.hpp>
 #include <Juego/Juego.hpp>
 #include <Round12/JuegoR12.hpp>
+#include <Round12/Logica/FiltroTeclas.hpp>
 #include <memory>
 #include <string>
 #include <vector>
@@ -39,6 +40,8 @@ class Selector : public CE::GameLayer
         Modo previo{Modo::LANZADOR};
         std::string escena_labs{"Init"};
         CE::InputBuffer filtrado{32};
+        Round12::FiltroTeclas teclas_labs; // abajo en Labs: se sueltan al cambiar de juego
+        void soltarLabs();
         // prueba de compatibilidad
         int ciclos;
         int frames{0};

@@ -49,13 +49,31 @@ void Selector::cambiar(Modo m)
     if(m == modo) return;
     auto& g = CE::GestorEscenas::Get();
     if(modo == Modo::ROUND12) r12->desactivar();
-    if(modo == Modo::LABS) escena_labs = g.getEscenaActual().nombre;
+    if(modo == Modo::LABS)
+    {
+        soltarLabs();
+        // el combo de escenas de Debug puede dejar una escena R12: no se guarda como de Labs
+        if(!esR12(g.getEscenaActual().nombre)) escena_labs = g.getEscenaActual().nombre;
+    }
     if(modo != Modo::LANZADOR) previo = modo;
     modo = m;
     if(modo == Modo::LABS && g.getEscenaActual().nombre != escena_labs)
         g.cambiarEscena(escena_labs);
     if(modo == Modo::ROUND12)
         r12->activar();
+}
+
+// sin esto, soltar una tecla en el lanzador deja al jugador de Labs caminando solo
+void Selector::soltarLabs()
+{
+    CE::InputBuffer sueltas{32};
+    for(int t : teclas_labs.soltarTodas())
+    {
+        std::optional<sf::Event> ev = sf::Event{sf::Event::KeyReleased{sf::Keyboard::Key::Unknown,
+            (sf::Keyboard::Scancode)t,false,false,false,false}};
+        sueltas.pushData(ev);
+    }
+    labs->OnInputs(sueltas);
 }
 
 void Selector::OnInputs(std::optional<sf::Event>& eventos)
@@ -91,6 +109,11 @@ void Selector::OnInputs(CE::InputBuffer& buffer)
                 { cambiar(Modo::ROUND12); cambio = true; }
                 continue;
             }
+        }
+        if(modo == Modo::LABS)
+        {
+            if(const auto* p = ev->getIf<sf::Event::KeyPressed>()) teclas_labs.presionar((int)p->scancode);
+            if(const auto* r = ev->getIf<sf::Event::KeyReleased>()) teclas_labs.soltar((int)r->scancode);
         }
         if(modo != Modo::LANZADOR)
             filtrado.pushData(ev);
@@ -160,7 +183,14 @@ void Selector::pasoPrueba()
     int vuelta = cambios/2;
     if(modo == Modo::LABS)
     {
+        // D sostenida en Labs al cambiar: no debe quedarse pegada
+        CE::InputBuffer b{4};
+        std::optional<sf::Event> d = sf::Event{sf::Event::KeyPressed{sf::Keyboard::Key::D,
+            sf::Keyboard::Scancode::D,false,false,false,false}};
+        b.pushData(d);
+        OnInputs(b);
         cambiar(Modo::ROUND12);
+        if(!teclas_labs.soltarTodas().empty()) falla("una tecla de Labs quedó pegada al cambiar de juego");
         g.cambiarEscena(claves_r12[vuelta % claves_r12.size()]);
     }
     else

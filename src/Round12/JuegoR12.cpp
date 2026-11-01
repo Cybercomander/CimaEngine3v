@@ -142,6 +142,7 @@ namespace Round12
         ultima = escena()->nombre;
         if(ultima.rfind("R12_",0) != 0) ultima = "R12_Titulo";
         if(auto* e = escenaR12()) e->soltarControles();
+        teclas.soltarTodas();
         Audio::detener();
     }
 
@@ -183,11 +184,16 @@ namespace Round12
             CE::Botones::TipoAccion tipo;
             if(const auto* p = ev->getIf<sf::Event::KeyPressed>())
             {
+                // sostener una tecla no cuenta como pulsarla otra vez (cuerda, costal, menús)
+                if(!teclas.presionar((int)p->scancode)) continue;
                 if(manejarPausa(p->scancode)) continue;
                 scan = p->scancode; tipo = CE::Botones::TipoAccion::OnPress;
             }
             else if(const auto* r = ev->getIf<sf::Event::KeyReleased>())
-            { scan = r->scancode; tipo = CE::Botones::TipoAccion::OnRelease; }
+            {
+                teclas.soltar((int)r->scancode);
+                scan = r->scancode; tipo = CE::Botones::TipoAccion::OnRelease;
+            }
             else continue;
             if(pausado) continue;
             auto* e = escena();
