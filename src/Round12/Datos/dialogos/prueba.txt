@@ -1,0 +1,3 @@
+# orador|pose|fondo|texto
+carlos|1|01_sanchez_boxing_gym|Aquí nadie pelea hasta que aprende a entrenar.
+diego|0|-|¡Sí, señor! Mañana llego temprano. Acentos: áéíóú ñ ¿? ¡!

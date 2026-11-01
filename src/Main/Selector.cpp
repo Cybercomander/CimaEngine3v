@@ -1,6 +1,7 @@
 #include "Selector.hpp"
 #include <Motor/Camaras/CamarasGestor.hpp>
 #include <Motor/Primitivos/GestorEscenas.hpp>
+#include <Round12/objetos/Audio.hpp>
 #include <imgui.h>
 #include <iostream>
 
@@ -181,6 +182,8 @@ void Selector::verificar()
     for(size_t i = 0; i < camaras_labs.size(); ++i)
         if(i+1 >= cams.size() || cams[i+1] != camaras_labs[i])
             falla("la cámara "+std::to_string(i+1)+" de Labs cambió de lugar");
+    if(modo == Modo::LABS && Round12::Audio::sonando())
+        falla("la música de ROUND 12 sigue sonando en Labs");
     if(g.getKeys().size() != n_escenas)
         falla("cambió el número de escenas registradas");
 }

@@ -1,12 +1,16 @@
 #pragma once
 #include <Motor/App/ALayer.hpp>
 #include <Motor/Primitivos/Escena.hpp>
+#include <functional>
 #include <string>
+#include <vector>
 
 namespace Round12
 {
+    class EscenaR12;
+
     // GameLayer de ROUND 12. Registra sus escenas (prefijo R12_) en el GestorEscenas
-    // compartido; el Selector decide cuándo está activo.
+    // compartido; el Selector decide cuándo está activo. Esc = pausa (GDD).
     class JuegoR12 : public CE::GameLayer
     {
         public:
@@ -19,7 +23,7 @@ namespace Round12
             void OnUpdate(float dt) override;
             void OnRender() override;
 
-            // entra a la última escena R12 (o al título la primera vez)
+            // entra a la última escena R12 (o al título la primera vez) sin reiniciarla
             void activar();
             // al salir: detiene audio y suelta los controles
             void desactivar();
@@ -29,8 +33,22 @@ namespace Round12
             static JuegoR12* instancia() { return actual; }
         private:
             CE::Escena* escena() const;
+            EscenaR12* escenaR12() const;
+            bool manejarPausa(sf::Keyboard::Scancode tecla);
+            void dibujarPausa();
+        private:
             bool pedir_lanzador{false};
             std::string ultima{"R12_Titulo"};
+            bool pausado{false};
+            int opcion{0};
+            // Comando: cada opción del menú de pausa es una acción
+            std::vector<std::pair<std::string,std::function<void()>>> menu_pausa;
             static inline JuegoR12* actual{nullptr};
     };
+
+    // lleva al paso actual de la historia (Partida) configurando su escena
+    void irAPaso();
+    void irATitulo();
+    // reinicia la escena actual de ROUND 12 (mismo paso)
+    void reiniciarPaso();
 }
