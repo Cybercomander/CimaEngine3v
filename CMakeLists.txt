@@ -59,6 +59,7 @@ include_directories(${IMGUI_DIR})
 #include_directories(${S_INCLUDE_DIRS})
 
 #incluir los folders
+enable_testing()
 add_subdirectory(src)
 
 
