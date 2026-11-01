@@ -10,6 +10,7 @@
 #include <Round12/Logica/MapaColision.hpp>
 #include <Round12/Logica/EstiloIA.hpp>
 #include <Round12/Logica/Combate.hpp>
+#include <Round12/Logica/Ritmo.hpp>
 #include <cstdio>
 #include <fstream>
 #include <random>
@@ -236,10 +237,21 @@ namespace
         cabeza.recibir(true,Golpe::GANCHO,false,false,false,false);
         CHECK(cabeza.barras(true).concentracion < c0);
     }
+
+    void pruebasRitmo()
+    {
+        CHECK(enPulso(1.08f));
+        CHECK(enPulso(0.95f));
+        CHECK(!enPulso(1.2f));
+        CHECK(!enPulso(0.25f));
+        CHECK(pulsoMasCercano(1.08f) == 2);
+        CHECK(pulsoMasCercano(0.95f) == 2);
+    }
 }
 
 int main()
 {
+    pruebasRitmo();
     pruebasCombate();
     pruebasIA();
     pruebasPartida();

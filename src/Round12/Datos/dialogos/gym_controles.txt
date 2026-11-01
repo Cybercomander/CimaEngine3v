@@ -1,0 +1,4 @@
+# orador|pose|fondo|texto  (en recorridos el fondo no se usa)
+carlos|1|-|Bienvenido al Sanchez Boxing GYM. Muévete con W, A, S y D.
+carlos|2|-|Acércate a cada estación y presiona J: costal, manoplas y cuerda. El garrafón te quita la sed.
+carlos|1|-|Si tienes hambre, en los casilleros hay un plátano. Cuando termines, sube al ring.

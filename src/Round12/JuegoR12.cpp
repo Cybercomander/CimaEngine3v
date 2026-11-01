@@ -5,6 +5,7 @@
 #include <Round12/Escenas/Escena_Cinematica.hpp>
 #include <Round12/Escenas/Escena_Resultados.hpp>
 #include <Round12/Escenas/Escena_Ring.hpp>
+#include <Round12/Escenas/Escena_Recorrido.hpp>
 #include <Round12/Logica/Partida.hpp>
 #include <Round12/objetos/Audio.hpp>
 #include <Round12/objetos/Hud.hpp>
@@ -92,6 +93,7 @@ namespace Round12
         g.registrarEscena("R12_Cinematica",std::make_shared<Escena_Cinematica>());
         g.registrarEscena("R12_Resultados",std::make_shared<Escena_Resultados>());
         g.registrarEscena("R12_Ring",std::make_shared<Escena_Ring>());
+        g.registrarEscena("R12_Recorrido",std::make_shared<Escena_Recorrido>());
         Audio::iniciar();
     }
 
