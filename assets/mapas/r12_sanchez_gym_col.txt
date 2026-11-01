@@ -1,5 +1,5 @@
 [Atlas_info]
-/../ROUND12_Assets/tilesets/01_sanchez_boxing_gym.png
+/round12_legado/tilesets/01_sanchez_boxing_gym.png
 128 112
 8 8
 24 80

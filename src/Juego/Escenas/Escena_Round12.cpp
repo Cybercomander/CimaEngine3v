@@ -72,17 +72,17 @@ namespace IVJ
 
             auto& assets = CE::GestorAssets::Get();
             assets.agregarTextura("r12_gym",
-                    R12 "/escenarios_1080x720/01_sanchez_boxing_gym_1080x720.png",
+                    ASSETS "/round12_legado/01_sanchez_boxing_gym_1080x720.png",
                     CE::Vector2D{0.f,0.f}, CE::Vector2D{1080.f,720.f});
             //todas las hojas: 1 fila de 4 poses de 44px de ancho
             assets.agregarTextura("r12_diego",
-                    R12 "/sprites/personajes/diego_ureta/spritesheet_4poses.png",
+                    ASSETS "/round12_legado/diego_ureta/spritesheet_4poses.png",
                     CE::Vector2D{0.f,0.f}, CE::Vector2D{176.f,52.f});
             const std::string rivales[] = {
                 "brandon_salazar","javier_castaneda","kevin_ramirez","ricardo_oropeza"};
             for(const auto& r : rivales)
                 assets.agregarTextura("r12_"+r,
-                        R12 "/sprites/personajes/"+r+"/spritesheet_4poses.png",
+                        std::string(ASSETS "/round12_legado/")+r+"/spritesheet_4poses.png",
                         CE::Vector2D{0.f,0.f}, CE::Vector2D{176.f,56.f});
 
             fondo = std::make_shared<Entidad>();

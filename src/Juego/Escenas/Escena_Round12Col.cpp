@@ -141,7 +141,7 @@ namespace IVJ
             //primera forma + objeto individual de una hoja: Carlos Sánchez con su
             //cronómetro (pose 4 de spritesheet_npc.png, 44x60) en la esquina de Diego
             assets.agregarTextura("r12_carlos_npc",
-                    R12 "/sprites/personajes/carlos_sanchez/spritesheet_npc.png",
+                    ASSETS "/round12_legado/carlos_sanchez/spritesheet_npc.png",
                     CE::Vector2D{0.f,0.f}, CE::Vector2D{220.f,60.f});
             auto carlos = std::make_shared<Entidad>();
             auto carlos_sprite = std::make_shared<CE::ISprite>(assets.getTextura("r12_carlos_npc"),1.f);

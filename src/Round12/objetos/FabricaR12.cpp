@@ -4,20 +4,39 @@
 #include <Juego/Componentes/IJComponentes.hpp>
 #include <Round12/Rutas.hpp>
 #include <iostream>
+#include <filesystem>
 #include <map>
 #include <set>
 
 namespace Round12
 {
+    sf::Texture& texturaFaltante()
+    {
+        static sf::Texture t{sf::Image({8,8},sf::Color::Magenta)};
+        t.setRepeated(true);
+        return t;
+    }
+
     sf::Texture& textura(const std::string& relativa)
     {
         static std::set<std::string> cargadas;
         auto& g = CE::GestorAssets::Get();
         std::string k = "r12g_" + relativa;
+        static std::set<std::string> faltantes;
+        if(faltantes.count(relativa)) return texturaFaltante();
         if(cargadas.insert(relativa).second)
         {
-            // área vacía = imagen completa; GestorAssets termina con mensaje si falta
-            g.agregarTextura(k,std::string(R12_RECURSOS) + "/" + relativa,CE::Vector2D{0,0},CE::Vector2D{0,0});
+            std::string ruta = std::string(R12_RECURSOS) + "/" + relativa;
+            // GestorAssets cierra el programa si falta el archivo; mejor un cuadro magenta
+            if(!std::filesystem::exists(ruta))
+            {
+                std::cerr<<"[r12] falta "<<ruta<<std::endl;
+                faltantes.insert(relativa);
+                cargadas.erase(relativa);
+                return texturaFaltante();
+            }
+            // área vacía = imagen completa
+            g.agregarTextura(k,ruta,CE::Vector2D{0,0},CE::Vector2D{0,0});
             g.getTextura(k).setSmooth(false);
         }
         return g.getTextura(k);
