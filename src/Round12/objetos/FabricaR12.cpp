@@ -1,7 +1,10 @@
 #include "FabricaR12.hpp"
 #include <Motor/Primitivos/GestorAssets.hpp>
+#include <Motor/Primitivos/CEPool.hpp>
 #include <Juego/Componentes/IJComponentes.hpp>
 #include <Round12/Rutas.hpp>
+#include <iostream>
+#include <map>
 #include <set>
 
 namespace Round12
@@ -18,6 +21,21 @@ namespace Round12
             g.getTextura(k).setSmooth(false);
         }
         return g.getTextura(k);
+    }
+
+    const IVJ::TileMap& mapa(const std::string& nombre)
+    {
+        static std::map<std::string,std::unique_ptr<IVJ::TileMap>> mapas;
+        auto& m = mapas[nombre];
+        if(!m)
+        {
+            m = std::make_unique<IVJ::TileMap>();
+            // formato con 'n' por tile: solo lo lee la versión con pool (no agrega nada)
+            static CE::Pool sin_colision{1};
+            if(!m->loadTileMap(std::string(R12_RECURSOS) + "/motor/" + nombre + ".txt",sin_colision))
+                std::cerr<<"[round12] no se pudo cargar el mapa "<<nombre<<"\n";
+        }
+        return *m;
     }
 
     namespace FabricaR12

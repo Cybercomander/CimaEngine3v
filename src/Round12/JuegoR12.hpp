@@ -9,6 +9,9 @@ namespace Round12
 {
     class EscenaR12;
 
+    // modo de prueba (sin teclado): arranca en un paso y Diego juega solo
+    struct PruebaR12 { std::string paso; bool autopiloto{false}; int rapido{1}; };
+
     // GameLayer de ROUND 12. Registra sus escenas (prefijo R12_) en el GestorEscenas
     // compartido; el Selector decide cuándo está activo. Esc = pausa (GDD).
     class JuegoR12 : public CE::GameLayer
@@ -31,6 +34,9 @@ namespace Round12
             void limpiarPeticion() { pedir_lanzador = false; }
             void pedirLanzador() { pedir_lanzador = true; }
             static JuegoR12* instancia() { return actual; }
+
+            static inline PruebaR12 prueba{};
+            void terminar() { termino = true; }
         private:
             CE::Escena* escena() const;
             EscenaR12* escenaR12() const;

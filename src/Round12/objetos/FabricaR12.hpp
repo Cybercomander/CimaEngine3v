@@ -1,5 +1,6 @@
 #pragma once
 #include <Juego/objetos/Entidad.hpp>
+#include <Juego/objetos/TileMap.hpp>
 #include <Round12/Componentes/ComponentesR12.hpp>
 #include <SFML/Graphics.hpp>
 #include <memory>
@@ -9,6 +10,9 @@ namespace Round12
 {
     // textura de ROUND12_Assets (ruta relativa), cargada una vez y sin suavizado
     sf::Texture& textura(const std::string& relativa);
+
+    // tilemap de ROUND12_Assets/motor/<nombre>.txt, cargado una vez
+    const IVJ::TileMap& mapa(const std::string& nombre);
 
     // Fábrica de entidades de ROUND 12
     namespace FabricaR12

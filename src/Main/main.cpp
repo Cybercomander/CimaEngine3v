@@ -4,9 +4,11 @@
 #include "Selector.hpp"
 #include <cstdlib>
 #include <ctime>
+#include <algorithm>
 #include <string>
 
 // Uso: CimaEngine3v [--juego=labs|round12] [--prueba-selector=N]
+//      [--r12-paso=tipo:id] [--autopiloto] [--rapido=N]
 // sin --juego arranca en el lanzador para elegir
 int main(int argc, char** argv)
 {
@@ -19,6 +21,10 @@ int main(int argc, char** argv)
         if(a == "--juego=labs") modo = Selector::Modo::LABS;
         else if(a == "--juego=round12") modo = Selector::Modo::ROUND12;
         else if(a.rfind("--prueba-selector=",0) == 0) prueba = std::atoi(a.c_str()+18);
+        // pruebas de ROUND 12 sin teclado: --r12-paso=pelea:javier --autopiloto --rapido=8
+        else if(a.rfind("--r12-paso=",0) == 0) { Round12::JuegoR12::prueba.paso = a.substr(11); modo = Selector::Modo::ROUND12; }
+        else if(a == "--autopiloto") Round12::JuegoR12::prueba.autopiloto = true;
+        else if(a.rfind("--rapido=",0) == 0) Round12::JuegoR12::prueba.rapido = std::max(1,std::atoi(a.c_str()+9));
         else std::cerr<<"argumento desconocido: "<<a<<"\n";
     }
     CE::MotorConfig config;

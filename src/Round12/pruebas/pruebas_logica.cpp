@@ -9,6 +9,7 @@
 #include <Round12/Logica/Runner.hpp>
 #include <Round12/Logica/MapaColision.hpp>
 #include <Round12/Logica/EstiloIA.hpp>
+#include <Round12/Logica/Combate.hpp>
 #include <cstdio>
 #include <fstream>
 #include <random>
@@ -192,10 +193,54 @@ namespace
         CHECK(estilo(Personaje::JAVIER).pesos_golpe[2] > estilo(Personaje::BRANDON).pesos_golpe[2]);
         CHECK(estilo(Personaje::KEVIN).distancia_ideal > estilo(Personaje::JAVIER).distancia_ideal);
     }
+
+    void pruebasCombate()
+    {
+        auto d = perfil(Personaje::DIEGO), b = perfil(Personaje::BRANDON);
+        Combate limpio{d,b,Objetivo::SOBREVIVIR,false};
+        float r0 = limpio.barras(false).resistencia;
+        limpio.recibir(false,Golpe::JAB,false,false,false,false);
+        float sin_guardia = r0 - limpio.barras(false).resistencia;
+        Combate bloq{d,b,Objetivo::SOBREVIVIR,false};
+        bloq.recibir(false,Golpe::JAB,true,false,false,false);
+        CHECK(r0 - bloq.barras(false).resistencia < sin_guardia);
+        CHECK(limpio.round().conectados_diego == 1);
+
+        Combate sin_aire{d,b,Objetivo::GANAR,false};
+        sin_aire.barras(true).aire = 3.f;
+        CHECK(!sin_aire.lanzar(true,Golpe::UPPERCUT));
+        CERCA(sin_aire.barras(true).aire, 3.f);
+        CHECK(sin_aire.lanzar(true,Golpe::JAB) == false); // 3 < costo del jab
+        sin_aire.barras(true).aire = 50.f;
+        CHECK(sin_aire.lanzar(true,Golpe::JAB));
+        CHECK(sin_aire.barras(true).aire < 50.f);
+
+        Combate segundo{d,b,Objetivo::GANAR,true};
+        segundo.barras(true).aire = 5.f;
+        segundo.tick(0.01f,{},{});
+        CHECK(segundo.barras(true).aire > 50.f);
+        segundo.barras(true).aire = 5.f;
+        segundo.tick(0.01f,{},{});
+        CHECK(segundo.barras(true).aire < 10.f); // solo una vez por pelea
+
+        Combate forzado{d,perfil(Personaje::RICARDO),Objetivo::PERDER_FORZADO,false};
+        for(int i = 0; i < 100; ++i) forzado.recibir(false,Golpe::UPPERCUT,false,false,false,false);
+        CHECK(forzado.barras(false).resistencia >= 1.f);
+        for(int i = 0; i < 100; ++i) forzado.recibir(true,Golpe::UPPERCUT,false,false,false,false);
+        CHECK(forzado.barras(true).resistencia >= 1.f); // en la semifinal no hay nocaut
+        std::mt19937 rng{3};
+        CHECK(forzado.veredicto(rng) == Veredicto::RIVAL_UNANIME);
+
+        Combate cabeza{d,b,Objetivo::GANAR,false};
+        float c0 = cabeza.barras(true).concentracion;
+        cabeza.recibir(true,Golpe::GANCHO,false,false,false,false);
+        CHECK(cabeza.barras(true).concentracion < c0);
+    }
 }
 
 int main()
 {
+    pruebasCombate();
     pruebasIA();
     pruebasPartida();
     pruebasEventos();

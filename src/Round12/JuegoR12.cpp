@@ -4,6 +4,7 @@
 #include <Round12/Escenas/Escena_Titulo.hpp>
 #include <Round12/Escenas/Escena_Cinematica.hpp>
 #include <Round12/Escenas/Escena_Resultados.hpp>
+#include <Round12/Escenas/Escena_Ring.hpp>
 #include <Round12/Logica/Partida.hpp>
 #include <Round12/objetos/Audio.hpp>
 #include <Round12/objetos/Hud.hpp>
@@ -39,6 +40,11 @@ namespace Round12
     {
         auto& g = CE::GestorEscenas::Get();
         auto& h = Partida::Get().historia();
+        if(h.fin() && !JuegoR12::prueba.paso.empty())
+        {
+            std::cout<<"[prueba-r12] fin del paso de prueba"<<std::endl;
+            JuegoR12::instancia()->terminar();
+        }
         // pasos de una escena todavía no registrada se saltan (con aviso)
         for(int intentos = 0; intentos < 64; ++intentos)
         {
@@ -85,6 +91,7 @@ namespace Round12
         g.registrarEscena("R12_Titulo",std::make_shared<Escena_Titulo>());
         g.registrarEscena("R12_Cinematica",std::make_shared<Escena_Cinematica>());
         g.registrarEscena("R12_Resultados",std::make_shared<Escena_Resultados>());
+        g.registrarEscena("R12_Ring",std::make_shared<Escena_Ring>());
         Audio::iniciar();
     }
 
@@ -101,6 +108,23 @@ namespace Round12
     void JuegoR12::activar()
     {
         auto& g = CE::GestorEscenas::Get();
+        if(!prueba.paso.empty() && ultima == "R12_Titulo")
+        {
+            // --r12-paso=tipo:id
+            static const std::pair<const char*,TipoPaso> TIPOS[] = {
+                {"cine",TipoPaso::CINEMATICA},{"recorrido",TipoPaso::RECORRIDO},{"pelea",TipoPaso::PELEA},
+                {"runner",TipoPaso::RUNNER},{"santafe",TipoPaso::SANTA_FE},{"resultados",TipoPaso::RESULTADOS},
+                {"demo",TipoPaso::FIN},{"historia",TipoPaso::FIN}};
+            auto dos = prueba.paso.find(':');
+            std::string tipo = prueba.paso.substr(0,dos), id = dos == std::string::npos ? "" : prueba.paso.substr(dos+1);
+            if(tipo == "demo" || tipo == "historia") Partida::Get().nueva(tipo == "demo");
+            else
+                for(auto& [n,t] : TIPOS)
+                    if(tipo == n) Partida::Get().nueva({{t,id},{TipoPaso::FIN,"fin"}},true);
+            ultima = "R12_Prueba";
+            irAPaso();
+            return;
+        }
         if(g.getEscenaActual().nombre != ultima)
             g.cambiarEscena(ultima);
         else
@@ -172,7 +196,8 @@ namespace Round12
         if(pausado && !(escenaR12() && escenaR12()->permitePausa())) pausado = false;
         if(pausado) return;
         // el primer frame del motor y los cambios de juego traen dt enormes
-        escena()->onUpdate(std::min(dt,1.f/30.f));
+        for(int i = 0; i < prueba.rapido && !termino; ++i)
+            escena()->onUpdate(std::min(dt,1.f/30.f));
     }
 
     void JuegoR12::OnRender()
