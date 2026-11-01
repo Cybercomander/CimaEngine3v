@@ -13,3 +13,5 @@ add_custom_command(
     COMMENT "copiando compile_commands.json "
     )
 endif()
+
+target_sources(CimaEngine3v PRIVATE Selector.cpp)

@@ -38,9 +38,11 @@ namespace CE
     }
     void GestorAssets::agregarSonido(const std::string& key, const std::string& filepath)
     {   
-        if(!sound_buffer.loadFromFile(filepath))
+        auto buffer = std::make_shared<sf::SoundBuffer>();
+        if(!buffer->loadFromFile(filepath))
             std::cerr<<"No se pudo cargar la Sonido "<<filepath<<"\n";
-        hashSonidos[key] = std::make_shared<sf::Sound>(sound_buffer);
+        hashBuffers[key] = buffer;
+        hashSonidos[key] = std::make_shared<sf::Sound>(*buffer);
     }
     void GestorAssets::agregarMusica(const std::string& key, const std::string& filepath)
     {   
