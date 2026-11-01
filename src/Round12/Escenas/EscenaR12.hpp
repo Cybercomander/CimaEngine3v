@@ -2,10 +2,14 @@
 #include <Motor/Primitivos/Escena.hpp>
 #include <Motor/Componentes/IComponentes.hpp>
 #include <Round12/objetos/Hud.hpp>
+#include <Round12/objetos/ListaDibujo.hpp>
 #include <string>
 
 namespace Round12
 {
+    // ventana 1080x720: banda superior 0-56 y banda inferior 664-720 para el HUD
+    constexpr float BANDA_ARRIBA = 56.f/720.f, BANDA_ABAJO = 56.f/720.f;
+
     // Método plantilla: todas las escenas de ROUND 12 comparten el ciclo
     // (teclas del GDD, cámara propia, música, HUD en pantalla) y solo llenan los ganchos.
     class EscenaR12 : public CE::Escena
@@ -32,13 +36,15 @@ namespace Round12
             virtual const char* musica() const { return nullptr; }
             virtual void alPresionar(const std::string& accion, bool presionado) { (void)accion; (void)presionado; }
 
-            // cámara propia (vista del mundo nativo, 288x192 por defecto)
-            void usarCamara(float w = 288.f, float h = 192.f);
+            // cámara propia: el escenario de 1920x1080 completo en la franja central de la
+            // ventana (bandas arriba y abajo para el HUD; ver BANDA_*)
+            void usarCamara();
             void moverCamara(float x, float y);
 
             std::string id;
             CE::IControl control;
             Widget hud;
+            ListaDibujo lista;   // personajes, objetos y cuerdas ordenados por profundidad
         private:
             bool cargada{false};
             bool pendiente{true};

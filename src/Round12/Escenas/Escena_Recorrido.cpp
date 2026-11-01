@@ -210,7 +210,7 @@ namespace Round12
         ctrl->botones = 0;
         diego->onUpdate(dt);
         float limite = listoParaRing() ? ancho - 20.f : PARED;
-        SistemaCaminar(*diego,dt,20.f,limite,PISO0 - FabricaR12::PIES_A_CENTRO,PISO1 - FabricaR12::PIES_A_CENTRO);
+        SistemaCaminar(*diego,dt,20.f,limite,PISO0,PISO1);
         float x = diego->getTransformada()->posicion.x;
         if(!listoParaRing() && x >= PARED - 1.f && aviso_t <= 0.f)
             mensaje("Carlos: «Primero termina las estaciones»");

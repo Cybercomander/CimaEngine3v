@@ -171,7 +171,7 @@ namespace Round12
         }
         if(run->llego()) { terminar(); return; }
 
-        diego->setPosicion(run->x,pantallaY(run->y) - FabricaR12::PIES_A_CENTRO + (run->agachado ? 10.f : 0.f));
+        diego->setPosicion(run->x,pantallaY(run->y) + (run->agachado ? 10.f : 0.f));
         auto* ctrl = diego->getComponente<CE::IControl>();
         ctrl->der = true;
         diego->inputFSM();

@@ -1,6 +1,7 @@
 #pragma once
 #include <Motor/Componentes/IComponentes.hpp>
 #include <Round12/Logica/Stats.hpp>
+#include <Round12/Logica/Animaciones.hpp>
 #include <memory>
 #include <string>
 
@@ -27,7 +28,43 @@ namespace Round12
             bool jugador{false};            // Diego: sin preparación antes de golpear
             bool puede_esquivar{true};      // Diego la aprende en el sparring (GDD)
             bool mira_fijo{false};          // en el ring la escena decide hacia dónde mira
+            bool agachado{false};           // jab, recto y gancho le pasan por arriba
+            bool pide_agacharse{false};     // Q+E juntas (o la IA): el nodo actual se agacha
+            bool en_aire{false};            // corredor / Santa Fe: los golpes salen como saltar_*
             sf::Color tinte{sf::Color::White};
+    };
+
+    // animación del paquete v3 (39 acciones x 4 direcciones x 6 cuadros)
+    class IAnimR12 : public CE::IComponentes
+    {
+        public:
+            std::shared_ptr<CE::IComponentes> clonar() const override { return std::make_shared<IAnimR12>(*this); }
+            void poner(Accion a, bool reiniciar = false)
+            {
+                if(a == accion && !reiniciar) return;
+                accion = a; cuadro = 0; t = 0.f; termino = false;
+            }
+            // escala_tiempo > 1 = más lento (cansancio)
+            void actualizar(float dt, float escala_tiempo = 1.f)
+            {
+                if(termino) return;
+                t += dt*1000.f/escala_tiempo;
+                float ms = msPorCuadro(accion);
+                while(t >= ms && !termino)
+                {
+                    t -= ms;
+                    if(++cuadro < CUADROS) continue;
+                    if(enCiclo(accion)) cuadro = 0;
+                    else { cuadro = CUADROS-1; termino = true; }
+                }
+            }
+            Accion accion{Accion::IDLE};
+            int dir{DERECHA};
+            int cuadro{0};
+            float t{0.f};
+            bool termino{false};
+            bool dialogo{false};  // usa la hoja de diálogo (emocion = fila)
+            int emocion{5};       // neutral
     };
 
     enum class TipoItem { BOTELLA, ISOTONICA, PLATANO, TOALLA };

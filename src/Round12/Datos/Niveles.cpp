@@ -7,11 +7,6 @@ namespace Round12
     namespace
     {
         using H = Habilidad;
-        const std::map<std::string,Escenario> ESCENARIOS = {
-            {"gym",{"01_sanchez_boxing_gym",640.f,60.f,580.f,false}},
-            {"visitante",{"02_gimnasio_visitante",720.f,60.f,660.f,false}},
-            {"mexicali",{"03_gimnasio_mexicali",800.f,60.f,740.f,true}}};
-
         const sf::Color PIEL{180,140,110};
 
         const std::map<std::string,ConfigPelea> PELEAS = {
@@ -53,7 +48,6 @@ namespace Round12
         }
     }
 
-    const Escenario& escenario(const std::string& n) { return buscar(ESCENARIOS,n,"escenario"); }
     const ConfigPelea& pelea(const std::string& id) { return buscar(PELEAS,id,"pelea"); }
     const ConfigRecorrido& recorrido(const std::string& id) { return buscar(RECORRIDOS,id,"recorrido"); }
     const ConfigRunner& runner(const std::string& id) { return buscar(RUNNERS,id,"runner"); }

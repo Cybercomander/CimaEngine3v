@@ -1,5 +1,6 @@
 #pragma once
 #include <Round12/Datos/Perfiles.hpp>
+#include <Round12/Datos/Escenarios.hpp>
 #include <Round12/Logica/Partida.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <string>
@@ -11,23 +12,13 @@ namespace Round12
 {
     using Mejora = std::pair<int Atributos::*, int>;
 
-    struct Escenario
-    {
-        const char* mapa;     // ROUND12_Assets/motor/<mapa>.txt y colisiones/<mapa>_colisiones.txt
-        float ancho;          // ancho del mundo en px nativos
-        float ring_x0, ring_x1; // entre los postes
-        bool publico;
-    };
-    constexpr float RING_PIES_FONDO = 148.f, RING_PIES_FRENTE = 160.f; // lona (carriles)
-    const Escenario& escenario(const std::string& nombre);
-
     struct ConfigPelea
     {
         Personaje rival;
         int rounds;
         float segundos;
         Objetivo objetivo;
-        std::string escenario;
+        std::string escenario;   // Datos/Escenarios: gym, visitante, mexicali
         bool jueces;
         int dificultad;          // 2 = revanchas: atributos del rival +1
         sf::Color tinte{sf::Color::White};

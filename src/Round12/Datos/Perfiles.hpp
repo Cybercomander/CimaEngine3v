@@ -3,7 +3,7 @@
 // "poder" no viene en la tabla: supuesto según el estilo de cada boxeador.
 namespace Round12
 {
-    enum class Personaje { DIEGO, BRANDON, JAVIER, KEVIN, RICARDO, NINO };
+    enum class Personaje { DIEGO, BRANDON, JAVIER, KEVIN, RICARDO, NINO, CARLOS }; // CARLOS: NPC, no pelea
 
     struct Atributos
     {
@@ -24,7 +24,7 @@ namespace Round12
         }
     }
 
-    // hoja de animaciones (ROUND12_Sprites_Animaciones/hojas/<hoja>.png)
+    // carpeta del personaje (sprites/personajes/<hoja>/ y motor/hojas/<hoja>.png)
     inline const char* hoja(Personaje p)
     {
         switch(p)
@@ -33,6 +33,7 @@ namespace Round12
             case Personaje::JAVIER:  return "javier_castaneda";
             case Personaje::KEVIN:   return "kevin_ramirez";
             case Personaje::RICARDO: return "ricardo_oropeza";
+            case Personaje::CARLOS:  return "carlos_sanchez";
             default:                 return "diego_ureta"; // el niño usa a Diego con tinte
         }
     }
@@ -46,6 +47,7 @@ namespace Round12
             case Personaje::JAVIER:  return "Javier \"El Toro\" Castañeda";
             case Personaje::KEVIN:   return "Kevin \"The Hawk\" Ramírez";
             case Personaje::RICARDO: return "Ricardo Oropeza";
+            case Personaje::CARLOS:  return "Carlos Sánchez";
             default:                 return "Niño del barrio";
         }
     }

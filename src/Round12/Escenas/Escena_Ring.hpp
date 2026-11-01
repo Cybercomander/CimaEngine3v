@@ -4,6 +4,8 @@
 #include <Round12/Datos/Niveles.hpp>
 #include <Round12/Logica/Combate.hpp>
 #include <Round12/Logica/Combos.hpp>
+#include <Round12/Logica/FiltroTeclas.hpp>
+#include <Round12/Logica/Piso.hpp>
 #include <Round12/Maquinas/CerebroRival.hpp>
 #include <memory>
 #include <random>
@@ -28,7 +30,8 @@ namespace Round12
             void terminar(bool gano, bool de_pie, const std::string& como);
 
             ConfigPelea cfg;
-            const Escenario* esc{nullptr};
+            const EscenarioR12* esc{nullptr};
+            Piso lona;
             std::unique_ptr<Combate> combate;
             std::unique_ptr<CerebroRival> cerebro;
             std::unique_ptr<CerebroRival> piloto; // --autopiloto: Diego juega solo
@@ -44,6 +47,7 @@ namespace Round12
             int seguidos{0};         // golpes de Diego que conectaron sin fallar (Frontera)
             struct Lanzamiento { bool combo{false}, contragolpe{false}, frontera{false}; } pendiente;
             bool esquivaba[2]{false,false};
+            DetectorAgacharse agacharse;
         protected:
             void cargar() override;
             void reiniciar() override;
@@ -55,6 +59,7 @@ namespace Round12
         private:
             void lanzamiento(IVJ::Entidad& e, bool es_diego);
             void impacto(IVJ::Entidad& atk, IVJ::Entidad& def, bool atk_diego);
+            void dibujarRival(sf::RenderTarget& t);
             std::unique_ptr<FasePelea> fase;
             std::unique_ptr<FasePelea> siguiente;
     };

@@ -152,7 +152,7 @@ namespace Round12
         *c = control;
         c->arr = c->abj = false;
         c->botones = 0;
-        diego->setPosicion(x,pies - FabricaR12::PIES_A_CENTRO);
+        diego->setPosicion(x,pies);
         diego->inputFSM();
         diego->onUpdate(dt);
         moverCamara(160.f,std::clamp(pies - 40.f,96.f,MUNDO_H - 96.f));

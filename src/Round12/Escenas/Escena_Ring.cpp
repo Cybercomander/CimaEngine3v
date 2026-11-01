@@ -15,7 +15,6 @@ namespace Round12
 {
     namespace
     {
-        constexpr float PIES = 154.f;
         IBoxeador* box(IVJ::Entidad& e) { return e.getComponente<IBoxeador>(); }
 
         Atributos rivalDe(const ConfigPelea& c, const std::string& id, std::mt19937& rng)
@@ -50,6 +49,8 @@ namespace Round12
         auto& p = Partida::Get();
         cfg = pelea(id);
         esc = &escenario(cfg.escenario);
+        lona = {};
+        lona.agregar(esc->ring_poligono);
         rng.seed(p.semilla() + (unsigned)std::hash<std::string>{}(id));
         for(auto h : cfg.al_iniciar) p.desbloquear(h);
 
@@ -64,19 +65,28 @@ namespace Round12
         caidas_diego = caidas_rival = caida_pendiente = seguidos = 0;
         pendiente = {};
 
-        diego = FabricaR12::boxeador(Personaje::DIEGO,0.f,PIES,IVJ::IDireccion::DERECHA,std::make_shared<IdleR12>());
+        diego = FabricaR12::boxeador(Personaje::DIEGO,esc->esquina_diego.x,esc->esquina_diego.y,DERECHA,std::make_shared<IdleR12>());
         auto* bd = box(*diego);
         bd->atr = p.diego();
         bd->jugador = true;
         bd->mira_fijo = true;
         bd->puede_esquivar = p.tiene(Habilidad::ESQUIVA);
-        rival = FabricaR12::boxeador(cfg.rival,0.f,PIES,IVJ::IDireccion::IZQUIERDA,std::make_shared<IdleR12>(),cfg.tinte);
+        rival = FabricaR12::boxeador(cfg.rival,esc->esquina_rival.x,esc->esquina_rival.y,IZQUIERDA,std::make_shared<IdleR12>(),cfg.tinte);
         auto* br = box(*rival);
         br->atr = a_rival;
         br->mira_fijo = true;
-        // Carlos en la esquina de Diego, con su cronómetro (pose 4)
-        carlos = FabricaR12::decorado("sprites/personajes/carlos_sanchez/spritesheet_npc.png",
-                {{176,0},{44,60}},esc->ring_x0 - 22.f,168.f);
+        // Carlos abajo de la esquina de Diego, junto a la escalera
+        carlos = FabricaR12::npc(Personaje::CARLOS,esc->escalera_izq.x - 170.f,esc->escalera_izq.y - 150.f,DERECHA);
+
+        lista.limpiar();
+        for(const auto& pr : esc->props) lista.agregar(FabricaR12::prop(pr));
+        if(esc->ring) lista.agregar(FabricaR12::cuerdas(*esc));
+        lista.agregar(FabricaR12::nodo(carlos));
+        lista.agregar(FabricaR12::nodo(diego));
+        // el rival se dibuja con sus efectos de concentración
+        lista.agregar(std::make_shared<NodoFuncion>(
+            [this]{ return rival->getTransformada()->posicion.y; },
+            [this](sf::RenderTarget& t){ dibujarRival(t); }));
 
         hud.limpiar();
         hud.agregar(std::make_unique<Panel>(sf::FloatRect{{0.f,0.f},{1.f,0.25f}},sf::Color(0,0,0,150)));
@@ -93,9 +103,9 @@ namespace Round12
 
     void Escena_Ring::colocarEnEsquinas()
     {
-        float centro = (esc->ring_x0 + esc->ring_x1)/2.f;
-        diego->setPosicion(centro - 50.f,PIES - FabricaR12::PIES_A_CENTRO);
-        rival->setPosicion(centro + 50.f,PIES - FabricaR12::PIES_A_CENTRO);
+        // al centro de la lona, frente a frente
+        diego->setPosicion(960.f - 180.f,615.f);
+        rival->setPosicion(960.f + 180.f,615.f);
         for(auto* e : {diego.get(),rival.get()})
         {
             auto* b = box(*e);
@@ -138,14 +148,15 @@ namespace Round12
         ba->golpe_activo = false;
         if(bd->caido) return;
         if(!SistemaAlcance(atk,def,ba->ultimo)) { if(atk_diego) seguidos = 0; return; }
-        if(bd->esquivando)
+        // agachado: jab, recto y gancho pasan por arriba (cuenta como esquiva)
+        if(bd->esquivando || (bd->agachado && ba->ultimo != Golpe::UPPERCUT))
         {
             if(atk_diego) seguidos = 0;
             else bd->ventana_contragolpe = 0.4f; // esquiva exitosa: ventana de contragolpe
             return;
         }
         Lanzamiento l = atk_diego ? pendiente : Lanzamiento{};
-        combate->recibir(!atk_diego,ba->ultimo,bd->guardia,l.combo,l.contragolpe,l.frontera);
+        combate->recibir(!atk_diego,ba->ultimo,bd->guardia,l.combo,l.contragolpe,l.frontera,bd->agachado);
         if(atk_diego)
         {
             seguidos++;
@@ -170,9 +181,8 @@ namespace Round12
         rival->inputFSM();
         diego->onUpdate(dt);
         rival->onUpdate(dt);
-        float y0 = RING_PIES_FONDO - FabricaR12::PIES_A_CENTRO, y1 = RING_PIES_FRENTE - FabricaR12::PIES_A_CENTRO;
         for(auto* e : {diego.get(),rival.get()})
-            SistemaCaminar(*e,dt,esc->ring_x0 + 8.f,esc->ring_x1 - 8.f,y0,y1);
+            SistemaCaminar(*e,dt,lona);
         SistemaSepararCuerpos(*diego,*rival);
 
         IVJ::Entidad* ents[2] = {diego.get(),rival.get()};
@@ -206,8 +216,7 @@ namespace Round12
         if(siguiente) { fase = std::move(siguiente); fase->entrar(*this); }
         if(!fase) return;
         fase->actualizar(*this,dt);
-        auto p = (diego->getTransformada()->posicion.x + rival->getTransformada()->posicion.x)/2.f;
-        moverCamara(std::clamp(p,144.f,esc->ancho - 144.f),96.f);
+        if(auto* a = carlos->getComponente<IAnimR12>()) { a->actualizar(dt); aplicarCuadro(*carlos); }
     }
 
     void Escena_Ring::terminar(bool gano, bool de_pie, const std::string& como)
@@ -229,35 +238,38 @@ namespace Round12
 
     void Escena_Ring::alPresionar(const std::string& a, bool p)
     {
+        // Q+E juntas: agacharse
+        if(p && (a == "esquiva_izq" || a == "esquiva_der") && diego && box(*diego)->puede_esquivar
+                && agacharse.presionar(a == "esquiva_izq" ? 'Q' : 'E',tiempo_total))
+            box(*diego)->pide_agacharse = true;
         if(fase) fase->tecla(*this,a,p);
     }
 
     void Escena_Ring::dibujarMundo()
     {
-        auto& r = CE::Render::Get();
-        r.AddToDraw(mapa(esc->mapa));
-        r.AddToDraw(*carlos);
-        IVJ::Entidad* orden[2] = {rival.get(),diego.get()};
-        if(rival->getTransformada()->posicion.y > diego->getTransformada()->posicion.y) std::swap(orden[0],orden[1]);
+        auto& t = CE::Render::Get().GetTextura();
+        dibujarCapa(t,rutaCapa(*esc,"decorado"));
+        lista.dibujar(t);
+    }
+
+    void Escena_Ring::dibujarRival(sf::RenderTarget& t)
+    {
+        auto* s = rival->getComponente<CE::ISprite>();
         float conc = combate->barras(true).concentracion;
-        for(auto* e : orden)
+        // concentración baja: el rival se ve borroso (dos copias desplazadas)
+        if(conc < 40.f)
         {
-            auto* s = e->getComponente<CE::ISprite>();
-            // concentración baja: el rival se ve borroso (dos copias desplazadas)
-            if(e == rival.get() && conc < 40.f)
-            {
-                sf::Sprite copia = s->m_sprite;
-                copia.setColor(sf::Color(255,255,255,80));
-                for(float dx : {-2.f,2.f}) { copia.move({dx,0.f}); r.AddToDraw(copia); copia.move({-dx,0.f}); }
-            }
-            r.AddToDraw(*e);
-            // concentración alta: destello antes del golpe del rival (señal de lectura)
-            if(e == rival.get() && conc >= 70.f && box(*rival)->destello > 0.f)
-            {
-                sf::Sprite brillo = s->m_sprite;
-                brillo.setColor(sf::Color(255,255,255,(std::uint8_t)(140 + 100*std::sin(tiempo_total*40.f))));
-                r.AddToDraw(brillo,sf::RenderStates{sf::BlendAdd});
-            }
+            sf::Sprite copia = s->m_sprite;
+            copia.setColor(sf::Color(255,255,255,80));
+            for(float dx : {-7.f,7.f}) { copia.move({dx,0.f}); t.draw(copia); copia.move({-dx,0.f}); }
+        }
+        t.draw(*rival);
+        // concentración alta: destello antes del golpe del rival (señal de lectura)
+        if(conc >= 70.f && box(*rival)->destello > 0.f)
+        {
+            sf::Sprite brillo = s->m_sprite;
+            brillo.setColor(sf::Color(255,255,255,(std::uint8_t)(140 + 100*std::sin(tiempo_total*40.f))));
+            t.draw(brillo,sf::RenderStates{sf::BlendAdd});
         }
     }
 

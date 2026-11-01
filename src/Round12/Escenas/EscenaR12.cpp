@@ -56,12 +56,15 @@ namespace Round12
         control.botones = 0;
     }
 
-    void EscenaR12::usarCamara(float w, float h)
+    void EscenaR12::usarCamara()
     {
         auto& g = CE::GestorCamaras::Get();
+        const float w = 1920.f, h = 1080.f;
         g.agregarCamara(std::make_shared<CE::Camara>(CE::Vector2D{w/2.f,h/2.f},CE::Vector2D{w,h}));
         id_camara = (int)g.getListaCamaras().size()-1;
-        g.getCamara(id_camara).getTransformada().posicion = CE::Vector2D{w/2.f,h/2.f};
+        auto& cam = g.getCamara(id_camara);
+        cam.getTransformada().posicion = CE::Vector2D{w/2.f,h/2.f};
+        cam.getView().setViewport(sf::FloatRect{{0.f,BANDA_ARRIBA},{1.f,1.f - BANDA_ARRIBA - BANDA_ABAJO}});
     }
 
     void EscenaR12::moverCamara(float x, float y)
