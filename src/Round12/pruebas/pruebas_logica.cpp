@@ -14,6 +14,12 @@
 #include <Round12/Datos/Niveles.hpp>
 #include <Round12/Rutas.hpp>
 #include <Round12/Logica/FiltroTeclas.hpp>
+#include <Round12/Logica/Animaciones.hpp>
+#include <Round12/Logica/Piso.hpp>
+#include <Round12/Logica/Camino.hpp>
+#include <Round12/Logica/LineaDialogo.hpp>
+#include <set>
+#include <string>
 #include <cstdio>
 #include <filesystem>
 #include <fstream>
@@ -297,10 +303,94 @@ namespace
         CHECK(f.soltarTodas().empty());
         CHECK(f.presionar(11));
     }
+    void pruebasAnimaciones()
+    {
+        CHECK(elegirAccion(Postura::CAMINANDO,Brazo::GANCHO) == Accion::CAMINAR_GANCHO);
+        CHECK(elegirAccion(Postura::PIE,Brazo::NADA) == Accion::IDLE);
+        CHECK(elegirAccion(Postura::ESQUIVA_IZQ,Brazo::UPPERCUT) == Accion::ESQUIVA_IZQUIERDA_UPPERCUT);
+        std::set<int> todas{(int)Accion::CAER,(int)Accion::LEVANTARSE,(int)Accion::RECIBIR_GOLPE};
+        for(int p = 0; p < 6; ++p) for(int b = 0; b < 6; ++b) todas.insert((int)elegirAccion((Postura)p,(Brazo)b));
+        CHECK(todas.size() == 39); // se usan las 39 animaciones del paquete
+        std::ifstream f{std::string(R12_RECURSOS) + "/motor/hojas/acciones.txt"};
+        int i = 0;
+        for(std::string l; std::getline(f,l); ++i) CHECK(i < N_ACCIONES && l == nombre((Accion)i));
+        CHECK(i == 39);
+        CHECK((rectCuadro(Accion::JAB,IZQUIERDA,2) == RectCuadro{1600,28*80,80,80}));
+        CHECK((rectDialogo(4,DERECHA,1) == RectCuadro{(2*4+1)*80,4*80,80,80}));
+        CHECK(msPorCuadro(Accion::CAMINAR) == 110.f && msPorCuadro(Accion::CAMINAR_JAB) == 70.f);
+        CHECK(enCiclo(Accion::GUARDIA) && !enCiclo(Accion::JAB));
+        CHECK(direccionHacia(5,-2) == DERECHA && direccionHacia(-1,-4) == ATRAS && direccionHacia(0,0) == -1);
+        CHECK(direccionHacia(-3,1) == IZQUIERDA && direccionHacia(1,3) == ADELANTE);
+        // dentro del ring (pies 700) va detrás de las cuerdas (770); fuera, al frente (900), encima
+        CHECK((ordenPorProfundidad({900.f,770.f,700.f}) == std::vector<int>{2,1,0}));
+        CHECK((ordenPorProfundidad({5.f,5.f,1.f}) == std::vector<int>{2,0,1}));
+    }
+
+    void pruebasPiso()
+    {
+        Piso p;
+        p.agregar({{0,0},{100,0},{100,100},{0,100}});
+        CHECK(p.dentro({50,50}) && !p.dentro({150,50}));
+        CHECK((p.limitar({50,50},{150,60}) == Pt{50,60}));
+        CHECK((p.limitar({50,50},{60,60}) == Pt{60,60}));
+        p.bloquear({40,40,20,20});
+        CHECK(!p.dentro({50,50}));
+        Camino c{{{0,0},{100,0},{100,100},{0,100}}};
+        CERCA(c.largo(),400.f);
+        CERCA(c.punto(450).x,50.f); CERCA(c.punto(450).y,0.f);
+        CERCA(c.punto(150).x,100.f); CERCA(c.punto(150).y,50.f);
+        CERCA(c.tangente(150).y,1.f);
+    }
+
+    void pruebasAgacharse()
+    {
+        DetectorAgacharse d;
+        CHECK(!d.presionar('Q',0.f));
+        CHECK(d.presionar('E',0.1f));
+        DetectorAgacharse d2;
+        d2.presionar('Q',0.f);
+        CHECK(!d2.presionar('Q',0.05f));
+        CHECK(!d2.presionar('E',0.3f));
+        Combate c{perfil(Personaje::DIEGO),perfil(Personaje::RICARDO),Objetivo::GANAR,false};
+        float r0 = c.barras(true).resistencia;
+        CHECK(c.recibir(true,Golpe::JAB,false,false,false,false,true) == 0.f);
+        CHECK(c.barras(true).resistencia == r0);
+        CHECK(c.round().conectados_rival == 0);
+        float normal = c.recibir(true,Golpe::UPPERCUT,false,false,false,false,false);
+        float agachado = c.recibir(true,Golpe::UPPERCUT,false,false,false,false,true);
+        CERCA(agachado,normal*1.5f);
+    }
+
+    void pruebasDialogo()
+    {
+        CHECK(!parsearLinea("carlos|serio|-|hola"));
+        CHECK(!parsearLinea("# comentario"));
+        auto l = parsearLinea("carlos|decidido|01_sanchez_boxing_gym_tijuana|Hola|der");
+        CHECK(l && l->lado == 1 && l->texto == "Hola" && l->fondo == "01_sanchez_boxing_gym_tijuana");
+        CHECK(parsearLinea("diego|hablando|-|Hola, ¿qué tal?")->lado == 0);
+        CHECK(archivoRostro("diego","hablando",Vista::PERFIL,0,true) == "diego_ureta_dialogo_perfil_der_hablando_abierto.png");
+        CHECK(archivoRostro("brandon","neutral",Vista::FRENTE,0,false).empty());
+        // las 3 vistas x 6 expresiones de diego y carlos existen y se pueden producir
+        std::set<std::string> rostros;
+        for(const char* o : {"diego","carlos"})
+            for(auto v : {Vista::FRENTE,Vista::TRESCUARTOS,Vista::PERFIL})
+                for(int lado : {0,1}) for(const char* e : EMOCIONES) for(bool b : {false,true})
+                {
+                    auto n = archivoRostro(o,e,v,lado,b);
+                    rostros.insert(n);
+                    CHECK(std::filesystem::exists(std::string(R12_RECURSOS) + "/sprites/personajes/"
+                            + carpetaPersonaje(o) + "/dialogo_rostros/" + n));
+                }
+        CHECK(rostros.size() == 60);
+    }
 }
 
 int main()
 {
+    pruebasAnimaciones();
+    pruebasPiso();
+    pruebasAgacharse();
+    pruebasDialogo();
     pruebasFiltroTeclas();
     pruebasHistoria();
     pruebasRitmo();

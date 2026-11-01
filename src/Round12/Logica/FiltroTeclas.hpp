@@ -21,4 +21,19 @@ namespace Round12
         private:
             std::set<int> abajo;
     };
+
+    // Q+E casi juntas (<= 0.12 s) = agacharse. Q o E solas siguen siendo esquiva.
+    // Recibe solo pulsaciones nuevas (ya filtradas de la repetición del SO).
+    struct DetectorAgacharse
+    {
+        bool presionar(char tecla, float t)
+        {
+            float& otra = tecla == 'Q' ? t_e : t_q;
+            bool junta = t - otra <= 0.12f;
+            (tecla == 'Q' ? t_q : t_e) = t;
+            if(junta) t_q = t_e = -1.f; // una pulsación doble no cuenta dos veces
+            return junta;
+        }
+        float t_q{-1.f}, t_e{-1.f};
+    };
 }

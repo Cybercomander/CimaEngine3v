@@ -18,8 +18,10 @@ namespace Round12
             // cobra el aire del golpe; false si no alcanza (el golpe sale sin fuerza)
             bool lanzar(bool de_diego, Golpe g);
             bool esquivar(bool de_diego);
-            // golpe que conectó: aplica daño y efectos; regresa el daño
-            float recibir(bool a_diego, Golpe g, bool bloqueado, bool cierra_combo, bool contragolpe, bool frontera);
+            // golpe que conectó: aplica daño y efectos; regresa el daño.
+            // Agachado: jab, recto y gancho pasan por arriba (0); el uppercut entra x1.5.
+            float recibir(bool a_diego, Golpe g, bool bloqueado, bool cierra_combo, bool contragolpe, bool frontera,
+                          bool agachado = false);
             void tick(float dt, EstadoFisico diego, EstadoFisico rival);
             void caida(bool diego);
             void descanso(); // entre rounds: aire lleno y un poco de resistencia

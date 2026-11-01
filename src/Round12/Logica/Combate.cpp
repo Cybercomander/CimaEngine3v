@@ -31,13 +31,15 @@ namespace Round12
         return true;
     }
 
-    float Combate::recibir(bool a_diego, Golpe g, bool bloqueado, bool cierra_combo, bool contragolpe, bool frontera)
+    float Combate::recibir(bool a_diego, Golpe g, bool bloqueado, bool cierra_combo, bool contragolpe, bool frontera,
+                           bool agachado)
     {
+        if(agachado && g != Golpe::UPPERCUT) return 0.f;
         static const auto cadena = cadenaDanio();
         bool atk_diego = !a_diego;
         ContextoGolpe ctx{g,atributos(atk_diego),barras(atk_diego),atributos(a_diego),
             bloqueado,cierra_combo,contragolpe,frontera};
-        float d = cadena->calcular(ctx);
+        float d = cadena->calcular(ctx) * (agachado ? 1.5f : 1.f);
         auto& b = barras(a_diego);
         // en la semifinal contra Ricardo no hay nocaut de nadie (GDD, capítulo 4)
         float minimo = objetivo == Objetivo::PERDER_FORZADO ? 1.f : 0.f;
