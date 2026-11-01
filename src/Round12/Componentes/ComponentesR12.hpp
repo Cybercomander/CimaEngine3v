@@ -24,6 +24,9 @@ namespace Round12
             bool guardia{false};
             bool caido{false};
             float destello{0.f};            // señal visual previa al golpe del rival
+            bool jugador{false};            // Diego: sin preparación antes de golpear
+            bool puede_esquivar{true};      // Diego la aprende en el sparring (GDD)
+            bool mira_fijo{false};          // en el ring la escena decide hacia dónde mira
             sf::Color tinte{sf::Color::White};
     };
 

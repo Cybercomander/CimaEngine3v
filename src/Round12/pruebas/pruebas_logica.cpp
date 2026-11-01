@@ -8,6 +8,7 @@
 #include <Round12/Logica/Partida.hpp>
 #include <Round12/Logica/Runner.hpp>
 #include <Round12/Logica/MapaColision.hpp>
+#include <Round12/Logica/EstiloIA.hpp>
 #include <cstdio>
 #include <fstream>
 #include <random>
@@ -182,10 +183,20 @@ namespace
         }
         CHECK(MapaColision::cargar("no_existe.txt",1).empty());
     }
+
+    void pruebasIA()
+    {
+        CHECK(elegirGolpe({0.7f,0.2f,0.05f,0.05f},0.75f) == Golpe::RECTO);
+        CHECK(elegirGolpe({0.7f,0.2f,0.05f,0.05f},0.1f) == Golpe::JAB);
+        CHECK(elegirGolpe({0.7f,0.2f,0.05f,0.05f},0.999f) == Golpe::UPPERCUT);
+        CHECK(estilo(Personaje::JAVIER).pesos_golpe[2] > estilo(Personaje::BRANDON).pesos_golpe[2]);
+        CHECK(estilo(Personaje::KEVIN).distancia_ideal > estilo(Personaje::JAVIER).distancia_ideal);
+    }
 }
 
 int main()
 {
+    pruebasIA();
     pruebasPartida();
     pruebasEventos();
     pruebasRunner();
