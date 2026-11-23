@@ -26,6 +26,7 @@
 #include <Juego/Escenas/Escena_Round12.hpp>
 #include <Juego/Escenas/Escena_Lab9.hpp>
 #include <Juego/Escenas/Escena_Round12Col.hpp>
+#include <Juego/Escenas/Escena_shaders.hpp>
 
 
 
@@ -53,6 +54,7 @@ namespace IVJ
         //copia con los mismos stats y sin componentes: cada escena agrega los suyos
         //sin que el triangulo de Camaras se mezcle con el sprite/colisión de Sprites
         jugador_sprites = std::make_shared<Entidad>(*jugador);
+        jugador_shaders = std::make_shared<Entidad>(*jugador);
 
         //AQUÍ CAMBIÉ LA ESCENA ACTIVA, PARA QUE LOS CAMBIOS DE LA PRÁCTICA DE FIGURAS SE GUARDE SIN NECESIDAD 
         //... DE ALTERARLA LUEGO Y ASÍ PODER TENER UNA ESCENA POR CADA PRÁCTICA.
@@ -80,7 +82,10 @@ namespace IVJ
         //Lab 9 con los assets de ROUND12: colisiones y animaciones en 4 direcciones
         CE::GestorEscenas::Get().registrarEscena("Round12Col",std::make_shared<Escena_Round12Col>());
 
-        CE::GestorEscenas::Get().cambiarEscena("Init"); //ejecuta onInit()
+        //Escena del laboratorio 10: shaders, sonido y música
+        CE::GestorEscenas::Get().registrarEscena("Shade",std::make_shared<Escena_shaders>(jugador_shaders));
+
+        CE::GestorEscenas::Get().cambiarEscena("Shade"); //ejecuta onInit()
         escena_actual = &CE::GestorEscenas::Get().getEscenaActual();
 
         //creamos la Camara

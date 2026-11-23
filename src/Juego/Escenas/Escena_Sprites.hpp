@@ -16,5 +16,7 @@ namespace IVJ
         private:
             int inicializar{1};
             std::shared_ptr<Entidad>& player;
+            //lab 10 shaders: shader de agua del techo (el pool es su dueño)
+            CE::IShader* techo_shader{};
     };
 }

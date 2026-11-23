@@ -38,7 +38,7 @@ class Selector : public CE::GameLayer
         Modo modo{Modo::LANZADOR};
         Modo inicial;
         Modo previo{Modo::LANZADOR};
-        std::string escena_labs{"Init"};
+        std::string escena_labs{"Shade"};
         CE::InputBuffer filtrado{32};
         Round12::FiltroTeclas teclas_labs; // abajo en Labs: se sueltan al cambiar de juego
         void soltarLabs();
