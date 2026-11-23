@@ -1,0 +1,6 @@
+narrador|neutral|01_sanchez_boxing_gym_tijuana|Capítulo 1: seis meses de sudor.
+narrador|neutral|04_skatepark_santa_fe_tijuana|Entre semana Diego entrena en el gimnasio. Los fines de semana corre en el parque de skate de Santa Fe.
+carlos|decidido|04_skatepark_santa_fe_tijuana|Sube saltando rampas y escalones hasta arriba. Cada salto cuesta aire: no te desesperes.|der
+narrador|neutral|05_playa_rosarito|También corre en la playa de Rosarito y en el circuito atlético.
+diego|sorprendido|06_circuito_atletico_rosarito|Después de esto, entrenador, ¿me deja hacer sparring?
+carlos|hablando|06_circuito_atletico_rosarito|Termina las vueltas y hablamos. Te pondré con niños de tu edad.|der

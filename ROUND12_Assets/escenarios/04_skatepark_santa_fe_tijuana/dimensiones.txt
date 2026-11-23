@@ -1,0 +1,5 @@
+canvas=1920x1080
+tile_width=64
+tile_height=32
+tile_footprint_height=32
+foreground_overlay=primer_plano_1920x1080.png

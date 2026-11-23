@@ -22,6 +22,11 @@
 #include <Juego/Escenas/Escena_Camara.hpp>
 #include <Juego/Escenas/Escena_Sprites.hpp>
 #include <Juego/Escenas/Escena_Indiana.hpp>
+#include <Juego/Escenas/Escena_Lab8.hpp>
+#include <Juego/Escenas/Escena_Round12.hpp>
+#include <Juego/Escenas/Escena_Lab9.hpp>
+#include <Juego/Escenas/Escena_Round12Col.hpp>
+#include <Juego/Escenas/Escena_shaders.hpp>
 
 
 
@@ -46,6 +51,10 @@ namespace IVJ
         jugador->getStats()->str = 255;
         jugador->getStats()->def = 255;
         jugador->getStats()->agi = 255;
+        //copia con los mismos stats y sin componentes: cada escena agrega los suyos
+        //sin que el triangulo de Camaras se mezcle con el sprite/colisión de Sprites
+        jugador_sprites = std::make_shared<Entidad>(*jugador);
+        jugador_shaders = std::make_shared<Entidad>(*jugador);
 
         //AQUÍ CAMBIÉ LA ESCENA ACTIVA, PARA QUE LOS CAMBIOS DE LA PRÁCTICA DE FIGURAS SE GUARDE SIN NECESIDAD 
         //... DE ALTERARLA LUEGO Y ASÍ PODER TENER UNA ESCENA POR CADA PRÁCTICA.
@@ -60,12 +69,23 @@ namespace IVJ
         CE::GestorEscenas::Get().registrarEscena("Sim", std::make_shared<Escena_Sim>());
         //Escena del laboratorio 6: camaras
         CE::GestorEscenas::Get().registrarEscena("Camaras",std::make_shared<Escena_Camara>(jugador));
-        //Escena del laboratorio 7: sprites
-        CE::GestorEscenas::Get().registrarEscena("Sprites",std::make_shared<Escena_Sprites>(jugador));
+        //Escena de los laboratorios 7, 8 y 9: sprites, animaciones y colisiones
+        CE::GestorEscenas::Get().registrarEscena("Sprites",std::make_shared<Escena_Sprites>(jugador_sprites));
         //Escena del laboratorio 7: Indiana con sprites por dirección sobre tileMapP7
         CE::GestorEscenas::Get().registrarEscena("Indiana",std::make_shared<Escena_Indiana>());
+        //Escena del laboratorio 8 tal como la propone la guía: nave y jefe animados
+        CE::GestorEscenas::Get().registrarEscena("Animaciones",std::make_shared<Escena_Lab8>());
+        //Lab 8 con los sprites propios de ROUND12: animaciones de boxeadores
+        CE::GestorEscenas::Get().registrarEscena("Round12",std::make_shared<Escena_Round12>());
+        //Escena del laboratorio 9 tal como la propone la guía: colisiones
+        CE::GestorEscenas::Get().registrarEscena("Colisiones",std::make_shared<Escena_Lab9>());
+        //Lab 9 con los assets de ROUND12: colisiones y animaciones en 4 direcciones
+        CE::GestorEscenas::Get().registrarEscena("Round12Col",std::make_shared<Escena_Round12Col>());
 
-        CE::GestorEscenas::Get().cambiarEscena("Menu"); //ejecuta onInit()
+        //Escena del laboratorio 10: shaders, sonido y música
+        CE::GestorEscenas::Get().registrarEscena("Shade",std::make_shared<Escena_shaders>(jugador_shaders));
+
+        CE::GestorEscenas::Get().cambiarEscena("Shade"); //ejecuta onInit()
         escena_actual = &CE::GestorEscenas::Get().getEscenaActual();
 
         //creamos la Camara
@@ -97,7 +117,7 @@ namespace IVJ
                     CE::Vector2D{0.f,0.f}, //posición
                     CE::Vector2D{1024,720}, //dimensiones
                     CE::Vector2D{400,300}, //ventana (líneas punteadas)
-                    100.f //foco (líneas sólidas)
+                    100.f //foco (líneas sólidas) salidas 
                     )
                 );
     }

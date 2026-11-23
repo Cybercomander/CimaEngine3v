@@ -1,0 +1,272 @@
+[
+  {
+    "archivo": "diego_ureta_dialogo_frente_neutral.png",
+    "angulo": "frente",
+    "expresion": "neutral",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_frente_hablando_abierto.png",
+    "angulo": "frente",
+    "expresion": "hablando_abierto",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_frente_hablando_cerrado.png",
+    "angulo": "frente",
+    "expresion": "hablando_cerrado",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_frente_serio.png",
+    "angulo": "frente",
+    "expresion": "serio",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_frente_sorprendido.png",
+    "angulo": "frente",
+    "expresion": "sorprendido",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_frente_sonriendo.png",
+    "angulo": "frente",
+    "expresion": "sonriendo",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_trescuartos_izq_neutral.png",
+    "angulo": "trescuartos_izq",
+    "expresion": "neutral",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_trescuartos_izq_hablando_abierto.png",
+    "angulo": "trescuartos_izq",
+    "expresion": "hablando_abierto",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_trescuartos_izq_hablando_cerrado.png",
+    "angulo": "trescuartos_izq",
+    "expresion": "hablando_cerrado",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_trescuartos_izq_serio.png",
+    "angulo": "trescuartos_izq",
+    "expresion": "serio",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_trescuartos_izq_sorprendido.png",
+    "angulo": "trescuartos_izq",
+    "expresion": "sorprendido",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_trescuartos_izq_sonriendo.png",
+    "angulo": "trescuartos_izq",
+    "expresion": "sonriendo",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_trescuartos_der_neutral.png",
+    "angulo": "trescuartos_der",
+    "expresion": "neutral",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_trescuartos_der_hablando_abierto.png",
+    "angulo": "trescuartos_der",
+    "expresion": "hablando_abierto",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_trescuartos_der_hablando_cerrado.png",
+    "angulo": "trescuartos_der",
+    "expresion": "hablando_cerrado",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_trescuartos_der_serio.png",
+    "angulo": "trescuartos_der",
+    "expresion": "serio",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_trescuartos_der_sorprendido.png",
+    "angulo": "trescuartos_der",
+    "expresion": "sorprendido",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_trescuartos_der_sonriendo.png",
+    "angulo": "trescuartos_der",
+    "expresion": "sonriendo",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_perfil_izq_neutral.png",
+    "angulo": "perfil_izq",
+    "expresion": "neutral",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_perfil_izq_hablando_abierto.png",
+    "angulo": "perfil_izq",
+    "expresion": "hablando_abierto",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_perfil_izq_hablando_cerrado.png",
+    "angulo": "perfil_izq",
+    "expresion": "hablando_cerrado",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_perfil_izq_serio.png",
+    "angulo": "perfil_izq",
+    "expresion": "serio",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_perfil_izq_sorprendido.png",
+    "angulo": "perfil_izq",
+    "expresion": "sorprendido",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_perfil_izq_sonriendo.png",
+    "angulo": "perfil_izq",
+    "expresion": "sonriendo",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_perfil_der_neutral.png",
+    "angulo": "perfil_der",
+    "expresion": "neutral",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_perfil_der_hablando_abierto.png",
+    "angulo": "perfil_der",
+    "expresion": "hablando_abierto",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_perfil_der_hablando_cerrado.png",
+    "angulo": "perfil_der",
+    "expresion": "hablando_cerrado",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_perfil_der_serio.png",
+    "angulo": "perfil_der",
+    "expresion": "serio",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_perfil_der_sorprendido.png",
+    "angulo": "perfil_der",
+    "expresion": "sorprendido",
+    "dimensiones": [
+      224,
+      224
+    ]
+  },
+  {
+    "archivo": "diego_ureta_dialogo_perfil_der_sonriendo.png",
+    "angulo": "perfil_der",
+    "expresion": "sonriendo",
+    "dimensiones": [
+      224,
+      224
+    ]
+  }
+]

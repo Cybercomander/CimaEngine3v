@@ -119,8 +119,8 @@ namespace CE
             /** @brief Caché de música cargada (soporta loop) */
             std::map<std::string, std::shared_ptr<sf::Music>> hashMusica;
             
-            /** @brief Buffer de sonido compartido para carga de efectos */
-            sf::SoundBuffer sound_buffer;
+            /** @brief Un buffer por sonido (sf::Sound solo guarda una referencia al buffer) */
+            std::map<std::string, std::shared_ptr<sf::SoundBuffer>> hashBuffers;
             
             /** @brief Instancia singleton del gestor */
             static inline GestorAssets* instancia=nullptr;

@@ -1,0 +1,4 @@
+narrador|neutral|03_gimnasio_mexicali_torneo|«Guerra en la Frontera», un año después. La final.
+ricardo|hablando|03_gimnasio_mexicali_torneo|Creciste, Diego. Pero esto dura doce rounds.|der
+diego|hablando|03_gimnasio_mexicali_torneo|Por eso entrené. Para seguir de pie en el último.
+carlos|hablando|03_gimnasio_mexicali_torneo|Guardia arriba, maneja el aire y toma agua en cada esquina. ¡Vamos, campeón!|der

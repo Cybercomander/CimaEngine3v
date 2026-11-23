@@ -1,0 +1,238 @@
+{
+  "project": "ROUND 12",
+  "source": "Avance 2 - Concepto, Personajes, Historia y Tematica.docx",
+  "resolution": [
+    320,
+    180
+  ],
+  "tile_px": 8,
+  "render": "nearest-neighbor; disable texture filtering; images at native resolution",
+  "sprites": {
+    "diego_ureta": {
+      "name": "Diego Alejandro Ureta",
+      "age": 12,
+      "sheet": "spritesheet_4poses.png",
+      "frame_width": 44,
+      "frame_height": 52,
+      "poses": [
+        "frente_firme",
+        "frente_guardia",
+        "lateral_firme",
+        "lateral_jab"
+      ],
+      "direction": "lateral sprites face right; mirror horizontally for left"
+    },
+    "brandon_salazar": {
+      "name": "Brandon El Guero Salazar",
+      "age": 15,
+      "sheet": "spritesheet_4poses.png",
+      "frame_width": 44,
+      "frame_height": 56,
+      "poses": [
+        "frente_firme",
+        "frente_guardia",
+        "lateral_firme",
+        "lateral_jab"
+      ],
+      "direction": "lateral sprites face right; mirror horizontally for left"
+    },
+    "javier_castaneda": {
+      "name": "Javier El Toro Castaneda",
+      "age": 13,
+      "sheet": "spritesheet_4poses.png",
+      "frame_width": 44,
+      "frame_height": 56,
+      "poses": [
+        "frente_firme",
+        "frente_guardia",
+        "lateral_firme",
+        "lateral_jab"
+      ],
+      "direction": "lateral sprites face right; mirror horizontally for left"
+    },
+    "kevin_ramirez": {
+      "name": "Kevin The Hawk Ramirez",
+      "age": 13,
+      "sheet": "spritesheet_4poses.png",
+      "frame_width": 44,
+      "frame_height": 56,
+      "poses": [
+        "frente_firme",
+        "frente_guardia",
+        "lateral_firme",
+        "lateral_jab"
+      ],
+      "direction": "lateral sprites face right; mirror horizontally for left"
+    },
+    "ricardo_oropeza": {
+      "name": "Ricardo Oropeza",
+      "age": 14,
+      "sheet": "spritesheet_4poses.png",
+      "frame_width": 44,
+      "frame_height": 56,
+      "poses": [
+        "frente_firme",
+        "frente_guardia",
+        "lateral_firme",
+        "lateral_jab"
+      ],
+      "direction": "lateral sprites face right; mirror horizontally for left"
+    },
+    "carlos_sanchez": {
+      "name": "Carlos Sanchez",
+      "role": "entrenador NPC",
+      "sheet": "spritesheet_npc.png",
+      "frame_width": 44,
+      "frame_height": 60,
+      "poses": [
+        "frente_firme",
+        "hablando",
+        "senalando",
+        "lateral",
+        "cronometro"
+      ],
+      "source": "ilustracion nueva basada en descripcion GDD"
+    }
+  },
+  "levels": {
+    "01_sanchez_boxing_gym": {
+      "name": "Sanchez Boxing GYM - Tijuana",
+      "tileset_png": "tilesets/01_sanchez_boxing_gym.png",
+      "map_txt": "tilemaps/01_sanchez_boxing_gym.txt",
+      "collisions_txt": "colisiones/01_sanchez_boxing_gym_colisiones.txt",
+      "preview_png": "previews/01_sanchez_boxing_gym_nativo.png",
+      "scroll": "horizontal",
+      "width_tiles": 80,
+      "height_tiles": 24,
+      "tile_size_px": 8,
+      "tileset_columns": 16,
+      "unique_tiles": 224,
+      "world_pixels": [
+        640,
+        192
+      ],
+      "spawn_tiles": [
+        8,
+        20
+      ],
+      "notes": "Original stylized regional design, not an exact survey of a real building or venue."
+    },
+    "02_gimnasio_visitante": {
+      "name": "Gimnasio visitante - regional",
+      "tileset_png": "tilesets/02_gimnasio_visitante.png",
+      "map_txt": "tilemaps/02_gimnasio_visitante.txt",
+      "collisions_txt": "colisiones/02_gimnasio_visitante_colisiones.txt",
+      "preview_png": "previews/02_gimnasio_visitante_nativo.png",
+      "scroll": "horizontal",
+      "width_tiles": 90,
+      "height_tiles": 24,
+      "tile_size_px": 8,
+      "tileset_columns": 16,
+      "unique_tiles": 229,
+      "world_pixels": [
+        720,
+        192
+      ],
+      "spawn_tiles": [
+        10,
+        20
+      ],
+      "notes": "Original stylized regional design, not an exact survey of a real building or venue."
+    },
+    "03_gimnasio_mexicali": {
+      "name": "Gimnasio de Box Mexicali - Guerra en la Frontera",
+      "tileset_png": "tilesets/03_gimnasio_mexicali.png",
+      "map_txt": "tilemaps/03_gimnasio_mexicali.txt",
+      "collisions_txt": "colisiones/03_gimnasio_mexicali_colisiones.txt",
+      "preview_png": "previews/03_gimnasio_mexicali_nativo.png",
+      "scroll": "horizontal",
+      "width_tiles": 100,
+      "height_tiles": 24,
+      "tile_size_px": 8,
+      "tileset_columns": 16,
+      "unique_tiles": 188,
+      "world_pixels": [
+        800,
+        192
+      ],
+      "spawn_tiles": [
+        11,
+        20
+      ],
+      "notes": "Original stylized regional design, not an exact survey of a real building or venue."
+    },
+    "04_skate_santa_fe": {
+      "name": "Parque de skate Santa Fe - Tijuana",
+      "tileset_png": "tilesets/04_skate_santa_fe.png",
+      "map_txt": "tilemaps/04_skate_santa_fe.txt",
+      "collisions_txt": "colisiones/04_skate_santa_fe_colisiones.txt",
+      "preview_png": "previews/04_skate_santa_fe_nativo.png",
+      "scroll": "vertical",
+      "width_tiles": 40,
+      "height_tiles": 80,
+      "tile_size_px": 8,
+      "tileset_columns": 16,
+      "unique_tiles": 270,
+      "world_pixels": [
+        320,
+        640
+      ],
+      "spawn_tiles": [
+        20,
+        77
+      ],
+      "notes": "Original stylized regional design, not an exact survey of a real building or venue."
+    },
+    "05_playa_rosarito": {
+      "name": "Playa de Rosarito",
+      "tileset_png": "tilesets/05_playa_rosarito.png",
+      "map_txt": "tilemaps/05_playa_rosarito.txt",
+      "collisions_txt": "colisiones/05_playa_rosarito_colisiones.txt",
+      "preview_png": "previews/05_playa_rosarito_nativo.png",
+      "scroll": "horizontal",
+      "width_tiles": 120,
+      "height_tiles": 24,
+      "tile_size_px": 8,
+      "tileset_columns": 16,
+      "unique_tiles": 204,
+      "world_pixels": [
+        960,
+        192
+      ],
+      "spawn_tiles": [
+        13,
+        20
+      ],
+      "notes": "Original stylized regional design, not an exact survey of a real building or venue."
+    },
+    "06_circuito_rosarito": {
+      "name": "Circuito atletico de Rosarito",
+      "tileset_png": "tilesets/06_circuito_rosarito.png",
+      "map_txt": "tilemaps/06_circuito_rosarito.txt",
+      "collisions_txt": "colisiones/06_circuito_rosarito_colisiones.txt",
+      "preview_png": "previews/06_circuito_rosarito_nativo.png",
+      "scroll": "horizontal",
+      "width_tiles": 120,
+      "height_tiles": 24,
+      "tile_size_px": 8,
+      "tileset_columns": 16,
+      "unique_tiles": 260,
+      "world_pixels": [
+        960,
+        192
+      ],
+      "spawn_tiles": [
+        13,
+        20
+      ],
+      "notes": "Original stylized regional design, not an exact survey of a real building or venue."
+    }
+  },
+  "txt_format": "first line: width height; following height rows of width decimal indices",
+  "collision_legend": {
+    "0": "libre/apto para movimiento",
+    "1": "bloqueado/fuera del area",
+    "2": "obstaculo para salto (provisional)"
+  },
+  "original_characters": "The 4 primary frames for five boxers were extracted from original embedded pixel sprites in user GDD, reduced by 5x nearest-neighbor. Coach generated separately."
+}

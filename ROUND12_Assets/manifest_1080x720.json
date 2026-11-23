@@ -1,0 +1,1100 @@
+{
+  "package": "ROUND12_Assets_1080x720",
+  "preserve_art": true,
+  "scenarios_canvas": [
+    1080,
+    720
+  ],
+  "sprite_canvas_optional": [
+    1080,
+    720
+  ],
+  "sprite_individual_directories": {
+    "native": "sprites_individuales_nativos",
+    "uniform": "sprites_individuales_uniformes",
+    "canvas_1080x720": "sprites_individuales_1080x720"
+  },
+  "scenarios": {
+    "01_sanchez_boxing_gym": {
+      "source_preview": "01_sanchez_boxing_gym_nativo.png",
+      "output": "escenarios_1080x720/01_sanchez_boxing_gym_1080x720.png",
+      "native_size": [
+        640,
+        192
+      ],
+      "canvas_size": [
+        1080,
+        720
+      ],
+      "fit": {
+        "scale": 1.6875,
+        "x": 0,
+        "y": 198,
+        "width": 1080,
+        "height": 324
+      },
+      "padding_color_rgba": [
+        35,
+        58,
+        50,
+        255
+      ],
+      "notes": "Escenario reconstruido desde el tilemap, escalado sin suavizado y centrado en lienzo 1080x720 sin alterar la ilustración."
+    },
+    "02_gimnasio_visitante": {
+      "source_preview": "02_gimnasio_visitante_nativo.png",
+      "output": "escenarios_1080x720/02_gimnasio_visitante_1080x720.png",
+      "native_size": [
+        720,
+        192
+      ],
+      "canvas_size": [
+        1080,
+        720
+      ],
+      "fit": {
+        "scale": 1.5,
+        "x": 0,
+        "y": 216,
+        "width": 1080,
+        "height": 288
+      },
+      "padding_color_rgba": [
+        89,
+        75,
+        77,
+        255
+      ],
+      "notes": "Escenario reconstruido desde el tilemap, escalado sin suavizado y centrado en lienzo 1080x720 sin alterar la ilustración."
+    },
+    "03_gimnasio_mexicali": {
+      "source_preview": "03_gimnasio_mexicali_nativo.png",
+      "output": "escenarios_1080x720/03_gimnasio_mexicali_1080x720.png",
+      "native_size": [
+        800,
+        192
+      ],
+      "canvas_size": [
+        1080,
+        720
+      ],
+      "fit": {
+        "scale": 1.35,
+        "x": 0,
+        "y": 230,
+        "width": 1080,
+        "height": 259
+      },
+      "padding_color_rgba": [
+        161,
+        176,
+        190,
+        255
+      ],
+      "notes": "Escenario reconstruido desde el tilemap, escalado sin suavizado y centrado en lienzo 1080x720 sin alterar la ilustración."
+    },
+    "04_skate_santa_fe": {
+      "source_preview": "04_skate_santa_fe_nativo.png",
+      "output": "escenarios_1080x720/04_skate_santa_fe_1080x720.png",
+      "native_size": [
+        320,
+        640
+      ],
+      "canvas_size": [
+        1080,
+        720
+      ],
+      "fit": {
+        "scale": 1.125,
+        "x": 360,
+        "y": 0,
+        "width": 360,
+        "height": 720
+      },
+      "padding_color_rgba": [
+        131,
+        165,
+        177,
+        255
+      ],
+      "notes": "Escenario reconstruido desde el tilemap, escalado sin suavizado y centrado en lienzo 1080x720 sin alterar la ilustración."
+    },
+    "05_playa_rosarito": {
+      "source_preview": "05_playa_rosarito_nativo.png",
+      "output": "escenarios_1080x720/05_playa_rosarito_1080x720.png",
+      "native_size": [
+        960,
+        192
+      ],
+      "canvas_size": [
+        1080,
+        720
+      ],
+      "fit": {
+        "scale": 1.125,
+        "x": 0,
+        "y": 252,
+        "width": 1080,
+        "height": 216
+      },
+      "padding_color_rgba": [
+        143,
+        199,
+        210,
+        255
+      ],
+      "notes": "Escenario reconstruido desde el tilemap, escalado sin suavizado y centrado en lienzo 1080x720 sin alterar la ilustración."
+    },
+    "06_circuito_rosarito": {
+      "source_preview": "06_circuito_rosarito_nativo.png",
+      "output": "escenarios_1080x720/06_circuito_rosarito_1080x720.png",
+      "native_size": [
+        960,
+        192
+      ],
+      "canvas_size": [
+        1080,
+        720
+      ],
+      "fit": {
+        "scale": 1.125,
+        "x": 0,
+        "y": 252,
+        "width": 1080,
+        "height": 216
+      },
+      "padding_color_rgba": [
+        165,
+        199,
+        195,
+        255
+      ],
+      "notes": "Escenario reconstruido desde el tilemap, escalado sin suavizado y centrado en lienzo 1080x720 sin alterar la ilustración."
+    }
+  },
+  "sprites": {
+    "brandon_salazar": {
+      "poses": [
+        {
+          "pose": "00_frente_firme",
+          "native_output": "sprites_individuales_nativos/brandon_salazar/00_frente_firme.png",
+          "uniform_output": "sprites_individuales_uniformes/brandon_salazar/00_frente_firme.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/brandon_salazar/00_frente_firme_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "01_frente_guardia",
+          "native_output": "sprites_individuales_nativos/brandon_salazar/01_frente_guardia.png",
+          "uniform_output": "sprites_individuales_uniformes/brandon_salazar/01_frente_guardia.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/brandon_salazar/01_frente_guardia_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "02_lateral_firme",
+          "native_output": "sprites_individuales_nativos/brandon_salazar/02_lateral_firme.png",
+          "uniform_output": "sprites_individuales_uniformes/brandon_salazar/02_lateral_firme.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/brandon_salazar/02_lateral_firme_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "03_lateral_jab",
+          "native_output": "sprites_individuales_nativos/brandon_salazar/03_lateral_jab.png",
+          "uniform_output": "sprites_individuales_uniformes/brandon_salazar/03_lateral_jab.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/brandon_salazar/03_lateral_jab_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "04_lateral_firme_izquierda",
+          "native_output": "sprites_individuales_nativos/brandon_salazar/04_lateral_firme_izquierda.png",
+          "uniform_output": "sprites_individuales_uniformes/brandon_salazar/04_lateral_firme_izquierda.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/brandon_salazar/04_lateral_firme_izquierda_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "05_lateral_jab_izquierda",
+          "native_output": "sprites_individuales_nativos/brandon_salazar/05_lateral_jab_izquierda.png",
+          "uniform_output": "sprites_individuales_uniformes/brandon_salazar/05_lateral_jab_izquierda.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/brandon_salazar/05_lateral_jab_izquierda_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        }
+      ],
+      "uniform_canvas": [
+        44,
+        56
+      ]
+    },
+    "carlos_sanchez": {
+      "poses": [
+        {
+          "pose": "00_frente_firme",
+          "native_output": "sprites_individuales_nativos/carlos_sanchez/00_frente_firme.png",
+          "uniform_output": "sprites_individuales_uniformes/carlos_sanchez/00_frente_firme.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/carlos_sanchez/00_frente_firme_1080x720.png",
+          "native_size": [
+            44,
+            60
+          ],
+          "uniform_character_canvas": [
+            44,
+            60
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.0,
+            "x": 276,
+            "y": 0,
+            "width": 528,
+            "height": 720
+          }
+        },
+        {
+          "pose": "01_hablando",
+          "native_output": "sprites_individuales_nativos/carlos_sanchez/01_hablando.png",
+          "uniform_output": "sprites_individuales_uniformes/carlos_sanchez/01_hablando.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/carlos_sanchez/01_hablando_1080x720.png",
+          "native_size": [
+            44,
+            60
+          ],
+          "uniform_character_canvas": [
+            44,
+            60
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.0,
+            "x": 276,
+            "y": 0,
+            "width": 528,
+            "height": 720
+          }
+        },
+        {
+          "pose": "02_senalando",
+          "native_output": "sprites_individuales_nativos/carlos_sanchez/02_senalando.png",
+          "uniform_output": "sprites_individuales_uniformes/carlos_sanchez/02_senalando.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/carlos_sanchez/02_senalando_1080x720.png",
+          "native_size": [
+            44,
+            60
+          ],
+          "uniform_character_canvas": [
+            44,
+            60
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.0,
+            "x": 276,
+            "y": 0,
+            "width": 528,
+            "height": 720
+          }
+        },
+        {
+          "pose": "03_lateral",
+          "native_output": "sprites_individuales_nativos/carlos_sanchez/03_lateral.png",
+          "uniform_output": "sprites_individuales_uniformes/carlos_sanchez/03_lateral.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/carlos_sanchez/03_lateral_1080x720.png",
+          "native_size": [
+            44,
+            60
+          ],
+          "uniform_character_canvas": [
+            44,
+            60
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.0,
+            "x": 276,
+            "y": 0,
+            "width": 528,
+            "height": 720
+          }
+        },
+        {
+          "pose": "04_cronometro",
+          "native_output": "sprites_individuales_nativos/carlos_sanchez/04_cronometro.png",
+          "uniform_output": "sprites_individuales_uniformes/carlos_sanchez/04_cronometro.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/carlos_sanchez/04_cronometro_1080x720.png",
+          "native_size": [
+            44,
+            60
+          ],
+          "uniform_character_canvas": [
+            44,
+            60
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.0,
+            "x": 276,
+            "y": 0,
+            "width": 528,
+            "height": 720
+          }
+        }
+      ],
+      "uniform_canvas": [
+        44,
+        60
+      ]
+    },
+    "diego_ureta": {
+      "poses": [
+        {
+          "pose": "00_frente_firme",
+          "native_output": "sprites_individuales_nativos/diego_ureta/00_frente_firme.png",
+          "uniform_output": "sprites_individuales_uniformes/diego_ureta/00_frente_firme.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/diego_ureta/00_frente_firme_1080x720.png",
+          "native_size": [
+            44,
+            52
+          ],
+          "uniform_character_canvas": [
+            44,
+            52
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 13.846153846153847,
+            "x": 235,
+            "y": 0,
+            "width": 609,
+            "height": 720
+          }
+        },
+        {
+          "pose": "01_frente_guardia",
+          "native_output": "sprites_individuales_nativos/diego_ureta/01_frente_guardia.png",
+          "uniform_output": "sprites_individuales_uniformes/diego_ureta/01_frente_guardia.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/diego_ureta/01_frente_guardia_1080x720.png",
+          "native_size": [
+            44,
+            52
+          ],
+          "uniform_character_canvas": [
+            44,
+            52
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 13.846153846153847,
+            "x": 235,
+            "y": 0,
+            "width": 609,
+            "height": 720
+          }
+        },
+        {
+          "pose": "02_lateral_firme",
+          "native_output": "sprites_individuales_nativos/diego_ureta/02_lateral_firme.png",
+          "uniform_output": "sprites_individuales_uniformes/diego_ureta/02_lateral_firme.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/diego_ureta/02_lateral_firme_1080x720.png",
+          "native_size": [
+            44,
+            52
+          ],
+          "uniform_character_canvas": [
+            44,
+            52
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 13.846153846153847,
+            "x": 235,
+            "y": 0,
+            "width": 609,
+            "height": 720
+          }
+        },
+        {
+          "pose": "03_lateral_jab",
+          "native_output": "sprites_individuales_nativos/diego_ureta/03_lateral_jab.png",
+          "uniform_output": "sprites_individuales_uniformes/diego_ureta/03_lateral_jab.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/diego_ureta/03_lateral_jab_1080x720.png",
+          "native_size": [
+            44,
+            52
+          ],
+          "uniform_character_canvas": [
+            44,
+            52
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 13.846153846153847,
+            "x": 235,
+            "y": 0,
+            "width": 609,
+            "height": 720
+          }
+        },
+        {
+          "pose": "04_lateral_firme_izquierda",
+          "native_output": "sprites_individuales_nativos/diego_ureta/04_lateral_firme_izquierda.png",
+          "uniform_output": "sprites_individuales_uniformes/diego_ureta/04_lateral_firme_izquierda.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/diego_ureta/04_lateral_firme_izquierda_1080x720.png",
+          "native_size": [
+            44,
+            52
+          ],
+          "uniform_character_canvas": [
+            44,
+            52
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 13.846153846153847,
+            "x": 235,
+            "y": 0,
+            "width": 609,
+            "height": 720
+          }
+        },
+        {
+          "pose": "05_lateral_jab_izquierda",
+          "native_output": "sprites_individuales_nativos/diego_ureta/05_lateral_jab_izquierda.png",
+          "uniform_output": "sprites_individuales_uniformes/diego_ureta/05_lateral_jab_izquierda.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/diego_ureta/05_lateral_jab_izquierda_1080x720.png",
+          "native_size": [
+            44,
+            52
+          ],
+          "uniform_character_canvas": [
+            44,
+            52
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 13.846153846153847,
+            "x": 235,
+            "y": 0,
+            "width": 609,
+            "height": 720
+          }
+        }
+      ],
+      "uniform_canvas": [
+        44,
+        52
+      ]
+    },
+    "javier_castaneda": {
+      "poses": [
+        {
+          "pose": "00_frente_firme",
+          "native_output": "sprites_individuales_nativos/javier_castaneda/00_frente_firme.png",
+          "uniform_output": "sprites_individuales_uniformes/javier_castaneda/00_frente_firme.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/javier_castaneda/00_frente_firme_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "01_frente_guardia",
+          "native_output": "sprites_individuales_nativos/javier_castaneda/01_frente_guardia.png",
+          "uniform_output": "sprites_individuales_uniformes/javier_castaneda/01_frente_guardia.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/javier_castaneda/01_frente_guardia_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "02_lateral_firme",
+          "native_output": "sprites_individuales_nativos/javier_castaneda/02_lateral_firme.png",
+          "uniform_output": "sprites_individuales_uniformes/javier_castaneda/02_lateral_firme.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/javier_castaneda/02_lateral_firme_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "03_lateral_jab",
+          "native_output": "sprites_individuales_nativos/javier_castaneda/03_lateral_jab.png",
+          "uniform_output": "sprites_individuales_uniformes/javier_castaneda/03_lateral_jab.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/javier_castaneda/03_lateral_jab_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "04_lateral_firme_izquierda",
+          "native_output": "sprites_individuales_nativos/javier_castaneda/04_lateral_firme_izquierda.png",
+          "uniform_output": "sprites_individuales_uniformes/javier_castaneda/04_lateral_firme_izquierda.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/javier_castaneda/04_lateral_firme_izquierda_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "05_lateral_jab_izquierda",
+          "native_output": "sprites_individuales_nativos/javier_castaneda/05_lateral_jab_izquierda.png",
+          "uniform_output": "sprites_individuales_uniformes/javier_castaneda/05_lateral_jab_izquierda.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/javier_castaneda/05_lateral_jab_izquierda_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        }
+      ],
+      "uniform_canvas": [
+        44,
+        56
+      ]
+    },
+    "kevin_ramirez": {
+      "poses": [
+        {
+          "pose": "00_frente_firme",
+          "native_output": "sprites_individuales_nativos/kevin_ramirez/00_frente_firme.png",
+          "uniform_output": "sprites_individuales_uniformes/kevin_ramirez/00_frente_firme.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/kevin_ramirez/00_frente_firme_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "01_frente_guardia",
+          "native_output": "sprites_individuales_nativos/kevin_ramirez/01_frente_guardia.png",
+          "uniform_output": "sprites_individuales_uniformes/kevin_ramirez/01_frente_guardia.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/kevin_ramirez/01_frente_guardia_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "02_lateral_firme",
+          "native_output": "sprites_individuales_nativos/kevin_ramirez/02_lateral_firme.png",
+          "uniform_output": "sprites_individuales_uniformes/kevin_ramirez/02_lateral_firme.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/kevin_ramirez/02_lateral_firme_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "03_lateral_jab",
+          "native_output": "sprites_individuales_nativos/kevin_ramirez/03_lateral_jab.png",
+          "uniform_output": "sprites_individuales_uniformes/kevin_ramirez/03_lateral_jab.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/kevin_ramirez/03_lateral_jab_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "04_lateral_firme_izquierda",
+          "native_output": "sprites_individuales_nativos/kevin_ramirez/04_lateral_firme_izquierda.png",
+          "uniform_output": "sprites_individuales_uniformes/kevin_ramirez/04_lateral_firme_izquierda.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/kevin_ramirez/04_lateral_firme_izquierda_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "05_lateral_jab_izquierda",
+          "native_output": "sprites_individuales_nativos/kevin_ramirez/05_lateral_jab_izquierda.png",
+          "uniform_output": "sprites_individuales_uniformes/kevin_ramirez/05_lateral_jab_izquierda.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/kevin_ramirez/05_lateral_jab_izquierda_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        }
+      ],
+      "uniform_canvas": [
+        44,
+        56
+      ]
+    },
+    "ricardo_oropeza": {
+      "poses": [
+        {
+          "pose": "00_frente_firme",
+          "native_output": "sprites_individuales_nativos/ricardo_oropeza/00_frente_firme.png",
+          "uniform_output": "sprites_individuales_uniformes/ricardo_oropeza/00_frente_firme.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/ricardo_oropeza/00_frente_firme_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "01_frente_guardia",
+          "native_output": "sprites_individuales_nativos/ricardo_oropeza/01_frente_guardia.png",
+          "uniform_output": "sprites_individuales_uniformes/ricardo_oropeza/01_frente_guardia.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/ricardo_oropeza/01_frente_guardia_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "02_lateral_firme",
+          "native_output": "sprites_individuales_nativos/ricardo_oropeza/02_lateral_firme.png",
+          "uniform_output": "sprites_individuales_uniformes/ricardo_oropeza/02_lateral_firme.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/ricardo_oropeza/02_lateral_firme_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "03_lateral_jab",
+          "native_output": "sprites_individuales_nativos/ricardo_oropeza/03_lateral_jab.png",
+          "uniform_output": "sprites_individuales_uniformes/ricardo_oropeza/03_lateral_jab.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/ricardo_oropeza/03_lateral_jab_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "04_lateral_firme_izquierda",
+          "native_output": "sprites_individuales_nativos/ricardo_oropeza/04_lateral_firme_izquierda.png",
+          "uniform_output": "sprites_individuales_uniformes/ricardo_oropeza/04_lateral_firme_izquierda.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/ricardo_oropeza/04_lateral_firme_izquierda_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        },
+        {
+          "pose": "05_lateral_jab_izquierda",
+          "native_output": "sprites_individuales_nativos/ricardo_oropeza/05_lateral_jab_izquierda.png",
+          "uniform_output": "sprites_individuales_uniformes/ricardo_oropeza/05_lateral_jab_izquierda.png",
+          "canvas_1080x720_output": "sprites_individuales_1080x720/ricardo_oropeza/05_lateral_jab_izquierda_1080x720.png",
+          "native_size": [
+            44,
+            56
+          ],
+          "uniform_character_canvas": [
+            44,
+            56
+          ],
+          "canvas_1080x720": [
+            1080,
+            720
+          ],
+          "canvas_fit": {
+            "scale": 12.857142857142858,
+            "x": 257,
+            "y": 0,
+            "width": 566,
+            "height": 720
+          }
+        }
+      ],
+      "uniform_canvas": [
+        44,
+        56
+      ]
+    }
+  }
+}

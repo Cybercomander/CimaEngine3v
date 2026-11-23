@@ -38,8 +38,8 @@ namespace CE
     {
         //https://github.com/ocornut/imgui/issues/2109
         const ImGuiViewport *viewport = ImGui::GetMainViewport();
-        ImGui::SetNextWindowPos(viewport->Pos);
-        ImGui::SetNextWindowSize(viewport->Size);
+        ImGui::SetNextWindowPos(viewport->WorkPos);
+        ImGui::SetNextWindowSize(viewport->WorkSize);
         ImGui::SetNextWindowViewport(viewport->ID);
 
         ImGui::Begin("GDock", nullptr, flags); //inicio de GDock

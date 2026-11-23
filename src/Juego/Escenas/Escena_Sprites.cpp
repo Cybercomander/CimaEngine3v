@@ -13,6 +13,8 @@
 #include <Motor/Primitivos/GestorAssets.hpp>
 #include <cstdlib>
 #include <memory>
+#include <Juego/Maquinas/Naves/IdleJugadores.hpp>
+#include <Juego/Maquinas/Bosses/IdleBoss.hpp>
 namespace IVJ
 {
     Escena_Sprites::Escena_Sprites(std::shared_ptr<Entidad>& pref)
@@ -40,33 +42,133 @@ namespace IVJ
         tiles_layers.push_back(TileMap()); // las islas
         tiles_layers.push_back(TileMap()); // los objetos
 
-        if(!tiles_layers[0].loadTileMap(ASSETS "/mapas/playa_layer1.txt"))
+        //lab 9 colisiones: usar la función que tiene un pool
+        if(!tiles_layers[0].loadTileMap(ASSETS "/mapas/playa_col_layer1.txt",objetos))
             exit(EXIT_FAILURE);
         if(!tiles_layers[1].loadTileMap(ASSETS "/mapas/playa_layer2.txt"))
             exit(EXIT_FAILURE);
         if(!tiles_layers[2].loadTileMap(ASSETS "/mapas/playa_layer3.txt"))
             exit(EXIT_FAILURE);
 
-        //Cargar el sprite
+        //Lab 8 animacinoes
         CE::GestorAssets::Get().agregarTextura(
-                "naveb",                                //llave
-                ASSETS "/sprites/naves/player_b.png",   //path del sprite
-                CE::Vector2D{0.f,0.f},                  //pos dentro de la hoja
-                CE::Vector2D{64.f,64.f});               // dimensiones
+                "nave_sheet",                               //key
+                ASSETS "/sprites/naves/player_sheet.png",   //hoja
+                CE::Vector2D{0.f,0.f},                      //inicio
+                CE::Vector2D{320.f,64.f}                    //dim de la hoja
+            );
 
+        CE::GestorAssets::Get().agregarTextura(
+                "boss_sheet",
+                ASSETS "/sprites/bosses/VileCrustaceanIdleAttack.png",
+                CE::Vector2D{0.f,0.f},
+                CE::Vector2D{924.f,260.f}
+            );
 
         auto trans = player->getTransformada();
         trans->velocidad = CE::Vector2D{500.f,500.f};
         player->setPosicion(300.f,300.f);
         
+        //Lab 8 animaciones
         auto sprite = std::make_shared<CE::ISprite>(
-                CE::GestorAssets::Get().getTextura("naveb"), //textura
+                CE::GestorAssets::Get().getTextura("nave_sheet"), //textura
                 64,64,                                      // dim
                 1.f);                                       // escala
         
         player->addComponente(sprite);
         player->addComponente(std::make_shared<CE::IControl>());
+        //lab 9 colisiones
+        player->addComponente(std::make_shared<CE::IBoundingBox>(
+            CE::Vector2D{64.f,64.f} //dimensiones del sprite
+        ));
 
+        //lab 8 animaciones
+        auto me = std::make_shared<IMaquinaEstado>();
+        me->fsm = std::make_shared<IdleJugadores>();
+        player->addComponente(me);
+        //ejecuta onEntrar para inicializar variables
+        player->setFSM(me->fsm);
+        
+
+        //boss entidad
+        auto boss = std::make_shared<Entidad>();
+        auto boss_sprite = std::make_shared<CE::ISprite>(
+                CE::GestorAssets::Get().getTextura("boss_sheet"),
+                154.f,130.f,
+                1.f);
+        auto boss_me = std::make_shared<IVJ::IMaquinaEstado>();
+        //probar patch con nodo IdleBoss
+        boss_me->fsm = std::make_shared<IVJ::IdleBoss>(6,0.25f);
+        auto boss_target = std::make_shared<ITarget>(nullptr);
+        boss_target->setTarget(*player);
+        
+        boss->addComponente(boss_sprite)
+            .addComponente(boss_me)
+            .addComponente(std::make_shared<IRangoAggro>(500.f))
+            .addComponente(boss_target)
+            .setPosicion(500.f,500.f);
+        boss->setFSM(boss_me->fsm);
+
+        //lab 10 shaders: colores invertidos según la distancia al jugador
+        auto shader = std::make_shared<CE::IShader>(
+            "",
+            ASSETS "/shaders/bossfrag.frag");
+
+        static sf::Texture boss_tex = boss_sprite->m_sprite.getTexture();
+
+        shader->setTextura("textura",&boss_tex);
+
+        boss->addComponente(shader);
+        //shader
+        objetos.agregarPool(boss);
+
+        //lab 9 colisiones: objeto individual tomado del atlas
+        auto techo = std::make_shared<Entidad>();
+        techo->getStats()->hp_max=100;
+        techo->getStats()->hp=100;
+        techo->getStats()->def=150;
+
+        //cargar todo el atlas para poder poner cosas individuales
+        CE::GestorAssets::Get().agregarTextura("atlas_playa",
+                ASSETS "/atlas/playa_atlas.png",
+                CE::Vector2D{0.f,0.f},
+                CE::Vector2D{2048,768});
+
+        auto techo_sprite = std::make_shared<CE::ISprite>(
+            CE::GestorAssets::Get().getTextura("atlas_playa"),
+            128,256, //dim
+            1.f);
+        //acomodar el sprite en el area deseada del atlas
+        techo_sprite->m_sprite.setTextureRect(
+                sf::IntRect{
+                {64*28,64*6}, //220 indice
+                {128,256} //dos tiles, 4 tiles en dimensiones
+                });
+        //acomodar el pivote para centrar bien el bounding box en el centro
+        //128/2 = 64, 256/2 = 128
+        techo_sprite->m_sprite.setOrigin({64,128});
+        techo->addComponente(techo_sprite)
+            .addComponente(std::make_shared<CE::IBoundingBox>(CE::Vector2D{128,256}));
+
+        techo->setPosicion(1300,175);
+
+        //lab 10 shaders: el techo ondula como si estuviera en el agua
+        auto t_shader = std::make_shared<CE::IShader>("", ASSETS "/shaders/agua.frag");
+        static sf::Texture p_tex = techo_sprite->m_sprite.getTexture();
+        static float wescala = 0.01f;
+        static float vescala = 2.0f;
+        static float frec = 20.0f;
+
+        t_shader->setTextura("textura", &p_tex);
+        t_shader->setEscalar("escala_distorcion", &wescala);
+        t_shader->setEscalar("vel_distorcion", &vescala);
+        t_shader->setEscalar("frecuencia", &frec);
+
+        techo->addComponente(t_shader);
+        //el guía usa el índice 117 del pool; aquí se guarda el shader directo
+        techo_shader = t_shader.get();
+        //fin shaders
+        objetos.agregarPool(techo);
 
         inicializar=false;
     }
@@ -79,12 +181,26 @@ namespace IVJ
     }
     void Escena_Sprites::onUpdate(float dt)
     {
+        player->inputFSM();
         player->onUpdate(dt);
         SistemaMover(player,dt);
         for(auto& obj: objetos.getPool())
         {
+            obj->inputFSM();
             obj->onUpdate(dt);
+            if(obj->tieneComponente<ITarget>())
+            {
+                auto& tpos = *obj->getComponente<ITarget>()->pos;
+                SistemaNPCLookTarget(*obj,tpos);
+            }
+            //lab9
+            SistemaColAABBMid(*player, *obj, true);
         }
+        //lab 10 shaders
+        static float acum_tiempo = 0;
+        acum_tiempo += dt;
+        techo_shader->setEscalar("dt", &acum_tiempo);
+        //fin shaders
     }
     void Escena_Sprites::onInputs(const CE::Botones& accion)
     {
@@ -144,7 +260,18 @@ namespace IVJ
             CE::Render::Get().AddToDraw(al);
 
         for(auto& obj: objetos.getPool())
+        {   
+            //Lab 8 animaciones
+            if(obj->tieneComponente<IRangoAggro>())
+            {
+                auto rango  = obj->getComponente<IRangoAggro>();
+                auto pos = obj->getTransformada()->posicion;
+                rango->marcador.setPosition({pos.x,pos.y});
+                CE::Render::Get().AddToDraw(rango->marcador);
+            }
+
             CE::Render::Get().AddToDraw(*obj);
+        }
         CE::Render::Get().AddToDraw(*player);
 
 #if DEBUG

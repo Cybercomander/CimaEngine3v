@@ -13,6 +13,7 @@
             "defines": [
                 "DEBUG=1",
                 "ASSETS=\"${workspaceFolder}/assets\"",
+                "ROUND12ASSETS=\"${workspaceFolder}/ROUND12ASSETS\"",
                 "IMGUI_USER_CONFIG=\"imconfig-SFML.h\""
             ],
             "macFrameworkPath": [
