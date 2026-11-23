@@ -7,7 +7,7 @@
 namespace Round12
 {
     enum class Habilidad : std::uint8_t { COMBOS = 1, ESQUIVA = 2, CONTRAGOLPE = 4, SEGUNDO_AIRE = 8, FRONTERA = 16 };
-    enum class TipoPaso { CINEMATICA, RECORRIDO, PELEA, RUNNER, SANTA_FE, RESULTADOS, FIN };
+    enum class TipoPaso { CINEMATICA, RECORRIDO, PELEA, RUNNER, RESULTADOS, FIN };
     enum class Objetivo { SOBREVIVIR, GANAR, PERDER_FORZADO };
 
     struct Paso { TipoPaso tipo; std::string id; };

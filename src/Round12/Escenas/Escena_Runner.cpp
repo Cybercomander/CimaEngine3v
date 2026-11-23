@@ -52,6 +52,7 @@ namespace Round12
         rc.meta = cfg.meta;
         rc.tiempo = cfg.tiempo;
         rc.mojada = cfg.olas;
+        rc.orilla_ini = cfg.meta/3.f; rc.orilla_fin = cfg.meta*2.f/3.f;
         run = std::make_unique<Runner>(rc);
         run->checkpoint();
         Pt p0 = alMundo(0.f,0.f);
@@ -78,7 +79,7 @@ namespace Round12
                     if(circuito)
                         return "Vuelta " + std::to_string(std::min(cfg.vueltas,(int)vueltas.size()+1)) + "/" + std::to_string(cfg.vueltas);
                     float x = run->x;
-                    std::string tramo = x < 3000 ? "Tramo 1: arena seca" : x < 6000 ? "Tramo 2: orilla del mar" : "Tramo 3: rumbo al muelle";
+                    std::string tramo = x < run->cfg.orilla_ini ? "Tramo 1: arena seca" : x < run->cfg.orilla_fin ? "Tramo 2: orilla del mar" : "Tramo 3: rumbo al muelle";
                     return tramo + "  -  " + std::to_string((int)std::max(0.f,(cfg.meta - x)/8.f)) + " m";
                     },sf::Vector2f{0.75f,0.02f},0.028f,sf::Color::White,true));
         hud.agregar(std::make_unique<Etiqueta>([]{
@@ -117,11 +118,13 @@ namespace Round12
             }
             return;
         }
-        puestos = {3000.f,6000.f};
+        // tramos de un tercio de la meta: seca, orilla y rumbo al muelle
+        const float t1 = cfg.meta/3.f, t2 = cfg.meta*2.f/3.f;
+        puestos = {t1,t2};
         float x = 250.f;
         while(x < cfg.meta - 150.f)
         {
-            int tramo = x < 3000 ? 1 : x < 6000 ? 2 : 3;
+            int tramo = x < t1 ? 1 : x < t2 ? 2 : 3;
             float sep = tramo == 1 ? 300.f : tramo == 2 ? 220.f : 150.f;
             x += sep*(0.7f + 0.6f*u(rng));
             bool cerca_puesto = std::any_of(puestos.begin(),puestos.end(),[x](float p){ return std::abs(p - x) < 60.f; });
@@ -152,7 +155,7 @@ namespace Round12
                 }
             }
         }
-        for(float p : {1200.f,5200.f})
+        for(float p : {cfg.meta*0.13f,cfg.meta*0.58f})
             if(p < cfg.meta)
             {
                 Cosa pl;
@@ -260,7 +263,7 @@ namespace Round12
             else if(run->chocaCon(c.r)) { choque_t = 0.4f; Eventos::Get().emitir(Evento::GOLPE_CONECTADO); }
         }
         // olas en la orilla: llegan cada 6 s y duran 2 s
-        if(cfg.olas && run->x >= 3000.f && run->x < 6000.f)
+        if(cfg.olas && run->x >= run->cfg.orilla_ini && run->x < run->cfg.orilla_fin)
         {
             t_ola += dt;
             if(t_ola >= 6.f) { t_ola = 0.f; if(run->ola()) { aviso = "¡Te alcanzó la ola!"; aviso_t = 1.5f; } }
@@ -352,7 +355,7 @@ namespace Round12
         }
         else
         {
-            if(run->tiempo >= 60.f) { p.mejorar(&Atributos::aire,2); p.mejorar(&Atributos::resistencia,1); }
+            if(run->tiempo >= cfg.tiempo/3.f) { p.mejorar(&Atributos::aire,2); p.mejorar(&Atributos::resistencia,1); }
             else p.mejorar(&Atributos::aire,1);
             p.desbloquear(Habilidad::SEGUNDO_AIRE);
             p.resumen = "Llegaste al muelle con " + tiempoTexto(run->tiempo) + " de sobra";

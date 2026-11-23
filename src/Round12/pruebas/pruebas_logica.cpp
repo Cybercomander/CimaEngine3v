@@ -201,6 +201,14 @@ namespace
         s2.paso(1.f/30.f,0,true,false,false);
         for(int i = 0; i < 8; ++i) s2.paso(1.f/30.f,0,false,false,false);
         CHECK(!s2.chocaCon(obstaculoRunner(TipoChoque::BAJO,s2.x)));
+        // la playa dura ~20 s a ritmo normal (orilla en el tercio central, como la escena)
+        Runner::Config pc;
+        pc.meta = runner("playa").meta; pc.tiempo = runner("playa").tiempo;
+        pc.orilla_ini = pc.meta/3.f; pc.orilla_fin = pc.meta*2.f/3.f;
+        Runner playa{pc};
+        float tp = 0.f;
+        while(!playa.llego() && !playa.fallo()) { playa.paso(1.f/30.f,0,false,false,false); tp += 1.f/30.f; }
+        CHECK(playa.llego() && tp > 18.f && tp < 22.f);
     }
 
     void pruebasMapa()

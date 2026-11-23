@@ -1,3 +1,3 @@
 narrador|neutral|01_sanchez_boxing_gym_tijuana|Epílogo: rumbo al round 12. Un año de entrenamiento más exigente.
-carlos|decidido|04_skatepark_santa_fe_tijuana|Esta vez con menos tiempo. Santa Fe, la playa y el circuito, otra vez.|der
+carlos|decidido|05_playa_rosarito|Esta vez con menos tiempo. La playa y el circuito, otra vez.|der
 narrador|neutral|03_gimnasio_mexicali_torneo|Después vendrán las revanchas en Mexicali: Javier y Kevin también entrenaron.

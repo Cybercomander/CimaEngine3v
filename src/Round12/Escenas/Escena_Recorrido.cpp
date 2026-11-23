@@ -362,6 +362,9 @@ namespace Round12
         if(en_escalera && listoParaRing() && dialogos_listos && mini == Mini::NINGUNO && !en_dialogo)
         {
             terminado = true;
+            // en la historia el gimnasio va directo a RESULTADOS: sin esto la pantalla sale vacía
+            if(!cfg.estaciones.empty())
+                Partida::Get().resumen = "Gimnasio: " + std::to_string(cfg.estaciones.size()) + " estaciones completas";
             Partida::Get().historia().avanzar();
             irAPaso();
         }
@@ -391,6 +394,10 @@ namespace Round12
         for(auto& p : puestos) if(!p.hecho) { meta = p.pie; estacion = true; break; }
         if(!estacion && sig_dialogo < cfg.dialogos_en_punto.size()) meta = cfg.dialogos_en_punto[sig_dialogo].first;
         Pt d = pies(diego);
+        // la cuadrícula de ruta() se ancla donde empezó: en la esquina del ring Diego queda
+        // entre dos nodos y no avanza. Si no se movió, se recalcula desde donde está.
+        if(distancia(d,piloto_pos) < 0.01f) camino.clear();
+        piloto_pos = d;
         if(estacion && distancia(d,meta) < RADIO*0.8f) { if(piloto_t <= 0.f) { piloto_t = 0.3f; alPresionar("jab",true); } return; }
         if(camino.empty() || distancia(camino.back(),meta) > 1.f) camino = ruta(piso,d,meta);
         while(!camino.empty() && distancia(camino.front(),d) < 25.f) camino.erase(camino.begin());

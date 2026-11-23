@@ -19,24 +19,21 @@ namespace CE
     {
         ImGui::Begin("Objetos",nullptr,0);
         
-        static int id_escena_actual =0;
-        auto lista = GestorEscenas::Get().getKeys();
-        const char* str_escena = GestorEscenas::Get().getEscenaActual().nombre.c_str();
-        if(ImGui::BeginCombo("Escenas",str_escena,0))
+        // solo escenas del mismo juego (prefijo antes de '_', p. ej. R12_): no se cruzan proyectos
+        auto grupo = [](const std::string& k){ auto i = k.find('_'); return i == std::string::npos ? std::string{} : k.substr(0,i); };
+        const std::string actual = GestorEscenas::Get().getEscenaActual().nombre;
+        if(ImGui::BeginCombo("Escenas",actual.c_str(),0))
         {
-            for(int i=0;i<(int)lista.size();++i)
+            for(const auto& k : GestorEscenas::Get().getKeys())
             {
-                const bool seleccion = (id_escena_actual==i);
-                if(ImGui::Selectable(lista[i].c_str(),seleccion))
-                    id_escena_actual=i;
-
+                if(grupo(k) != grupo(actual)) continue;
+                const bool seleccion = (k == actual);
+                // cambia solo al elegir, no cada frame que el combo está abierto
+                if(ImGui::Selectable(k.c_str(),seleccion) && !seleccion)
+                    GestorEscenas::Get().cambiarEscena(k);
                 if(seleccion)
-                {
                     ImGui::SetItemDefaultFocus();
-                }
             }
-            GestorEscenas::Get().cambiarEscena(lista[id_escena_actual]);
-
             ImGui::EndCombo();
         }
 

@@ -18,8 +18,6 @@
 #include <string>
 #include <vector>
 
-//los assets de ROUND12 viven en la raíz del repo, junto a assets/
-#define R12 ASSETS "/../ROUND12_Assets"
 
 namespace IVJ
 {
@@ -117,7 +115,7 @@ namespace IVJ
                 "brandon_salazar","javier_castaneda","kevin_ramirez","ricardo_oropeza"};
             for(const auto& b : boxeadores)
                 assets.agregarTextura("r12a_"+b,
-                        R12 "/ROUND12_Sprites_Animaciones/hojas/"+b+".png",
+                        ASSETS "/round12_legado/hojas/"+b+".png",
                         CE::Vector2D{0.f,0.f}, CE::Vector2D{480.f,2560.f});
 
             //Diego y Brandon (sparring del GDD) en el ring

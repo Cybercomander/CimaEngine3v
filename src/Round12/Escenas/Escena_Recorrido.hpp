@@ -62,6 +62,7 @@ namespace Round12
             // piloto automático
             std::vector<Pt> camino;
             float piloto_t{0.f};
+            Pt piloto_pos{-1.f,-1.f};       // dónde estaba Diego el frame anterior (detecta atorones)
             bool terminado{false};
     };
 }

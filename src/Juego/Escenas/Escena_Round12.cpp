@@ -13,8 +13,6 @@
 #include <memory>
 #include <string>
 
-//los assets de ROUND12 viven en la raíz del repo, junto a assets/
-#define R12 ASSETS "/../ROUND12_Assets"
 
 namespace IVJ
 {

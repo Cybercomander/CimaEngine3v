@@ -79,7 +79,10 @@ void Selector::soltarLabs()
 void Selector::OnInputs(std::optional<sf::Event>& eventos)
 {
     if(eventos && eventos->getIf<sf::Event::Closed>())
+    {
+        std::cout<<"[selector] ventana cerrada"<<std::endl; // distingue un cierre manual de una falla en las pruebas
         termino = true;
+    }
 }
 
 void Selector::OnInputs(CE::InputBuffer& buffer)
@@ -89,7 +92,7 @@ void Selector::OnInputs(CE::InputBuffer& buffer)
     {
         auto& ev = buffer.popData();
         if(!ev) continue;
-        if(ev->getIf<sf::Event::Closed>()) { termino = true; continue; }
+        if(ev->getIf<sf::Event::Closed>()) { std::cout<<"[selector] ventana cerrada"<<std::endl; termino = true; continue; }
         // lo que llega después de cambiar de juego en el mismo frame se descarta
         if(cambio) continue;
         if(const auto* p = ev->getIf<sf::Event::KeyPressed>())

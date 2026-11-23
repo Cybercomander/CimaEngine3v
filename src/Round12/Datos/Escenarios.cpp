@@ -52,16 +52,6 @@ namespace Round12
                 {{"cartel_mexicali",{1370,1075},false},{"valla",{560,1000}},{"banderola",{1400,1000},false},
                  {"silla",{215,770},false},{"gradas",{760,320}}});
 
-            EscenarioR12 sf;
-            sf.carpeta = "04_skatepark_santa_fe_tijuana";
-            sf.piso = {{{0,560},{230,330},{700,250},{1220,250},{1700,330},{1920,560},{1920,1080},{0,1080}}};
-            sf.bloqueos = {{10,360,220,170},{1690,360,220,170},{80,970,400,110},{1440,970,400,110},{1830,280,90,90}};
-            sf.props = {{"rampa_skate",{520,520},false},{"escaleras",{1400,520},false},{"barandal",{760,700}},
-                        {"cono",{1180,680}},{"maceta",{300,620}},{"arbol",{120,1060},false},{"arbusto",{1800,1060},false},
-                        {"poste_luz",{1640,620}},{"sombra_muro",{960,330},false},{"bandera",{960,860},false},
-                        {"caja_madera",{1500,820}}};
-            sf.entrada = {960,1000};
-            m["santa_fe"] = sf;
 
             EscenarioR12 ci;
             ci.carpeta = "06_circuito_atletico_rosarito";
