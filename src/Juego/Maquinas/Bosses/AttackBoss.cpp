@@ -19,7 +19,12 @@ namespace IVJ
     FSM* AttackBoss::onInputs(Entidad& parent, CE::Vector2D& target)
     {
         auto pos = parent.getTransformada()->posicion;
-        float distancia = pos.distancia(target);
+        //static: el IShader guarda la dirección del valor y la GUI la lee después de este frame
+        static float distancia;
+        distancia = pos.distancia(target);
+        //lab 10 shaders: Lab8/Lab9 usan este nodo sin shader
+        if(parent.tieneComponente<CE::IShader>())
+            parent.getComponente<CE::IShader>()->setEscalar("distancia",&distancia);
         //muy lejos para atacar
         if(distancia >200.f)
             return new IdleBoss(6,0.25f);

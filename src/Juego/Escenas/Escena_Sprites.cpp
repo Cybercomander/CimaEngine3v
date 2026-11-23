@@ -109,6 +109,17 @@ namespace IVJ
             .setPosicion(500.f,500.f);
         boss->setFSM(boss_me->fsm);
 
+        //lab 10 shaders: colores invertidos según la distancia al jugador
+        auto shader = std::make_shared<CE::IShader>(
+            "",
+            ASSETS "/shaders/bossfrag.frag");
+
+        static sf::Texture boss_tex = boss_sprite->m_sprite.getTexture();
+
+        shader->setTextura("textura",&boss_tex);
+
+        boss->addComponente(shader);
+        //shader
         objetos.agregarPool(boss);
 
         //lab 9 colisiones: objeto individual tomado del atlas
@@ -141,6 +152,22 @@ namespace IVJ
 
         techo->setPosicion(1300,175);
 
+        //lab 10 shaders: el techo ondula como si estuviera en el agua
+        auto t_shader = std::make_shared<CE::IShader>("", ASSETS "/shaders/agua.frag");
+        static sf::Texture p_tex = techo_sprite->m_sprite.getTexture();
+        static float wescala = 0.01f;
+        static float vescala = 2.0f;
+        static float frec = 20.0f;
+
+        t_shader->setTextura("textura", &p_tex);
+        t_shader->setEscalar("escala_distorcion", &wescala);
+        t_shader->setEscalar("vel_distorcion", &vescala);
+        t_shader->setEscalar("frecuencia", &frec);
+
+        techo->addComponente(t_shader);
+        //el guía usa el índice 117 del pool; aquí se guarda el shader directo
+        techo_shader = t_shader.get();
+        //fin shaders
         objetos.agregarPool(techo);
 
         inicializar=false;
@@ -169,6 +196,11 @@ namespace IVJ
             //lab9
             SistemaColAABBMid(*player, *obj, true);
         }
+        //lab 10 shaders
+        static float acum_tiempo = 0;
+        acum_tiempo += dt;
+        techo_shader->setEscalar("dt", &acum_tiempo);
+        //fin shaders
     }
     void Escena_Sprites::onInputs(const CE::Botones& accion)
     {

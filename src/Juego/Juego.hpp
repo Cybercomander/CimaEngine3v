@@ -25,6 +25,8 @@ namespace IVJ
             std::shared_ptr<Entidad> jugador;
             //jugador propio de Escena_Sprites (labs 7, 8 y 9)
             std::shared_ptr<Entidad> jugador_sprites;
+            //jugador propio de Escena_shaders (lab 10): Yu con su hoja de sprites
+            std::shared_ptr<Entidad> jugador_shaders;
     };
 
 }
