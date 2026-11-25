@@ -24,7 +24,7 @@ namespace Round12
     };
 
     constexpr float ANCHO_MUNDO = 1920.f, ALTO_MUNDO = 1080.f;
-    // gym, visitante, mexicali, santa_fe, circuito
+    // gym, visitante, mexicali, circuito
     const EscenarioR12& escenario(const std::string& id);
     std::string rutaCapa(const EscenarioR12& e, const char* capa); // "decorado" / "primer_plano"
 }

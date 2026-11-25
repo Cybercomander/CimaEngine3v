@@ -30,7 +30,7 @@ namespace Round12
             bool mira_fijo{false};          // en el ring la escena decide hacia dónde mira
             bool agachado{false};           // jab, recto y gancho le pasan por arriba
             bool pide_agacharse{false};     // Q+E juntas (o la IA): el nodo actual se agacha
-            bool en_aire{false};            // corredor / Santa Fe: los golpes salen como saltar_*
+            bool en_aire{false};            // corredor: los golpes salen como saltar_*
             sf::Color tinte{sf::Color::White};
     };
 

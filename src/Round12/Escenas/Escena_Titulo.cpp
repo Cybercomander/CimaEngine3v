@@ -37,7 +37,7 @@ namespace Round12
 
     void Escena_Titulo::dibujarPantalla(sf::RenderTarget& t, sf::Vector2f tam)
     {
-        sf::Sprite fondo{textura("escenarios_1080x720/01_sanchez_boxing_gym_1080x720.png")};
+        sf::Sprite fondo{textura("escenarios/01_sanchez_boxing_gym_tijuana/decorado_1920x1080.png",true)};
         auto ft = fondo.getTexture().getSize();
         fondo.setScale({tam.x/ft.x, tam.y/ft.y});
         fondo.setColor(sf::Color(110,110,110));

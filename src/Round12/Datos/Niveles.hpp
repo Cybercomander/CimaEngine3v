@@ -51,8 +51,6 @@ namespace Round12
     };
     const ConfigRunner& runner(const std::string& id);
 
-    struct ConfigSantaFe { float tiempo; };
-    const ConfigSantaFe& santaFe(const std::string& id);
 
     // todos los ids existen (para la prueba de la historia)
     bool existeNivel(TipoPaso t, const std::string& id);

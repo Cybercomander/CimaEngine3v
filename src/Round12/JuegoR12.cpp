@@ -7,7 +7,6 @@
 #include <Round12/Escenas/Escena_Ring.hpp>
 #include <Round12/Escenas/Escena_Recorrido.hpp>
 #include <Round12/Escenas/Escena_Runner.hpp>
-#include <Round12/Escenas/Escena_SantaFe.hpp>
 #include <Round12/Logica/Partida.hpp>
 #include <Round12/objetos/Audio.hpp>
 #include <Round12/objetos/Hud.hpp>
@@ -27,7 +26,6 @@ namespace Round12
                 case TipoPaso::RECORRIDO:  return "R12_Recorrido";
                 case TipoPaso::PELEA:      return "R12_Ring";
                 case TipoPaso::RUNNER:     return "R12_Runner";
-                case TipoPaso::SANTA_FE:   return "R12_SantaFe";
                 case TipoPaso::RESULTADOS: return "R12_Resultados";
                 default:                   return "R12_Titulo";
             }
@@ -97,7 +95,6 @@ namespace Round12
         g.registrarEscena("R12_Ring",std::make_shared<Escena_Ring>());
         g.registrarEscena("R12_Recorrido",std::make_shared<Escena_Recorrido>());
         g.registrarEscena("R12_Runner",std::make_shared<Escena_Runner>());
-        g.registrarEscena("R12_SantaFe",std::make_shared<Escena_SantaFe>());
         Audio::iniciar();
     }
 
@@ -119,7 +116,7 @@ namespace Round12
             // --r12-paso=tipo:id
             static const std::pair<const char*,TipoPaso> TIPOS[] = {
                 {"cine",TipoPaso::CINEMATICA},{"recorrido",TipoPaso::RECORRIDO},{"pelea",TipoPaso::PELEA},
-                {"runner",TipoPaso::RUNNER},{"santafe",TipoPaso::SANTA_FE},{"resultados",TipoPaso::RESULTADOS},
+                {"runner",TipoPaso::RUNNER},{"resultados",TipoPaso::RESULTADOS},
                 {"demo",TipoPaso::FIN},{"historia",TipoPaso::FIN}};
             auto dos = prueba.paso.find(':');
             std::string tipo = prueba.paso.substr(0,dos), id = dos == std::string::npos ? "" : prueba.paso.substr(dos+1);
